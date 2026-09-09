@@ -5,7 +5,7 @@ import sitemap from '@astrojs/sitemap';
 
 // Update `site` after your first deploy (e.g. https://nirav.pages.dev)
 export default defineConfig({
-  site: 'https://example.pages.dev',
+  site: 'https://portfolio-c7m.pages.dev',
   integrations: [mdx(), react(), sitemap()],
   markdown: { shikiConfig: { theme: 'github-light' } },
 });
