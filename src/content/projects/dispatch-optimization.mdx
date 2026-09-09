@@ -1,0 +1,73 @@
+---
+title: Autonomous technician dispatch
+summary: Nightly route optimization that grew a vending-robot fleet 67% with no added field headcount and 31% less driving.
+category: Optimization
+org: Crave Robotics
+period: "2026"
+role: Sole designer, builder, and operator
+tier: 1
+order: 1
+disclosure: B
+headline: { value: "−31%", label: "miles driven, while the fleet grew 67%" }
+stack: [Google OR-Tools, Node.js, PostgreSQL, GitHub Actions, Slack API]
+architecture:
+  - Machine telemetry
+  - Sell-through velocity
+  - Stockout projection
+  - Constraint assembly
+  - VRP solve
+  - Routes to Slack
+  - Human re-optimization
+demo: dispatch
+demoNote: >-
+  Production runs Google OR-Tools, which cannot execute in a browser. This demo uses a
+  nearest-neighbour construction with 2-opt improvement — the same class of heuristic at a
+  scale small enough to solve instantly on the client. Locations, fill levels, and the depot
+  are synthetic.
+metrics:
+  - { label: "Machines in fleet", before: "15", after: "25", delta: "+67%", emphasis: true }
+  - { label: "Technician hours per month", before: "194", after: "132", delta: "−32%" }
+  - { label: "Miles driven per month", before: "1,900", after: "1,312", delta: "−31%" }
+  - { label: "Hours per machine", before: "12.9", after: "5.3", delta: "−59%" }
+  - { label: "Miles per machine", before: "126.7", after: "52.5", delta: "−59%" }
+  - { label: "Field technicians", before: "4", after: "4", delta: "flat", emphasis: true }
+  - { label: "Daily planning time", before: "~2 hrs", after: "~10 min", delta: "−92%" }
+learned: >-
+  The solver was the easy part. Most of the work was data hygiene and modelling the constraints
+  technicians actually operate under — and the largest cost win came from relaxing a business
+  rule rather than tuning the optimizer.
+next: >-
+  Time-window constraints for locations with restricted access hours. Travel times from live
+  traffic instead of static estimates. A fairness term so route quality does not concentrate on
+  one technician. Automated back-testing of threshold changes against historical velocity.
+bullets:
+  headline: Engineered an autonomous nightly dispatch system (Google OR-Tools VRP, live machine telemetry, technician constraints) that scaled a vending-robot fleet 67% with zero added field headcount while cutting drive time 31%.
+  quantified: Grew serviced fleet from 15 to 25 machines while reducing per-technician monthly hours 32% (194→132) and mileage 31% (1,900→1,312) at flat headcount.
+  technical: Built and operated a production capacitated VRP optimizer on real-time telemetry, deployed via scheduled CI with human-in-the-loop re-optimization in under 30 seconds.
+  strategy: Identified that relaxing a fixed restock threshold in favour of geographic clustering lowered total cost to serve, converting a rules-based process into an optimization problem.
+  ownership: Sole owner of design, build, deployment, and daily operation of the system routing a 4-person field team across a 25-machine fleet.
+roleFit: { "Strategy & Ops": 3, "BizOps": 3, "Supply Chain / Ops": 3, "AI": 2, "Product Ops": 2, "GTM / Growth": 0 }
+todo:
+  - Confirm April 2026 as the 15-machine baseline month
+  - Add public repo link once the portfolio repo is live
+---
+
+## The problem
+
+Restocking and service routes for a growing fleet of automated frozen-food vending machines were planned by hand every day — around two hours of work, based on judgment and a spreadsheet. Plans went stale as soon as reality intervened. Technicians were re-routed mid-day, backtracked across the metro area, and never knew their next day's work until that morning.
+
+## Why it mattered
+
+Field labour and mileage are the dominant controllable cost in a physical fleet business. Every machine added multiplied a planning process that already did not scale, and the company was adding machines faster than it was adding technicians. The instability was also a retention problem — technicians were visibly frustrated by the churn.
+
+## What I built
+
+A nightly optimizer that ingests live machine telemetry, computes per-machine per-product sell-through velocity, projects which machines will hit stockout thresholds, and solves a capacitated vehicle-routing problem across available technicians and shift constraints. Optimized routes post to the team's chat channel the evening before, so technicians know their day in advance. A human-in-the-loop path re-solves in under 30 seconds when something changes.
+
+The decision that mattered most was **choosing geographic clustering over strict threshold discipline**. A machine at 51% does not trip a 50% restock flag, but if a technician is already in that cluster, servicing it now is cheaper than a dedicated return trip later. Letting the optimizer make that trade — rather than treating the threshold as a hard rule — is where most of the drive-time reduction came from. The demo below lets you turn that behaviour off and watch the total distance move.
+
+Much of the iteration went into failure modes that only appear in production: keying velocity by machine serial number rather than location, because machines get relocated; PLC alert detection; product-ID casing normalization across data sources; top-sellers-out prioritization; and cron timing against telemetry refresh.
+
+> **On attributing the numbers.** Per-machine improvements are not attributable to routing alone. Growing from 15 to 25 machines increased geographic density, which reduces per-machine drive time independent of route quality, and the two months compared differ seasonally for campus-adjacent locations. The defensible claim is the joint one: the fleet grew 67% while absolute labour hours and mileage fell roughly 31% and headcount stayed flat. Optimization and density together made that possible.
+
+Beyond the numbers, stockouts went to zero — remaining lost sales trace to hardware failures owned by a separate team. Routes became stable enough to publish the night before, and the fleet ran two weeks at three technicians instead of four without service degradation.

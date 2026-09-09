@@ -1,0 +1,55 @@
+---
+title: Import duty recovery
+summary: Recovered a five-figure sum in improperly assessed import duties by triaging six entries across three different recovery paths.
+category: Supply Chain / Operations
+org: Crave Robotics
+period: "2026"
+role: Sole owner
+tier: 3
+order: 2
+disclosure: C
+headline: { value: "6 entries", label: "triaged by expected value" }
+stack: [Customs entry review, Expected-value modelling, Protest filing process]
+architecture:
+  - Entry review
+  - Duty vs filing cost
+  - Probability and deadline
+  - Route to path
+  - File or decline
+metrics:
+  - { label: "Self-filed directly", value: "2 — both approved" }
+  - { label: "Protested via third-party filer", value: "2 — multi-month timeline" }
+  - { label: "Declined as uneconomical", value: "1" }
+  - { label: "Lost to an expired deadline", value: "1", emphasis: true }
+learned: >-
+  Not every recoverable dollar is worth recovering, and the calculation that determines which is
+  the actual work. Separately, and more expensively: deadline-driven processes need tracking
+  infrastructure before they need optimization.
+next: >-
+  Duty classification review at the point of import rather than after assessment. Automated
+  deadline tracking tied to entry dates at customs clearance, so no entry can quietly age out
+  again.
+bullets:
+  headline: Recovered a five-figure sum in improperly assessed import duties across six entries by building a triage framework routing each to self-filing, third-party protest, or decline based on expected value and deadline.
+  quantified: Six entries triaged — two self-filed and approved, two protested, one correctly declined as uneconomical.
+  technical: Built an expected-value model incorporating duty amount, filing cost, approval probability, and time to deadline to route each entry.
+  strategy: Treated duty recovery as a capital allocation decision rather than a filing task, declining recovery where fees exceeded the amount at stake.
+  ownership: Owned the recovery process end to end, including instituting deadline tracking after one entry was lost to an expired window.
+roleFit: { "Supply Chain / Ops": 3, "Strategy & Ops": 2, "BizOps": 2, "Product Ops": 0, "AI": 0, "GTM / Growth": 0 }
+---
+
+## The problem
+
+Six import entries covering overseas machine shipments carried duties assessed under a tariff authority that should not have applied. Recovery was available, but each path had a different cost, timeline, and probability of success, and each entry had a hard protest deadline.
+
+## Why it mattered
+
+The duties were a material unbudgeted cost for a hardware-dependent startup, and recovery paths expire. It was also a decision problem rather than a filing exercise — recovering some entries would have cost more in broker and filer fees than the duty at stake.
+
+## What I built
+
+A per-entry triage framework weighing duty amount against filing cost, expected probability of approval, and remaining time to deadline, resolving each entry to one of three paths: self-file directly, protest through a third-party filer, or decline as uneconomical. Then executed accordingly.
+
+Two entries were self-filed and both were approved. Two went to protest on a multi-month timeline. One was declined because the fees exceeded the recovery.
+
+And one ran past its protest deadline before I had built any deadline tracking, and was unrecoverable. The framework existed after the fact for the remaining five; the first one paid for it. Every import entry now carries a tracked deadline from the date it clears customs.

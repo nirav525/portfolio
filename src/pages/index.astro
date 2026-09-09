@@ -1,0 +1,58 @@
+---
+import { getCollection } from 'astro:content';
+import Base from '../layouts/Base.astro';
+import CatalogIndex from '../components/CatalogIndex.astro';
+
+const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
+  (a, b) => a.data.tier - b.data.tier || a.data.order - b.data.order,
+);
+---
+
+<Base
+  title="Nirav — Proof of work"
+  description="A catalog of operating systems, optimization tools, and internal platforms I have built, shipped, and run — with interactive demos on synthetic data."
+  path="/"
+>
+  <div class="shell">
+    <section class="intro">
+      <h1>Things I have built and operated.</h1>
+      <p class="lede">
+        I run strategy and operations at a robotics startup, where I also build
+        most of the software the company runs on — dispatch optimization,
+        demand planning, inventory, compliance. Before that I planned supply
+        chain across 600+ SKUs. This is the catalog: what the problem was, what
+        I built, and what happened.
+      </p>
+      <p class="note">
+        Work projects are described without confidential information. Demos run
+        on synthetic data.
+      </p>
+    </section>
+
+    <CatalogIndex projects={projects} />
+  </div>
+</Base>
+
+<style>
+  .intro {
+    padding-top: clamp(3rem, 9vw, 6.5rem);
+    max-width: 40rem;
+  }
+  h1 {
+    font-size: var(--step-4);
+    letter-spacing: -0.032em;
+  }
+  .lede {
+    margin-top: 1.5rem;
+    font-family: var(--font-prose);
+    font-size: 1.14rem;
+    line-height: 1.62;
+    color: #2a3a46;
+  }
+  .note {
+    margin-top: 1.1rem;
+    font-size: var(--step--1);
+    color: var(--slate-soft);
+    max-width: 44ch;
+  }
+</style>

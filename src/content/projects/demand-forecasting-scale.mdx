@@ -1,0 +1,59 @@
+---
+title: Demand forecasting across 600+ SKUs
+summary: Statistical forecasting at portfolio scale that improved accuracy and drove $3M+ in cost savings through better procurement and inventory decisions.
+category: Data / Analytics
+org: Botrista
+period: "2023–2025"
+role: Supply Chain Planner; owner of the forecasting models
+tier: 1
+order: 4
+disclosure: B
+disclosureNote: >-
+  Prior employer. Described without supplier, customer, or product information. Any figures in
+  the demo are synthetic.
+headline: { value: "$3M+", label: "cost savings from forecast accuracy" }
+stack: [Google Sheets, Apps Script, LLM-assisted development, Statistical forecasting]
+architecture:
+  - Source data consolidation
+  - Automated cleaning
+  - Per-SKU forecast with seasonality
+  - Error measurement
+  - Procurement and inventory planning
+metrics:
+  - { label: "Cost savings", value: "$3,000,000+", emphasis: true }
+  - { label: "Forecast accuracy improvement", value: "24%" }
+  - { label: "SKUs under model-based forecasting", value: "600+" }
+learned: >-
+  Accuracy improvements only convert to savings if the downstream process actually consumes the
+  forecast. The modelling was less than half the work. Getting procurement to plan against model
+  output rather than judgment was the rest, and it took longer.
+next: >-
+  Move off a spreadsheet substrate onto a proper analytical stack. Segment SKUs so high-volume and
+  intermittent-demand items get different methods rather than one approach applied uniformly.
+  Hierarchical reconciliation across product families.
+bullets:
+  headline: Built statistical demand forecasting across 600+ SKUs, improving forecast accuracy 24% and driving $3M+ in cost savings through better procurement, inventory, and planning decisions.
+  quantified: $3M+ in cost savings and 24% forecast accuracy improvement across a 600+ SKU portfolio.
+  technical: Automated the full forecasting pipeline in Apps Script with LLM-assisted development, delivering model-based forecasts at 600+ SKU scale inside the organization's existing tooling.
+  strategy: Connected forecast accuracy to procurement and inventory decisions, quantifying the cost of error rather than optimizing a metric in isolation.
+  ownership: Owned the forecasting function end to end — model design, automation, and adoption by Procurement and Supply Chain.
+roleFit: { "Supply Chain / Ops": 3, "BizOps": 3, "Strategy & Ops": 2, "AI": 1, "Product Ops": 0, "GTM / Growth": 0 }
+todo:
+  - Define what the 24% measures — MAPE reduction, improvement vs naive baseline, or vs prior manual process — and over what horizon
+  - Specify which statistical methods were used (moving average, exponential smoothing, regression)
+  - Confirm the Sheets/Apps Script description is accurate, or specify where Python was used
+---
+
+## The problem
+
+Demand planning across 600+ SKUs was manual and judgment-driven. Forecast error propagated straight into procurement, inventory, and production planning decisions, and nobody could say how large that error was because it was not being measured.
+
+## Why it mattered
+
+At that SKU count, forecast error is expensive in both directions. Excess inventory ties up capital and creates obsolescence; shortfalls hit service levels and revenue. The planning function was also a bottleneck — manual forecasting at that scale consumed the cycle time that should have gone to analysis.
+
+## What I built
+
+Statistical forecasting models across the full SKU portfolio, incorporating seasonality and trend, with an automated data pipeline replacing manual consolidation.
+
+This was built in Google Sheets with Apps Script automation and LLM-assisted development. That was a deliberate constraint rather than a limitation I worked around: the organization's planning workflows already lived in Sheets, and adoption mattered more than tooling elegance. A better model that Procurement would not use is worth less than a good model wired into the process they already run.

@@ -1,0 +1,67 @@
+---
+title: Operating platform, 0→1
+summary: Built the company's operating infrastructure from scratch — a multi-module platform replacing a spreadsheet stack and six figures of annual SaaS spend.
+category: Internal Tools
+org: Crave Robotics
+period: "2026"
+role: Sole product owner and builder
+tier: 1
+order: 3
+disclosure: B
+headline: { value: "$100K+", label: "annual SaaS spend consolidated" }
+stack: [React, Vite, TypeScript, Node.js, Express, Drizzle ORM, PostgreSQL, Railway]
+architecture:
+  - Telemetry and transactional data
+  - Domain modules
+  - Scheduled jobs
+  - Alerting
+  - Executive reporting
+metrics:
+  - { label: "Annual SaaS spend consolidated", value: "$100,000+", emphasis: true }
+  - { label: "Operational domains covered", value: "7" }
+  - { label: "Prior system", value: "Google Sheets + point SaaS" }
+learned: >-
+  Being both the operator and the builder collapsed the requirements loop — I was the user filing
+  the bug. The risk is building for exactly one user. The modules that generalized well were the
+  ones where I forced myself to define the process before writing the interface.
+next: >-
+  Role-based permissions as the team grows. An audit trail across inventory movements. Test
+  coverage on the scheduled jobs, which are the highest-consequence and least-covered surface
+  in the system.
+bullets:
+  headline: Built the company's operating infrastructure 0→1 — a multi-module platform spanning fleet operations, inventory, demand planning, dispatch, recalls, and executive reporting — consolidating $100K+/year of SaaS into a single owned system.
+  quantified: Eliminated $100K+/year in SaaS spend while replacing a spreadsheet-based operating stack with a single source of truth across seven operational domains.
+  technical: Designed and shipped a production TypeScript/React/PostgreSQL platform with scheduled job infrastructure, including a full migration from prototype to production hosting.
+  strategy: Translated operational requirements across supply chain, field operations, and compliance into product modules, sequencing build order by operational risk.
+  ownership: Sole product owner, engineer, and operator of the platform the entire company runs on.
+roleFit: { "Product Ops": 3, "BizOps": 3, "Strategy & Ops": 3, "Supply Chain / Ops": 2, "AI": 1, "GTM / Growth": 0 }
+todo:
+  - Confirm page count, scheduled job count, and active user count
+  - List which SaaS categories were replaced (categories only, no vendor names)
+  - Quantify manual reporting hours eliminated per week
+---
+
+## The problem
+
+Company operations ran on Google Sheets and a patchwork of SaaS subscriptions. No single source of truth, manual reporting, no way to enforce process, and every new operational requirement meant another spreadsheet or another subscription.
+
+## Why it mattered
+
+A physical fleet business generates operational data continuously — telemetry, inventory movements, expiration dates, service events. Running that on spreadsheets does not just cost time; it makes whole categories of work impossible. Lot-code traceability, recall execution, and velocity-driven forecasting are not spreadsheet problems.
+
+## What I built
+
+A multi-module internal platform. The modules, and what each one actually does:
+
+- **Machine detail** — per-unit state, telemetry, service history
+- **Dispatching** — the routing system described in [Autonomous technician dispatch](/projects/dispatch-optimization)
+- **Restocking** — pick lists and execution tracking
+- **Inventory** — transfer logs, lot-code tracking, waste, expiration management, and FDA/USDA recall traceability
+- **Menu optimization** — [location-level assortment](/projects/assortment-optimization)
+- **Demand planning** — [12-month forecasts, seasonality, and reorder cadence](/projects/demand-planning)
+- **Product settings** — vendor records, lead times, nutritional information, allergens
+- **Executive reporting** — operating metrics for leadership and board materials
+
+I also moved the platform off a prototyping environment onto production hosting, which meant working through lockfile, monorepo, and Node runtime issues that had nothing to do with the product and everything to do with it staying up.
+
+The clearest illustration of what the platform bought is a recall. On the old stack, tracing an affected lot across machines meant reconciling several spreadsheets by hand under time pressure. On the platform it is a query.

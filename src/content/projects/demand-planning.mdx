@@ -1,0 +1,62 @@
+---
+title: Demand planning and reorder logic
+summary: Twelve-month rolling forecasts connecting commercial demand to inventory, purchasing, and field capacity.
+category: Supply Chain / Operations
+org: Crave Robotics
+period: "2026"
+role: Sole owner
+tier: 2
+order: 2
+disclosure: B
+headline: { value: "12 mo", label: "rolling forecast horizon" }
+stack: [TypeScript, Node.js, PostgreSQL, Scheduled jobs]
+architecture:
+  - Telemetry
+  - Per-product velocity
+  - Seasonality-adjusted projection
+  - Stockout date per SKU
+  - Reorder trigger against lead time
+  - Purchasing recommendation
+metrics:
+  - { label: "Forecast horizon", value: "12 months rolling" }
+  - { label: "Reorder logic", value: "Stockout-projection driven", emphasis: true }
+  - { label: "Stockout-driven lost sales in period", value: "0", emphasis: true }
+learned: >-
+  The forecast was only useful once it was wired to a decision. Projecting demand was
+  straightforward; the value came from converting a projection into a dated purchase order
+  recommendation against a specific vendor lead time.
+next: >-
+  Backtesting infrastructure to measure accuracy by horizon. Per-SKU method selection for
+  intermittent demand. Explicit safety-stock optimization against service-level targets rather
+  than threshold heuristics.
+bullets:
+  headline: Built 12-month rolling demand forecasts with seasonality and velocity-based stockout projection, connecting commercial demand to inventory, purchasing, and operational capacity planning.
+  quantified: Replaced fixed reorder cadence with stockout-projection-driven purchasing across the SKU portfolio, supporting zero stockout-driven lost sales through a 67% fleet expansion.
+  technical: Built the forecasting and reorder-trigger engine on live telemetry with scheduled refresh and automated exception flagging.
+  strategy: Integrated the machine installation schedule into demand planning so growth plans carried their own inventory and capacity requirements.
+  ownership: Own demand planning end to end — model, purchasing recommendations, and vendor lead-time parameters.
+roleFit: { "Supply Chain / Ops": 3, "BizOps": 2, "Strategy & Ops": 2, "Product Ops": 2, "AI": 0, "GTM / Growth": 0 }
+todo:
+  - Add forecast accuracy figures if tracked
+  - Add waste or expiration reduction if tracked
+---
+
+## The problem
+
+Purchasing and inventory decisions for a growing fleet had no forward-looking demand signal. Reorder timing was reactive, and nothing connected planned machine installations to the inventory they would require once live.
+
+## Why it mattered
+
+Frozen food carries expiration risk on one side and stockout risk on the other, with vendor lead times in between. Without a forecast the business was choosing between waste and lost sales, and installation plans were being made without checking whether the inventory to stock them existed.
+
+## What I built
+
+Twelve-month rolling demand forecasts using per-machine per-product velocity with seasonality, extended into the decisions that actually consume a forecast:
+
+- Velocity-based out-of-stock projection per SKU per machine
+- Reorder cadence driven by projected stockout timing rather than a fixed schedule
+- Installation-schedule integration, so a machine going live next month carries demand this month
+- Exception flagging when inputs or outputs look wrong
+- Product-level planning parameters — vendor lead times, shelf life
+
+The shift from fixed cadence to projection-driven ordering is the part that mattered. A fixed schedule orders the same thing every cycle regardless of what is actually selling; a projection orders what will run out, when it will run out, offset by how long the vendor takes.

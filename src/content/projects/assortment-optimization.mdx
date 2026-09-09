@@ -1,0 +1,51 @@
+---
+title: Location-level assortment optimization
+summary: Product mix tailored per machine using sell-through velocity and free public demographic data.
+category: Optimization
+org: Crave Robotics
+period: "2026"
+role: Sole owner
+tier: 2
+order: 3
+disclosure: B
+headline: { value: "Cold start", label: "assortment for machines with no sales history" }
+stack: [Public census data, Machine telemetry, PostgreSQL]
+architecture:
+  - Per-machine velocity history
+  - Public demographic profile of catchment
+  - Product scoring
+  - Slot allocation
+  - Velocity feedback
+learned: >-
+  Demographics are a useful prior and a poor substitute for observed behaviour. The recommendation
+  is only as good as the handoff from demographic prior to velocity-driven optimization once real
+  sales data arrives.
+next: >-
+  A formal cold-start-to-velocity blend with an explicit confidence weight. Margin weighting rather
+  than velocity alone. Slot-level constrained optimization instead of ranked scoring. Controlled
+  A/B testing of assortment changes so the effect is measurable.
+bullets:
+  headline: Built location-level assortment optimization combining per-machine sell-through velocity with public demographic data, solving the cold-start problem for newly installed machines.
+  technical: Integrated free public demographic datasets with live telemetry into a per-location product scoring and slot allocation system.
+  strategy: Reframed a uniform product catalog as a constrained allocation problem, targeting the highest-leverage revenue lever available without capital expenditure.
+  ownership: Designed and shipped the assortment methodology as a module of the platform I own.
+roleFit: { "BizOps": 3, "Strategy & Ops": 2, "Supply Chain / Ops": 2, "Product Ops": 2, "AI": 1, "GTM / Growth": 0 }
+todo:
+  - No measured impact yet. Add revenue per machine, waste reduction, or slow-mover slot reduction if any becomes available.
+---
+
+## The problem
+
+Every machine carried a similar product assortment regardless of where it was placed. A university campus and a corporate office have different demand profiles, and a uniform menu leaves revenue on the table at both while generating waste on slow movers.
+
+## Why it mattered
+
+Slot capacity in a vending machine is fixed and scarce. Every slot given to a slow mover is a slot not earning, and unsold frozen inventory eventually becomes waste rather than markdown. Assortment is one of the few revenue levers available without deploying more capital.
+
+## What I built
+
+A location-level assortment recommendation combining observed per-machine per-product sell-through velocity with publicly available demographic characteristics of each location's catchment area — age distribution, household income, and daytime population, all sourced free from public census data.
+
+Velocity is the primary signal wherever it exists. The demographic layer exists to solve the cold-start problem: a machine installed last week has no sales history, and the alternative to a demographic prior is stocking it with the fleet average and waiting a month to find out it was wrong.
+
+I have deliberately not published an impact figure here, because I do not have one that I trust. The methodology shipped; the controlled measurement of its effect has not been run.

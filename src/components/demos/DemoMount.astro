@@ -1,0 +1,14 @@
+---
+// Astro needs statically analysable imports to hydrate an island, so demos are
+// mounted here by name rather than resolved through a component map.
+// To add a demo: import it, add a `case`, and register the title in registry.ts.
+import DispatchDemo from './DispatchDemo';
+import CapacityCalculator from './CapacityCalculator';
+import OutreachPipeline from './OutreachPipeline';
+
+interface Props { name: string }
+const { name } = Astro.props;
+---
+{name === 'dispatch' && <DispatchDemo client:visible />}
+{name === 'capacity' && <CapacityCalculator client:visible />}
+{name === 'outreach' && <OutreachPipeline client:visible />}

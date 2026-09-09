@@ -1,0 +1,234 @@
+---
+import type { CollectionEntry } from 'astro:content';
+
+interface Props {
+  projects: CollectionEntry<'projects'>[];
+}
+const { projects } = Astro.props;
+
+const categories = [...new Set(projects.map((p) => p.data.category))].sort();
+---
+
+<section class="catalog">
+  <div class="filters" role="group" aria-label="Filter projects by category">
+    <button class="chip is-active" data-filter="all" aria-pressed="true">
+      All <span class="count">{projects.length}</span>
+    </button>
+    {
+      categories.map((c) => (
+        <button class="chip" data-filter={c} aria-pressed="false">
+          {c}
+          <span class="count">
+            {projects.filter((p) => p.data.category === c).length}
+          </span>
+        </button>
+      ))
+    }
+  </div>
+
+  <ol class="rows">
+    {
+      projects.map((p, i) => (
+        <li class="row" data-category={p.data.category}>
+          <a href={`/projects/${p.id}`} class="row-link">
+            <span class="idx" aria-hidden="true">
+              {String(i + 1).padStart(2, '0')}
+            </span>
+            <span class="body">
+              <span class="title">{p.data.title}</span>
+              <span class="summary">{p.data.summary}</span>
+              <span class="meta">
+                <span>{p.data.category}</span>
+                <span class="sep" aria-hidden="true" />
+                <span>{p.data.org}</span>
+                {p.data.demo && (
+                  <>
+                    <span class="sep" aria-hidden="true" />
+                    <span class="demo-flag">Interactive demo</span>
+                  </>
+                )}
+              </span>
+            </span>
+            <span class="headline">
+              <span class="hv">{p.data.headline.value}</span>
+              <span class="hl">{p.data.headline.label}</span>
+            </span>
+          </a>
+        </li>
+      ))
+    }
+  </ol>
+
+  <p class="empty" hidden>No projects in this category yet.</p>
+</section>
+
+<script>
+  const root = document.currentScript?.parentElement ?? document;
+  const chips = root.querySelectorAll<HTMLButtonElement>('.chip');
+  const rows = root.querySelectorAll<HTMLLIElement>('.row');
+  const empty = root.querySelector<HTMLParagraphElement>('.empty');
+
+  chips.forEach((chip) => {
+    chip.addEventListener('click', () => {
+      const filter = chip.dataset.filter;
+      chips.forEach((c) => {
+        const on = c === chip;
+        c.classList.toggle('is-active', on);
+        c.setAttribute('aria-pressed', String(on));
+      });
+      let shown = 0;
+      rows.forEach((row) => {
+        const match = filter === 'all' || row.dataset.category === filter;
+        row.hidden = !match;
+        if (match) shown++;
+      });
+      if (empty) empty.hidden = shown > 0;
+    });
+  });
+</script>
+
+<style>
+  .catalog {
+    margin-top: 2.75rem;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.45rem;
+    padding-bottom: 1.1rem;
+    border-bottom: 1px solid var(--rule);
+  }
+  .chip {
+    font: inherit;
+    font-size: var(--step--1);
+    color: var(--slate);
+    background: transparent;
+    border: 1px solid var(--rule);
+    border-radius: 999px;
+    padding: 0.3rem 0.75rem;
+    cursor: pointer;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.42rem;
+    transition: color 0.12s, border-color 0.12s, background-color 0.12s;
+  }
+  .chip:hover {
+    color: var(--ink);
+    border-color: var(--rule-strong);
+  }
+  .chip.is-active {
+    background: var(--ink);
+    border-color: var(--ink);
+    color: var(--paper);
+  }
+  .count {
+    font-variant-numeric: tabular-nums;
+    font-size: 0.78em;
+    opacity: 0.62;
+  }
+
+  .rows {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .row {
+    border-bottom: 1px solid var(--rule);
+  }
+  .row-link {
+    display: grid;
+    grid-template-columns: 2.5rem minmax(0, 1fr) auto;
+    gap: 0 1.5rem;
+    align-items: start;
+    padding: 1.35rem 0.75rem 1.35rem 0;
+    text-decoration: none;
+    transition: background-color 0.12s;
+  }
+  .row-link:hover {
+    background: var(--paper-sunk);
+  }
+  .idx {
+    font-variant-numeric: tabular-nums;
+    font-size: var(--step--1);
+    color: var(--slate-soft);
+    padding-top: 0.28rem;
+  }
+  .body {
+    display: grid;
+    gap: 0.3rem;
+    min-width: 0;
+  }
+  .title {
+    font-size: var(--step-1);
+    font-weight: 600;
+    letter-spacing: -0.02em;
+    line-height: 1.2;
+  }
+  .summary {
+    color: var(--slate);
+    max-width: 62ch;
+    line-height: 1.5;
+  }
+  .meta {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+    font-size: var(--step--1);
+    color: var(--slate-soft);
+    margin-top: 0.2rem;
+  }
+  .sep {
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: var(--rule-strong);
+  }
+  .demo-flag {
+    color: var(--signal);
+  }
+  .headline {
+    display: grid;
+    justify-items: end;
+    text-align: right;
+    gap: 0.12rem;
+    padding-top: 0.18rem;
+  }
+  .hv {
+    font-size: var(--step-1);
+    font-weight: 600;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+  }
+  .hl {
+    font-size: var(--step--1);
+    color: var(--slate-soft);
+    max-width: 17ch;
+    line-height: 1.35;
+  }
+  .empty {
+    padding: 2.5rem 0;
+    color: var(--slate);
+  }
+
+  @media (max-width: 44rem) {
+    .row-link {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 0.65rem;
+      padding-right: 0;
+    }
+    .idx {
+      display: none;
+    }
+    .headline {
+      justify-items: start;
+      text-align: left;
+      grid-auto-flow: column;
+      align-items: baseline;
+      gap: 0.5rem;
+    }
+    .hl {
+      max-width: none;
+    }
+  }
+</style>

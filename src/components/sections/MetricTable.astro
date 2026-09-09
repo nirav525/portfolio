@@ -1,0 +1,72 @@
+---
+interface Metric {
+  label: string;
+  before?: string;
+  after?: string;
+  value?: string;
+  delta?: string;
+  emphasis?: boolean;
+}
+interface Props { metrics: Metric[]; caption?: string }
+const { metrics, caption } = Astro.props;
+const comparative = metrics.some((m) => m.before !== undefined);
+---
+{metrics.length > 0 && (
+<figure class="wrap">
+  <table>
+    <thead>
+      <tr>
+        <th scope="col">Measure</th>
+        {comparative ? (
+          <>
+            <th scope="col" class="num">Before</th>
+            <th scope="col" class="num">After</th>
+            <th scope="col" class="num">Change</th>
+          </>
+        ) : (
+          <th scope="col" class="num">Value</th>
+        )}
+      </tr>
+    </thead>
+    <tbody>
+      {metrics.map((m) => (
+        <tr class={m.emphasis ? 'em' : ''}>
+          <th scope="row">{m.label}</th>
+          {comparative ? (
+            <>
+              <td class="num">{m.before ?? '—'}</td>
+              <td class="num">{m.after ?? m.value ?? '—'}</td>
+              <td class="num delta">{m.delta ?? '—'}</td>
+            </>
+          ) : (
+            <td class="num">{m.value ?? '—'}</td>
+          )}
+        </tr>
+      ))}
+    </tbody>
+  </table>
+  {caption && <figcaption>{caption}</figcaption>}
+</figure>
+)}
+
+<style>
+  .wrap { margin: 2rem 0; max-width: var(--measure); }
+  table { width: 100%; border-collapse: collapse; font-size: var(--step--1); }
+  thead th {
+    text-align: left; font-weight: 500; color: var(--slate-soft);
+    padding: 0 0 0.6rem; border-bottom: 1px solid var(--rule-strong);
+  }
+  tbody th {
+    text-align: left; font-weight: 400; color: var(--ink);
+    padding: 0.62rem 1rem 0.62rem 0;
+  }
+  td { padding: 0.62rem 0; color: var(--slate); }
+  .num { text-align: right; font-variant-numeric: tabular-nums; padding-left: 1.1rem; }
+  tbody tr { border-bottom: 1px solid var(--rule); }
+  tbody tr.em th, tbody tr.em td { font-weight: 600; color: var(--ink); }
+  .delta { color: var(--signal); }
+  figcaption {
+    margin-top: 0.8rem; font-size: var(--step--1);
+    color: var(--slate-soft); line-height: 1.5;
+  }
+</style>

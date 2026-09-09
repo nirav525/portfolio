@@ -1,0 +1,60 @@
+---
+title: Field operations capacity model
+summary: The measurement layer that proved dispatch optimization worked and sizes field headcount as the fleet scales.
+category: Strategy & Operations
+org: Crave Robotics
+period: "2026"
+role: Sole owner
+tier: 1
+order: 2
+disclosure: B
+headline: { value: "−59%", label: "hours per machine served" }
+stack: [SQL, PostgreSQL, Telemetry-derived operational data]
+architecture:
+  - Operational data capture
+  - Normalize per machine and per shift
+  - KPI computation
+  - Capacity function
+  - Headcount plan
+demo: capacity
+demoNote: >-
+  Unit rates and the density curve are illustrative, chosen to demonstrate the shape of the
+  model rather than to reproduce any employer's figures.
+metrics:
+  - { label: "Fleet growth absorbed at flat headcount", value: "15 → 25 machines", emphasis: true }
+  - { label: "Reduction in hours per machine", value: "59%" }
+  - { label: "Reduction in miles per machine", value: "59%" }
+  - { label: "Period operated below planned headcount", value: "2 weeks at 3 of 4 techs" }
+learned: >-
+  Normalizing per machine was the unlock. Absolute hours and mileage made a growing operation
+  look like a worsening one; per-machine metrics showed the opposite and made the improvement
+  legible to the CEO.
+next: >-
+  Confidence intervals on the capacity function. Separating density effects from routing effects
+  so the model attributes improvement correctly. Wiring capacity output to the demand forecast so
+  headcount planning becomes forward-looking rather than retrospective.
+bullets:
+  headline: Built the field-operations KPI and capacity model — utilization, drive time, mileage, stop efficiency — that quantified execution bottlenecks and determined workforce requirements through a 67% fleet expansion.
+  quantified: Instrumented the largest controllable cost line in the business, surfacing a 59% reduction in hours per machine and supporting flat headcount through 15→25 machine growth.
+  technical: Built per-machine normalized metrics from raw telemetry, replacing absolute measures that misrepresented a scaling operation's performance.
+  strategy: Translated operational telemetry into a capacity function converting fleet growth scenarios into concrete headcount requirements.
+  ownership: Created the company's first field-operations measurement system from zero and own it as the basis for workforce planning.
+roleFit: { "BizOps": 3, "Strategy & Ops": 3, "Supply Chain / Ops": 3, "Product Ops": 2, "AI": 0, "GTM / Growth": 0 }
+todo:
+  - Confirm where the model lives — internal platform, spreadsheets, or both
+  - Add one concrete decision the model drove (a hire deferred, a shift structure changed)
+---
+
+## The problem
+
+The company had no instrumentation on its largest controllable cost line. Technician utilization, drive time, mileage, and stops per shift were not tracked, which meant two questions had no answer: is field execution getting better or worse, and how many technicians does the next stage of fleet growth require?
+
+## Why it mattered
+
+Without a capacity model, headcount decisions are guesses. In a startup adding machines monthly, guessing wrong in either direction is expensive — overstaff and you burn runway, understaff and service degrades across the whole fleet at once. It also meant operational improvements were invisible. The dispatch system's gains were unprovable until this existed.
+
+## What I built
+
+A KPI framework and capacity model covering technician utilization, drive time, mileage, stops per shift, and hours per machine, with per-machine normalization so performance is comparable across fleet sizes. The model translates fleet size and machine velocity into required field hours and headcount, which is what turns operational data into a hiring plan rather than a dashboard.
+
+The calculator below is the public version of that function. Note the shape of the curve: headcount rises sublinearly with fleet size, because adding machines within an existing service area shortens the average leg between stops. That relationship is the entire argument for growing density before growing geography.

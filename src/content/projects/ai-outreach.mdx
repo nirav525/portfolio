@@ -1,0 +1,68 @@
+---
+title: What 2,000 emails taught me about data quality
+summary: Shipped an AI-powered outbound system, instrumented it properly, and found the bottleneck was list quality — not messaging.
+category: AI / Automation
+org: Crave Robotics
+period: "2026"
+role: Sole designer and builder
+tier: 2
+order: 1
+disclosure: B
+headline: { value: "1.5%", label: "true conversation rate, 0 meetings booked" }
+stack: [Apollo.io, LLM APIs, Resend, Gmail API, Railway]
+architecture:
+  - Lead sourcing
+  - Enrichment
+  - Validation (missing)
+  - LLM personalization
+  - Send
+  - Engagement capture
+  - Reply classification
+demo: outreach
+demoNote: >-
+  Synthetic lead list. Company names and domains are fictional. The failure modes shown are the
+  ones the real diagnostic surfaced.
+metrics:
+  - { label: "Outbound emails sent", value: "2,000+" }
+  - { label: "True conversation rate", value: "1.5%", emphasis: true }
+  - { label: "Meetings booked", value: "0", emphasis: true }
+learned: >-
+  Instrumenting for the real success metric mattered more than anything else I built. A reply-rate
+  dashboard would have shown a working system; measuring genuine conversations revealed it was
+  not. I also learned that AI-generated volume amplifies bad inputs rather than compensating for
+  them — 2,000 well-written emails to poorly-qualified contacts is worse than 200 to good ones,
+  because it spends domain reputation to do it.
+next: >-
+  Domain and deliverability validation as a hard gate before send. A tightly-defined ICP with
+  qualification criteria instead of broad sourcing. Sequences designed to reach a booked meeting
+  rather than a reply. Volume traded down for list quality.
+bullets:
+  headline: Designed and shipped an AI-powered GTM workflow (Apollo.io, LLM generation, Resend/Gmail API) generating 2,000+ personalized outbound emails, then diagnosed enrichment data quality — not messaging — as the binding constraint on conversion.
+  quantified: Instrumented 2,000+ outbound sends to measure true conversation rate at 1.5%, isolating fabricated domains and dead DNS records in enriched lists as the root cause.
+  technical: Built an end-to-end LLM outreach pipeline — sourcing, enrichment, generation, delivery, engagement capture — deployed as a scheduled production service.
+  strategy: Measured for genuine conversations rather than replies, surfacing a data-quality failure a conventional engagement dashboard would have concealed.
+  ownership: Built, shipped, and honestly post-mortemed a commercial system, converting a failed motion into a specific redesign for list validation and ICP definition.
+roleFit: { "AI": 3, "GTM / Growth": 3, "BizOps": 2, "Product Ops": 2, "Strategy & Ops": 2, "Supply Chain / Ops": 0 }
+---
+
+## The problem
+
+Field sales needed outbound pipeline for new machine placements and had no systematic prospecting motion — manual list-building and one-off emails.
+
+## Why it mattered
+
+Machine placement drives revenue directly. A repeatable outbound motion was worth building, and it was a natural place to apply LLMs to a real commercial workflow rather than a demo.
+
+## What I built
+
+An end-to-end pipeline: lead sourcing and enrichment, LLM-generated personalized outreach and follow-up sequencing, automated sending, and engagement instrumentation, deployed as a service with scheduled execution.
+
+Then I measured it, and it had not worked. Over 2,000 emails produced a true conversation rate of about 1.5% and zero booked meetings. The conversations that did happen stayed in email and died before reaching a meeting.
+
+## What actually went wrong
+
+The instrumentation is the reason this page exists. The nominal reply rate looked survivable; the conversation rate did not, and the gap between them was the finding. Tracing it back, the enriched lists contained fabricated domains and dead DNS records, so a meaningful share of sends were reaching unintended recipients or nobody at all. Others reached real people in the wrong role at the right company.
+
+The constraint was never message generation. LLM personalization worked fine — the copy was good. The failure sat one step upstream, in list quality and ICP definition, and no amount of generation quality compensates for sending to the wrong person.
+
+I am including this project rather than quietly dropping it because the diagnosis is the transferable part. The demo below lets you add the validation gate that was missing and watch what it catches — and, more usefully, what it does not.

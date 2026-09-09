@@ -1,0 +1,57 @@
+---
+title: Integrated business planning infrastructure
+summary: Automated 70% of planning workflows and built a single source of truth across Sales, Finance, Operations, and Supply Chain.
+category: Strategy & Operations
+org: Botrista
+period: "2023–2025"
+role: Architect and owner of the planning infrastructure
+tier: 2
+order: 4
+disclosure: B
+disclosureNote: >-
+  Prior employer. Described without supplier, customer, or financial detail. Any figures in a
+  demo are synthetic.
+headline: { value: "70%", label: "of planning workflows automated" }
+stack: [Google Sheets, Apps Script, LLM-assisted development]
+architecture:
+  - Functional data inputs
+  - Automated consolidation
+  - Single reconciled dataset
+  - Scenario engine
+  - Trade-off outputs
+  - Executive reporting
+metrics:
+  - { label: "Planning workflows automated", value: "70%", emphasis: true }
+  - { label: "Functions on a shared dataset", value: "4" }
+learned: >-
+  The hard part of a single source of truth is organizational, not technical. Each function had
+  reasons for keeping its own version of the numbers, and adoption required understanding those
+  reasons rather than overriding them.
+next: >-
+  Move off a spreadsheet substrate onto a proper planning platform. Automate the remaining 30% of
+  manual workflow. Version control on planning assumptions, so a scenario result stays auditable
+  after the assumptions behind it have changed.
+bullets:
+  headline: Architected integrated business planning infrastructure, automating 70% of planning workflows and creating a single source of truth across Sales, Finance, Operations, and Supply Chain.
+  quantified: Automated 70% of planning workflows across four functions, replacing manual reconciliation of separate demand, supply, and financial datasets.
+  technical: Built automated data flows and a scenario engine in Apps Script with LLM-assisted development, delivering integrated planning inside existing organizational tooling.
+  strategy: Led scenario and what-if analysis across demand volatility, supplier constraints, and logistics disruptions, quantifying revenue, margin, inventory, and service-level trade-offs for executive and Board decisions.
+  ownership: Owned the planning infrastructure four functions depended on, including driving cross-functional adoption of a shared dataset.
+roleFit: { "Strategy & Ops": 3, "BizOps": 3, "Supply Chain / Ops": 3, "Product Ops": 1, "AI": 1, "GTM / Growth": 0 }
+todo:
+  - Add planning cycle time reduction if measured
+---
+
+## The problem
+
+Demand, supply, and financial planning lived in separate spreadsheets owned by separate functions and reconciled by hand. Four functions planned against four different versions of the numbers.
+
+## Why it mattered
+
+Integrated business planning only works if functions plan against the same data. Manual reconciliation consumed the planning cycle, and by the time an executive decision was made, the numbers underneath it had already diverged from each other.
+
+## What I built
+
+Planning infrastructure creating a single source of truth across demand, supply, and financial data, with automated data flows replacing manual consolidation.
+
+On top of it, a scenario and what-if module for testing demand volatility, supplier constraints, and logistics disruptions — quantifying the revenue, margin, inventory, and service-level trade-offs of each, so executive and Board discussions started from a comparison rather than an assertion.

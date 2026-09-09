@@ -1,0 +1,203 @@
+---
+import { getCollection, render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import MetricTable from '../../components/sections/MetricTable.astro';
+import ArchitectureFlow from '../../components/sections/ArchitectureFlow.astro';
+import DemoFrame from '../../components/sections/DemoFrame.astro';
+import DemoMount from '../../components/demos/DemoMount.astro';
+import { demoTitles, isDemoKey } from '../../components/demos/registry';
+import '../../styles/demos.css';
+
+export async function getStaticPaths() {
+  const projects = await getCollection('projects', ({ data }) => !data.draft);
+  const sorted = projects.sort(
+    (a, b) => a.data.tier - b.data.tier || a.data.order - b.data.order,
+  );
+  return sorted.map((entry, i) => ({
+    params: { id: entry.id },
+    props: {
+      entry,
+      prev: sorted[i - 1] ?? null,
+      next: sorted[i + 1] ?? null,
+    },
+  }));
+}
+
+const { entry, prev, next } = Astro.props;
+const d = entry.data;
+const { Content } = await render(entry);
+
+const demoTitle = isDemoKey(d.demo) ? demoTitles[d.demo] : null;
+
+const disclosureCopy: Record<string, string> = {
+  A: '',
+  B: 'This project is described without confidential information. The demo, figures shown in it, and any architecture labels use synthetic data.',
+  C: 'Specifics of this project cannot be disclosed. Counterparties, commercial terms, and exact amounts are withheld. The process and the reasoning are described accurately; the demo runs on synthetic data.',
+};
+---
+
+<Base title={`${d.title} — Nirav`} description={d.summary} path={`/projects/${entry.id}`}>
+  <article>
+    <div class="shell">
+      <header class="head">
+        <p class="crumb"><a href="/">Catalog</a></p>
+        <h1>{d.title}</h1>
+        <p class="summary">{d.summary}</p>
+
+        <dl class="meta">
+          <div><dt>Where</dt><dd>{d.org}</dd></div>
+          <div><dt>When</dt><dd>{d.period}</dd></div>
+          <div><dt>My role</dt><dd>{d.role}</dd></div>
+          <div><dt>Category</dt><dd>{d.category}</dd></div>
+        </dl>
+
+        {d.stack.length > 0 && (
+          <ul class="stack">
+            {d.stack.map((s) => <li>{s}</li>)}
+          </ul>
+        )}
+      </header>
+
+      {d.disclosure !== 'A' && (
+        <p class="disclosure">{d.disclosureNote ?? disclosureCopy[d.disclosure]}</p>
+      )}
+
+      <div class="prose"><Content /></div>
+
+      {d.architecture.length > 0 && (
+        <section class="block">
+          <h2>How it fits together</h2>
+          <ArchitectureFlow steps={d.architecture} />
+        </section>
+      )}
+
+      {demoTitle && (
+        <DemoFrame title={demoTitle} note={d.demoNote}>
+          <DemoMount name={d.demo!} />
+        </DemoFrame>
+      )}
+
+      {d.metrics.length > 0 && (
+        <section class="block">
+          <h2>What happened</h2>
+          <MetricTable metrics={d.metrics} />
+        </section>
+      )}
+
+      <section class="block reflect">
+        <div>
+          <h2>What I learned</h2>
+          <p class="prose">{d.learned}</p>
+        </div>
+        <div>
+          <h2>What I would do next</h2>
+          <p class="prose">{d.next}</p>
+        </div>
+      </section>
+
+      {d.links.length > 0 && (
+        <section class="block">
+          <h2>Links</h2>
+          <ul class="links">
+            {d.links.map((l) => (
+              <li><a href={l.href} rel="noopener">{l.label}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      {import.meta.env.DEV && d.todo.length > 0 && (
+        <aside class="todo">
+          <h2>Unresolved (dev only — never rendered in production)</h2>
+          <ul>{d.todo.map((t) => <li>{t}</li>)}</ul>
+        </aside>
+      )}
+
+      <nav class="pager" aria-label="Other projects">
+        {prev ? (
+          <a href={`/projects/${prev.id}`} class="pv">
+            <span>Previous</span>
+            <strong>{prev.data.title}</strong>
+          </a>
+        ) : <span />}
+        {next && (
+          <a href={`/projects/${next.id}`} class="nx">
+            <span>Next</span>
+            <strong>{next.data.title}</strong>
+          </a>
+        )}
+      </nav>
+    </div>
+  </article>
+</Base>
+
+<style>
+  article { padding-top: clamp(2rem, 5vw, 3.5rem); }
+  .crumb { font-size: var(--step--1); margin-bottom: 1.4rem; }
+  .crumb a { color: var(--slate); text-decoration: none; }
+  .crumb a:hover { color: var(--ink); text-decoration: underline; }
+
+  .head { max-width: 46rem; }
+  h1 { font-size: var(--step-3); letter-spacing: -0.03em; }
+  .summary {
+    margin-top: 1rem; font-family: var(--font-prose);
+    font-size: 1.14rem; line-height: 1.6; color: #2a3a46; max-width: 54ch;
+  }
+
+  .meta {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(8rem, 1fr));
+    gap: 1rem 1.5rem; margin: 2rem 0 0; padding-top: 1.35rem;
+    border-top: 1px solid var(--rule); font-size: var(--step--1);
+  }
+  .meta dt { color: var(--slate-soft); margin-bottom: 0.15rem; }
+  .meta dd { margin: 0; }
+
+  .stack {
+    display: flex; flex-wrap: wrap; gap: 0.4rem;
+    list-style: none; margin: 1.4rem 0 0; padding: 0;
+    font-size: var(--step--1); color: var(--slate);
+  }
+  .stack li { border: 1px solid var(--rule); padding: 0.22rem 0.55rem; }
+
+  .disclosure {
+    margin: 2.25rem 0 0; padding: 0.8rem 1rem;
+    background: var(--paper-sunk); border-left: 2px solid var(--rule-strong);
+    font-size: var(--step--1); color: var(--slate);
+    max-width: var(--measure); line-height: 1.55;
+  }
+
+  .prose { margin-top: 2.5rem; }
+
+  .block { margin-top: 3rem; }
+  .block > h2 {
+    font-size: var(--step-1); padding-bottom: 0.8rem;
+    border-bottom: 1px solid var(--rule-strong);
+  }
+  .block .prose { margin-top: 1rem; }
+
+  .reflect {
+    display: grid; grid-template-columns: repeat(auto-fit, minmax(19rem, 1fr));
+    gap: 2.5rem;
+  }
+
+  .links { list-style: none; margin: 1.2rem 0 0; padding: 0; display: grid; gap: 0.5rem; }
+  .links a { color: var(--signal); }
+
+  .todo {
+    margin-top: 3rem; padding: 1rem 1.2rem;
+    background: var(--amber-soft); border: 1px dashed var(--amber);
+    color: var(--amber); max-width: var(--measure);
+  }
+  .todo h2 { font-size: var(--step--1); font-weight: 600; }
+  .todo ul { margin: 0.6rem 0 0; padding-left: 1.1rem; font-size: var(--step--1); line-height: 1.55; }
+
+  .pager {
+    display: grid; grid-template-columns: 1fr 1fr; gap: 1.5rem;
+    margin-top: 4.5rem; padding-top: 1.5rem; border-top: 1px solid var(--rule);
+  }
+  .pager a { text-decoration: none; display: grid; gap: 0.2rem; }
+  .pager .nx { text-align: right; }
+  .pager span { font-size: var(--step--1); color: var(--slate-soft); }
+  .pager strong { font-weight: 500; letter-spacing: -0.015em; }
+  .pager a:hover strong { text-decoration: underline; }
+</style>
