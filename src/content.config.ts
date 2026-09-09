@@ -64,6 +64,9 @@ const projects = defineCollection({
 
     stack: z.array(z.string()).default([]),
 
+    // Three or four short lines. This is what most visitors will actually read.
+    tldr: z.array(z.string()).default([]),
+
     // Closing reflection. Kept in frontmatter so every page ends the same way.
     learned: z.string(),
     next: z.string(),

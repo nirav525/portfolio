@@ -26,6 +26,11 @@ metrics:
   - { label: "Outbound emails sent", value: "2,000+" }
   - { label: "True conversation rate", value: "1.5%", emphasis: true }
   - { label: "Meetings booked", value: "0", emphasis: true }
+tldr:
+  - "Shipped a full LLM outbound pipeline. 2,000+ emails sent."
+  - "It did not work: 1.5% real conversations, zero meetings."
+  - "Root cause was fabricated domains in the lead data, not the messaging."
+  - "Including it because the diagnosis is the transferable part."
 learned: >-
   Instrumenting for the real success metric mattered more than anything else I built. A reply-rate
   dashboard would have shown a working system; measuring genuine conversations revealed it was

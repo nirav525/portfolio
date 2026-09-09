@@ -21,6 +21,10 @@ metrics:
   - { label: "Forecast horizon", value: "12 months rolling" }
   - { label: "Reorder logic", value: "Stockout-projection driven", emphasis: true }
   - { label: "Stockout-driven lost sales in period", value: "0", emphasis: true }
+tldr:
+  - "12-month rolling forecasts wired directly into purchasing."
+  - "Reorder timing driven by projected stockout dates, not a fixed calendar."
+  - "Zero stockout-driven lost sales through a 67% fleet expansion."
 learned: >-
   The forecast was only useful once it was wired to a decision. Projecting demand was
   straightforward; the value came from converting a projection into a dated purchase order

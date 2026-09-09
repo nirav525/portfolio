@@ -32,6 +32,11 @@ metrics:
   - { label: "Miles per machine", before: "126.7", after: "52.5", delta: "−59%" }
   - { label: "Field technicians", before: "4", after: "4", delta: "flat", emphasis: true }
   - { label: "Daily planning time", before: "~2 hrs", after: "~10 min", delta: "−92%" }
+tldr:
+  - "Fleet grew 67%. Field headcount stayed at 4."
+  - "Miles driven fell 31% in absolute terms."
+  - "Daily route planning went from 2 hours to 10 minutes."
+  - "Built the whole thing myself: solver, data pipeline, deployment."
 learned: >-
   The solver was the easy part. Most of the work was data hygiene and modelling the constraints
   technicians actually operate under — and the largest cost win came from relaxing a business

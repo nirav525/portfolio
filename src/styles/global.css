@@ -14,6 +14,17 @@
   --amber: #9a6b12;
   --amber-soft: #f4eddc;
 
+  /* Category identity. Each category owns a hue across the whole site. */
+  --c-optimization: #0f766e;
+  --c-ai: #6d28d9;
+  --c-strategy: #1d4ed8;
+  --c-product: #be185d;
+  --c-supply: #b45309;
+  --c-data: #0369a1;
+  --c-tools: #4d7c0f;
+  --c-gtm: #c2410c;
+  --c-side: #475569;
+
   /* Type */
   --font-ui: 'Archivo', system-ui, -apple-system, sans-serif;
   --font-prose: 'Source Serif 4', Georgia, serif;
@@ -172,4 +183,29 @@ a {
   overflow: hidden;
   clip: rect(0 0 0 0);
   white-space: nowrap;
+}
+
+
+/* Category accents, applied via data-cat on any element. */
+[data-cat='Optimization'] { --cat: var(--c-optimization); }
+[data-cat='AI / Automation'] { --cat: var(--c-ai); }
+[data-cat='Strategy & Operations'] { --cat: var(--c-strategy); }
+[data-cat='Product Operations'] { --cat: var(--c-product); }
+[data-cat='Supply Chain / Operations'] { --cat: var(--c-supply); }
+[data-cat='Data / Analytics'] { --cat: var(--c-data); }
+[data-cat='Internal Tools'] { --cat: var(--c-tools); }
+[data-cat='GTM / Growth'] { --cat: var(--c-gtm); }
+[data-cat='Side Projects'] { --cat: var(--c-side); }
+
+/* One shared entrance. Elements opt in with .rise and a --d delay. */
+@keyframes rise {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: none; }
+}
+.rise {
+  animation: rise 0.5s cubic-bezier(0.2, 0.7, 0.3, 1) both;
+  animation-delay: var(--d, 0ms);
+}
+@media (prefers-reduced-motion: reduce) {
+  .rise { animation: none; }
 }
