@@ -534,3 +534,166 @@ input[type='range'] {
 }
 .sm-tab:hover { background: #eef1f4; }
 .sm-tab.is-active { background: #fff; color: #137333; font-weight: 700; border-color: #e1e3e6; border-bottom-color: #fff; }
+
+/* Meal planner — the personal projects get more colour and direct
+   manipulation than the work demos, per the brief: alive, not decorated. */
+
+.mp-stats { margin: 0 0 1rem; font-size: 0.9rem; color: var(--slate); }
+.mp-stats strong { color: var(--ink); font-variant-numeric: tabular-nums; }
+
+.mp-grid { display: grid; grid-template-columns: minmax(0, 1.1fr) minmax(0, 0.9fr); gap: 1.5rem; align-items: start; }
+@media (max-width: 40rem) { .mp-grid { grid-template-columns: 1fr; } }
+
+.mp-libhead { display: flex; align-items: center; justify-content: space-between; margin-bottom: 0.7rem; }
+.mp-libhead h4, .mp-list h4 { font-size: 0.95rem; color: var(--ink); }
+.mp-donut { width: 2.6rem; height: 2.6rem; flex: none; transform: rotate(-90deg); }
+.mp-donut-track { fill: none; stroke: var(--rule); stroke-width: 6; }
+.mp-donut-seg { transition: stroke-dasharray 0.4s ease, stroke-dashoffset 0.4s ease; }
+@media (prefers-reduced-motion: reduce) { .mp-donut-seg { transition: none; } }
+
+.mp-dishes { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.5rem; max-height: 26rem; overflow-y: auto; }
+.mp-dish { border: 1px solid var(--rule); background: #fff; border-radius: 8px; overflow: hidden; }
+.mp-dish.is-on { border-color: var(--cui, var(--signal)); box-shadow: 0 0 0 1px var(--cui, var(--signal)) inset; }
+.mp-dishbtn {
+  font: inherit; width: 100%; text-align: left; background: transparent; border: none; cursor: pointer;
+  display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 0.55rem;
+  padding: 0.6rem 0.75rem;
+}
+.mp-cuidot { width: 9px; height: 9px; border-radius: 50%; background: var(--cui, var(--slate-soft)); flex: none; }
+.mp-dishname { font-size: 0.88rem; color: var(--ink); font-weight: 500; }
+.mp-dishmeta { font-size: 0.72rem; color: var(--slate-soft); white-space: nowrap; }
+.mp-servings {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0.5rem 0.75rem; border-top: 1px solid var(--rule); background: var(--paper-sunk);
+  font-size: 0.78rem; color: var(--slate);
+}
+.mp-stepper { display: flex; align-items: center; gap: 0.5rem; }
+.mp-stepper button {
+  width: 1.5rem; height: 1.5rem; border-radius: 50%; border: 1px solid var(--rule-strong);
+  background: #fff; cursor: pointer; font-size: 0.95rem; line-height: 1; color: var(--ink);
+}
+.mp-stepper output { font-variant-numeric: tabular-nums; min-width: 1ch; text-align: center; }
+
+.mp-empty { color: var(--slate-soft); font-size: 0.88rem; padding: 1rem 0; }
+.mp-category { margin-bottom: 1.1rem; }
+.mp-category h5 { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.08em; color: var(--slate-soft); margin-bottom: 0.4rem; }
+.mp-category ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.3rem; }
+.mp-item, .mp-item-static {
+  font: inherit; width: 100%; text-align: left; background: #fff; border: 1px solid var(--rule);
+  border-radius: 6px; padding: 0.5rem 0.7rem; display: flex; align-items: center; gap: 0.6rem;
+  font-size: 0.84rem; color: var(--ink); cursor: default;
+}
+button.mp-item { cursor: pointer; }
+.mp-combined > .mp-item { cursor: pointer; border-color: var(--signal); background: var(--signal-soft); }
+.mp-qty { margin-left: auto; color: var(--slate); font-variant-numeric: tabular-nums; }
+.mp-combflag { font-size: 0.68rem; color: var(--signal); background: #fff; border-radius: 999px; padding: 0.1rem 0.5rem; }
+.mp-breakdown {
+  list-style: none; margin: 0.3rem 0 0; padding: 0.5rem 0.7rem; display: grid; gap: 0.25rem;
+  background: var(--paper-sunk); border-radius: 6px; font-size: 0.78rem; color: var(--slate);
+}
+.mp-breakdown li { display: flex; justify-content: space-between; }
+.mp-addcustom { display: flex; gap: 0.5rem; margin-top: 0.5rem; }
+.mp-addcustom input {
+  flex: 1; font: inherit; font-size: 0.84rem; padding: 0.5rem 0.7rem;
+  border: 1px solid var(--rule); border-radius: 6px;
+}
+.mp-addcustom button {
+  font: inherit; font-size: 0.82rem; padding: 0.5rem 0.9rem; border-radius: 6px;
+  border: 1px solid var(--ink); background: var(--ink); color: #fff; cursor: pointer;
+}
+
+/* Lift log */
+
+.ll-tabs, .ll-extabs { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-bottom: 0.6rem; }
+.ll-daytab, .ll-extab {
+  font: inherit; font-size: 0.78rem; padding: 0.4rem 0.8rem; border-radius: 999px;
+  border: 1px solid var(--rule); background: #fff; color: var(--slate); cursor: pointer;
+}
+.ll-daytab.is-active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.ll-extab.is-active { background: var(--signal-soft); border-color: var(--signal); color: var(--signal); font-weight: 600; }
+
+.ll-chartwrap { margin: 1rem 0; }
+.ll-chart { width: 100%; height: auto; display: block; }
+.ll-bar { transition: height 0.3s ease, y 0.3s ease; }
+.ll-bar-new { animation: ll-pop 0.5s cubic-bezier(0.2,0.7,0.2,1); transform-origin: bottom; }
+@keyframes ll-pop { from { transform: scaleY(0); } to { transform: scaleY(1); } }
+@media (prefers-reduced-motion: reduce) { .ll-bar, .ll-bar-new { animation: none; transition: none; } }
+.ll-line { stroke: var(--ink); stroke-width: 1.5; opacity: 0.55; }
+.ll-linedot { fill: var(--ink); opacity: 0.7; }
+.ll-xlabel { font-size: 6.5px; fill: var(--slate-soft); }
+.ll-legend { list-style: none; display: flex; gap: 1.1rem; margin: 0.4rem 0 0; padding: 0; font-size: 0.74rem; color: var(--slate); }
+.ll-legend li { display: flex; align-items: center; gap: 0.4rem; }
+.ll-sw-bar { width: 10px; height: 10px; border-radius: 2px; background: var(--amber); display: inline-block; }
+.ll-sw-line { width: 12px; height: 2px; background: var(--ink); opacity: 0.55; display: inline-block; }
+
+.ll-logform {
+  display: grid; grid-template-columns: 5rem 5rem 1fr auto; gap: 0.75rem; align-items: end;
+  padding: 0.9rem; background: var(--paper-sunk); border-radius: 8px; margin-top: 0.5rem;
+}
+@media (max-width: 30rem) { .ll-logform { grid-template-columns: 1fr 1fr; } .ll-field-wide { grid-column: 1 / -1; } }
+.ll-field { display: grid; gap: 0.3rem; font-size: 0.76rem; color: var(--slate); }
+.ll-field input {
+  font: inherit; font-size: 0.86rem; padding: 0.4rem 0.5rem; border: 1px solid var(--rule); border-radius: 6px; width: 100%;
+}
+.ll-diffpicker { display: flex; gap: 0.3rem; }
+.ll-difbtn {
+  width: 1.4rem; height: 1.4rem; border-radius: 50%; border: 2px solid transparent;
+  background: var(--dc); cursor: pointer; opacity: 0.55;
+}
+.ll-difbtn.is-active { opacity: 1; border-color: var(--ink); transform: scale(1.15); }
+.ll-diflabel { font-size: 0.72rem; color: var(--slate-soft); margin-top: 0.15rem; }
+.ll-submit {
+  font: inherit; font-size: 0.84rem; padding: 0.55rem 1.1rem; border-radius: 6px;
+  border: 1px solid var(--ink); background: var(--ink); color: #fff; cursor: pointer; white-space: nowrap;
+}
+
+.ll-suggest {
+  margin-top: 1rem; padding: 0.75rem 0.95rem; border-radius: 8px;
+  background: var(--amber-soft); border-left: 2px solid var(--amber);
+}
+.ll-suglabel { display: block; font-size: 0.66rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--amber); margin-bottom: 0.35rem; }
+.ll-suggest p { margin: 0; font-size: 0.86rem; color: #6b4a0e; line-height: 1.5; }
+
+/* Market score */
+
+.ms-tabs { display: flex; gap: 0.4rem; margin-bottom: 0.5rem; }
+.ms-tab {
+  font: inherit; font-size: 0.82rem; padding: 0.4rem 0.9rem; border-radius: 999px;
+  border: 1px solid var(--rule); background: #fff; color: var(--slate); cursor: pointer;
+}
+.ms-tab.is-active { background: var(--ink); border-color: var(--ink); color: #fff; }
+.ms-disclaimer { font-size: 0.74rem; color: var(--slate-soft); margin-bottom: 1rem; }
+
+.ms-weights { display: grid; grid-template-columns: repeat(auto-fit, minmax(9.5rem, 1fr)); gap: 0.6rem 1.2rem; margin-bottom: 1.2rem; }
+.ms-weight { display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 0.4rem; font-size: 0.76rem; color: var(--slate); }
+.ms-wlabel { display: flex; align-items: center; gap: 0.4rem; }
+.ms-wlabel i { width: 8px; height: 8px; border-radius: 2px; flex: none; }
+.ms-weight input[type='range'] { grid-column: 1 / -1; }
+.ms-weight output { font-variant-numeric: tabular-nums; color: var(--ink); font-weight: 600; }
+
+.ms-list { list-style: none; margin: 0; padding: 0; display: grid; gap: 0.4rem; }
+.ms-row {
+  display: grid; grid-template-columns: 1.5rem minmax(0, 1fr) minmax(5rem, 8rem) 3rem;
+  align-items: center; gap: 0.7rem; padding: 0.55rem 0.7rem;
+  background: #fff; border: 1px solid var(--rule); border-radius: 8px; will-change: transform;
+}
+@media (max-width: 30rem) {
+  .ms-row { grid-template-columns: 1.2rem minmax(0,1fr) 4rem 2.4rem; gap: 0.4rem; padding: 0.5rem; }
+  .ms-company { display: none; }
+}
+.ms-rank { font-variant-numeric: tabular-nums; color: var(--slate-soft); font-size: 0.8rem; text-align: center; }
+.ms-name { display: grid; min-width: 0; }
+.ms-ticker { font-family: ui-monospace, SFMono-Regular, monospace; font-weight: 700; font-size: 0.82rem; color: var(--ink); }
+.ms-company { font-size: 0.72rem; color: var(--slate-soft); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ms-composebar { display: flex; height: 8px; border-radius: 4px; overflow: hidden; background: var(--rule); }
+.ms-composebar span { display: block; height: 100%; }
+.ms-score-v { font-variant-numeric: tabular-nums; font-weight: 700; color: var(--ink); text-align: right; font-size: 0.86rem; }
+
+.ms-email { border: 1px solid var(--rule); border-radius: 10px; overflow: hidden; background: #fff; }
+.ms-email-head { padding: 0.9rem 1.1rem; border-bottom: 1px solid var(--rule); background: var(--paper-sunk); display: flex; flex-direction: column; gap: 0.2rem; }
+.ms-emsub { font-weight: 600; color: var(--ink); font-size: 0.92rem; }
+.ms-emfrom { font-size: 0.72rem; color: var(--slate-soft); }
+.ms-email-body { padding: 1rem 1.1rem; }
+.ms-emchart { width: 100%; height: auto; margin-bottom: 0.9rem; }
+.ms-email-body p { font-size: 0.88rem; line-height: 1.6; color: var(--ink); margin: 0 0 0.8rem; }
+.ms-emnote { font-size: 0.74rem; color: var(--slate-soft); font-style: italic; }

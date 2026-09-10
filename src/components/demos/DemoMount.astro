@@ -6,6 +6,9 @@ import DispatchDemo from './DispatchDemo';
 import OutreachPipeline from './OutreachPipeline';
 import OctoOpsMockup from './OctoOpsMockup';
 import SpreadsheetMockup from './SpreadsheetMockup';
+import MealPlanner from './MealPlanner';
+import LiftLog from './LiftLog';
+import MarketScore from './MarketScore';
 
 interface Props { name: string }
 const { name } = Astro.props;
@@ -15,3 +18,6 @@ const [base, variant] = name.split(':');
 {base === 'outreach' && <OutreachPipeline client:visible />}
 {base === 'platform' && <OctoOpsMockup client:visible initialPage={variant as any} />}
 {base === 'sheet' && <SpreadsheetMockup client:visible variant={variant as any} />}
+{base === 'mealplanner' && <MealPlanner client:visible />}
+{base === 'liftlog' && <LiftLog client:visible />}
+{base === 'marketscore' && <MarketScore client:visible />}

@@ -1,0 +1,62 @@
+---
+title: The Sunday grocery problem
+summary: Pick the week's meals, get one consolidated shopping list. Built because I kept getting home from three stores missing one ingredient.
+category: Side Projects
+org: Personal
+period: "2026"
+role: Designer, builder, and only user
+tier: 3
+order: 5
+disclosure: A
+accent: "#059669"
+headline: { value: "3 stores", label: "one list, one Sunday trip" }
+stack: [React, Vite, Glide (V0 prototype), Vercel]
+tldr:
+  - "I cook five nights a week and shop once, on Sundays, across three stores."
+  - "Forget one ingredient and Wednesday's dinner becomes whatever is in the fridge."
+  - "Pick meals, set servings, get one list with shared ingredients already combined."
+  - "Built a no-code version first to find out what I actually needed."
+architecture:
+  - Meal library
+  - Weekly selection
+  - Servings scaling
+  - Ingredient aggregation
+  - Category grouping
+  - Shopping list
+demo: mealplanner
+learned: >-
+  The no-code prototype was the most useful thing I built, because it was wrong in
+  specific ways. I learned I did not want a recipe app, a calorie tracker, or meal
+  history. I wanted one screen that turns a list of dishes into a list of things to
+  buy. Everything else I thought I wanted turned out to be decoration.
+next: >-
+  Pantry staples, so the list stops telling me to buy cumin I already have. Splitting
+  the list by store, since the three I shop at carry different things. And a way to
+  bias the week's selection toward cuisines I have not cooked recently.
+bullets:
+  headline: Built a weekly meal-planning app that consolidates ingredients across selected recipes into a single categorised grocery list, scaled by servings.
+  technical: Prototyped in a no-code tool to establish requirements, then rebuilt as a React/Vite app deployed free on Vercel and installed to the iOS home screen.
+  strategy: Scoped ruthlessly after the prototype revealed that the aggregation step was the only feature that mattered.
+  ownership: Designed, built, deployed, and use it every Sunday.
+roleFit: { "Product Ops": 2, "BizOps": 1, "Strategy & Ops": 1, "AI": 0, "Supply Chain / Ops": 1, "GTM / Growth": 0 }
+---
+
+## The problem
+
+I cook about five nights a week and shop once, on Sunday, across three stores — a warehouse store, Trader Joe's, and an Indian grocery. Deciding what to cook happened in my head, and the shopping list was whatever I could remember while standing in the aisle.
+
+The failure mode was always the same. I would get home having missed one ingredient, and Wednesday's planned dinner would quietly become whatever was in the fridge.
+
+## Why it mattered
+
+This is a small problem that recurs fifty-two times a year. The cost is not the forgotten onion — it is the second trip, or the meal that does not happen, or the vegetables that go off because the plan they belonged to fell apart on Tuesday.
+
+It is also genuinely an aggregation problem. Four recipes might each need onions in different quantities. Writing them as four separate line items is how you end up buying four times what you need.
+
+## What I built
+
+A weekly planner where I pick the week's meals from a library, set servings per dish, and get back a single grocery list with shared ingredients already summed and grouped by aisle category. Custom items can be added to the list directly, because not everything I buy belongs to a recipe.
+
+I built the first version in a no-code tool. That version worked, and it was instructive precisely because it was clumsy: it taught me that I did not need meal history, nutrition tracking, or a recipe browser. I needed the aggregation step and nothing else. The rebuild is deliberately smaller than the prototype.
+
+One thing the prototype surfaced by accident: charting my dishes by cuisine showed thirteen Indian dishes against three Italian, three Asian, and one Thai. I had assumed I cooked with more variety than I actually do.

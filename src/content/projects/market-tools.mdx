@@ -1,0 +1,62 @@
+---
+title: A daily market brief for my dad
+summary: An automated digest that runs itself, plus a scoring tool that replaced my own ad-hoc stock picking with something repeatable.
+category: Side Projects
+org: Personal
+period: "2025–2026"
+role: Designer, builder, and operator
+tier: 3
+order: 7
+disclosure: A
+accent: "#7c3aed"
+headline: { value: "Every weekday", label: "unattended, since 2025" }
+stack: [Python, matplotlib, LLM API, Oracle Cloud ARM VM, cron]
+tldr:
+  - "My dad cannot access the brokerage app our positions sit in."
+  - "So a digest emails him charts and a written brief every weekday morning."
+  - "It has run unattended on a free-tier cloud VM since I set it up."
+  - "A second tool scores names on fixed criteria, so I stop picking on impulse."
+architecture:
+  - Scheduled trigger
+  - Market data pull
+  - Chart generation
+  - LLM-written brief
+  - Email delivery
+demo: marketscore
+learned: >-
+  Building something another person depends on changes how you build it. A script that
+  fails silently is fine when it is only for me; it is not fine when someone is waiting
+  for an email at seven in the morning. That pushed me toward unattended operation and
+  failure handling much earlier than I would have bothered with otherwise.
+next: >-
+  Alerting when a run fails, rather than finding out because the email did not arrive.
+  Moving the scoring tool off my laptop onto the same scheduled infrastructure as the
+  digest. And back-testing the scoring criteria, which I have not done and should not
+  claim to have done.
+bullets:
+  headline: Built and operate an automated daily market digest that generates charts and an LLM-written brief, delivered by email every weekday from a free-tier cloud VM.
+  technical: Python on an ARM cloud instance with scheduled execution, matplotlib chart generation, and LLM-generated narrative, running unattended.
+  strategy: Built a scoring tool to replace impulse-driven stock selection with a repeatable, criteria-based shortlist for further research.
+  ownership: Designed, deployed, and maintain it as a production dependency for another person.
+roleFit: { "AI": 2, "BizOps": 1, "Product Ops": 1, "Strategy & Ops": 1, "GTM / Growth": 0 }
+---
+
+## The problem
+
+My dad has money in the market and no practical way to look at it. The brokerage app is not something he can navigate, so checking on positions meant asking me, and I would answer when I got round to it.
+
+Separately, I had my own problem: I was picking stocks on whatever I had read that week. No consistent criteria, no way to compare two names against the same yardstick, and no record of why I had bought anything.
+
+## Why it mattered
+
+The first is not really a technical problem. It is that someone I care about was dependent on me being available, for something that should not require a person at all.
+
+The second is a discipline problem. Ad-hoc selection feels like research and is mostly recency bias. I wanted a process I could apply the same way every time, even if the criteria turned out to be imperfect — at least they would be consistent and written down.
+
+## What I built
+
+The digest runs every weekday on a free-tier ARM cloud instance. It pulls market data, generates charts, has an LLM write a short plain-language brief, and emails the lot to both of us before the market opens. It has run unattended since I set it up.
+
+The scoring tool ranks names against fixed criteria to produce a daily shortlist. It is explicitly not a buy signal — it narrows the field so my own research starts somewhere defensible instead of starting with whatever I saw last night.
+
+I should be straight about the limits: I have not back-tested the scoring criteria. It imposes consistency on my process, which was the point. It does not claim to predict anything.

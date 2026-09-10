@@ -25,7 +25,7 @@ const categories = [...new Set(projects.map((p) => p.data.category))].sort();
     {
       projects.map((p, i) => (
         <li class="cell rise" data-category={p.data.category} style={`--d:${Math.min(i, 8) * 45}ms`}>
-          <a href={`/projects/${p.id}`} class="card" data-cat={p.data.category}>
+          <a href={`/projects/${p.id}`} class="card" data-cat={p.data.category} style={p.data.accent ? `--cat:${p.data.accent}` : undefined}>
             <span class="tag">{p.data.category}</span>
 
             <span class="figure" data-count={p.data.headline.value}>

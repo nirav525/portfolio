@@ -7,6 +7,9 @@ export const demoTitles = {
   outreach: 'Run a list through the pipeline',
   platform: 'Explore the platform',
   sheet: 'Open the actual model',
+  mealplanner: 'Plan a week, get the list',
+  liftlog: 'Log a set, watch the trend',
+  marketscore: 'Score the list, see the brief',
 } as const;
 
 export const demoCues: Record<keyof typeof demoTitles, string> = {
@@ -14,6 +17,9 @@ export const demoCues: Record<keyof typeof demoTitles, string> = {
   outreach: 'Toggle the checks below and watch which rows survive to a send.',
   platform: 'Click through the sidebar — each module is a real screen from the platform, populated with synthetic data.',
   sheet: 'Click the sheet tabs along the bottom — each one is a real tab from the actual model.',
+  mealplanner: 'Pick a few dishes, then tap a combined ingredient to see which dishes it came from.',
+  liftlog: 'Pick a day and an exercise, log a set, and watch the chart and suggestion update.',
+  marketscore: 'Drag the weight sliders and watch the shortlist reorder — then switch to Brief to see the output.',
 };
 
 export type DemoKey = keyof typeof demoTitles;

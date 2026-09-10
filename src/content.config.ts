@@ -29,6 +29,8 @@ const projects = defineCollection({
     title: z.string(),
     summary: z.string(),
     category: z.enum(CATEGORIES),
+    // Optional colour override. Falls back to the category colour.
+    accent: z.string().optional(),
     org: z.string(),
     period: z.string(),
     role: z.string(),

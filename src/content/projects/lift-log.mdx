@@ -1,0 +1,59 @@
+---
+title: Progressive overload needs a memory
+summary: A training log built around one question — what did I lift last time, and can I beat it today?
+category: Side Projects
+org: Personal
+period: "2026"
+role: Designer, builder, and only user
+tier: 3
+order: 6
+disclosure: A
+accent: "#dc2626"
+headline: { value: "5 → 4", label: "day split, same tracked progression" }
+stack: [Glide, Structured logging, Charting]
+tldr:
+  - "Progressive overload only works if you know what you did last session."
+  - "Across five workout days and dozens of exercises, memory does not cut it."
+  - "Log weight, reps, and perceived difficulty per set. See the trend per exercise."
+  - "The difficulty rating is what tells me whether to add weight or add reps."
+architecture:
+  - Workout day
+  - Exercise
+  - Set-level entry
+  - Weight, reps, difficulty
+  - Per-exercise history
+  - Progression trend
+demo: liftlog
+learned: >-
+  Logging weight and reps alone was not enough to make the next decision. Three sets at
+  the same weight can be an easy session or a brutal one, and only one of those means I
+  should add load. Adding a perceived-difficulty rating per set turned the log from a
+  record of what happened into an input for what to do next.
+next: >-
+  Automatic next-session suggestions from the last entry and its difficulty rating,
+  rather than me reading the chart and deciding. Volume per muscle group per week, since
+  that is the number that actually governs whether a split is working. And a faster
+  logging path — mid-set, on a phone, is a demanding interface problem.
+bullets:
+  headline: Built a set-level training log capturing weight, reps, and perceived difficulty per exercise, turning progressive overload from recall into data.
+  technical: Modelled workout days, exercises, and individual sets as related records with per-exercise trend charting.
+  strategy: Added a perceived-difficulty dimension after finding that weight and reps alone could not distinguish an easy session from a maximal one.
+  ownership: Built it, used it through a switch from a 5-day body-part split to a 4-day upper/lower program.
+roleFit: { "Product Ops": 2, "BizOps": 1, "Strategy & Ops": 1, "AI": 0, "Supply Chain / Ops": 0, "GTM / Growth": 0 }
+---
+
+## The problem
+
+I train before work, five or six days a week, and the entire method is progressive overload: do slightly more than last time. That only works if you know what last time was.
+
+Across five workout days and roughly forty exercises, I did not. I was reconstructing it in the gym from memory — usually wrongly, and usually conservatively, which is the expensive direction to be wrong in.
+
+## Why it mattered
+
+Training is time I have already spent. Getting up at five and then doing the same weight I did three weeks ago is the same hour with a fraction of the return. The tracking was the difference between training and merely exercising.
+
+## What I built
+
+A log organised the way I actually train: workout day, then exercise, then individual sets. Each set records weight, reps, and a perceived difficulty rating. Per-exercise views chart weight and reps across sessions, so I can see whether a lift is moving.
+
+The difficulty rating was the addition that made it useful. Weight and reps tell you what happened; they do not tell you whether there was more in the tank. Three sets of ten at the same weight can be a comfortable session or a limit session, and only one of those means load should go up next week.
