@@ -6,6 +6,8 @@ interface Props {
 }
 const { projects } = Astro.props;
 const categories = [...new Set(projects.map((p) => p.data.category))].sort();
+const featured = projects.filter((p) => p.data.tier === 1);
+const rest = projects.filter((p) => p.data.tier !== 1);
 ---
 
 <section class="catalog">
@@ -21,36 +23,71 @@ const categories = [...new Set(projects.map((p) => p.data.category))].sort();
     }
   </div>
 
-  <ul class="grid">
-    {
-      projects.map((p, i) => (
-        <li class="cell rise" data-category={p.data.category} style={`--d:${Math.min(i, 8) * 45}ms`}>
-          <a href={`/projects/${p.id}`} class="card" data-cat={p.data.category} style={p.data.accent ? `--cat:${p.data.accent}` : undefined}>
-            <span class="tag">{p.data.category}</span>
+  {featured.length > 0 && (
+    <div class="section" data-section="featured">
+      <h2 class="section-label">Featured</h2>
+      <ul class="grid grid-featured">
+        {
+          featured.map((p, i) => (
+            <li class="cell rise" data-category={p.data.category} style={`--d:${Math.min(i, 8) * 45}ms`}>
+              <a href={`/projects/${p.id}`} class="card card-featured" data-cat={p.data.category} style={p.data.accent ? `--cat:${p.data.accent}` : undefined}>
+                <span class="tag">{p.data.category}</span>
 
-            <span class="figure" data-count={p.data.headline.value}>
-              {p.data.headline.value}
-            </span>
-            <span class="figure-label">{p.data.headline.label}</span>
+                <span class="figure" data-count={p.data.headline.value}>
+                  {p.data.headline.value}
+                </span>
+                <span class="figure-label">{p.data.headline.label}</span>
 
-            <span class="name">{p.data.title}</span>
+                <span class="name">{p.data.title}</span>
+                <span class="summary">{p.data.summary}</span>
 
-            <span class="foot">
-              <span class="org">{p.data.org}</span>
-              {p.data.demo && <span class="live">Interactive</span>}
-            </span>
-          </a>
-        </li>
-      ))
-    }
-  </ul>
+                <span class="foot">
+                  <span class="org">{p.data.org}</span>
+                  {p.data.demo && <span class="live">Interactive</span>}
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  )}
+
+  {rest.length > 0 && (
+    <div class="section" data-section="rest">
+      <h2 class="section-label">More work</h2>
+      <ul class="grid">
+        {
+          rest.map((p, i) => (
+            <li class="cell rise" data-category={p.data.category} style={`--d:${Math.min(i, 8) * 45}ms`}>
+              <a href={`/projects/${p.id}`} class="card" data-cat={p.data.category} style={p.data.accent ? `--cat:${p.data.accent}` : undefined}>
+                <span class="tag">{p.data.category}</span>
+
+                <span class="figure" data-count={p.data.headline.value}>
+                  {p.data.headline.value}
+                </span>
+                <span class="figure-label">{p.data.headline.label}</span>
+
+                <span class="name">{p.data.title}</span>
+
+                <span class="foot">
+                  <span class="org">{p.data.org}</span>
+                  {p.data.demo && <span class="live">Interactive</span>}
+                </span>
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  )}
 
   <p class="empty" hidden>Nothing in that category yet.</p>
 </section>
 
 <script>
   const chips = document.querySelectorAll<HTMLButtonElement>('.chip');
-  const cells = document.querySelectorAll<HTMLLIElement>('.cell');
+  const sections = document.querySelectorAll<HTMLDivElement>('.section');
   const empty = document.querySelector<HTMLParagraphElement>('.empty');
 
   chips.forEach((chip) => {
@@ -62,17 +99,22 @@ const categories = [...new Set(projects.map((p) => p.data.category))].sort();
         c.setAttribute('aria-pressed', String(on));
       });
       let shown = 0;
-      cells.forEach((cell, i) => {
-        const match = filter === 'all' || cell.dataset.category === filter;
-        cell.hidden = !match;
-        if (match) {
-          shown++;
-          // Replay the entrance so filtering feels like a deal, not a repaint.
-          cell.style.setProperty('--d', `${Math.min(shown, 8) * 35}ms`);
-          cell.classList.remove('rise');
-          void cell.offsetWidth;
-          cell.classList.add('rise');
-        }
+      sections.forEach((section) => {
+        let shownInSection = 0;
+        section.querySelectorAll<HTMLLIElement>('.cell').forEach((cell) => {
+          const match = filter === 'all' || cell.dataset.category === filter;
+          cell.hidden = !match;
+          if (match) {
+            shown++;
+            shownInSection++;
+            // Replay the entrance so filtering feels like a deal, not a repaint.
+            cell.style.setProperty('--d', `${Math.min(shownInSection, 8) * 35}ms`);
+            cell.classList.remove('rise');
+            void cell.offsetWidth;
+            cell.classList.add('rise');
+          }
+        });
+        section.hidden = shownInSection === 0;
       });
       if (empty) empty.hidden = shown > 0;
     });
@@ -147,6 +189,12 @@ const categories = [...new Set(projects.map((p) => p.data.category))].sort();
     color: var(--paper);
   }
 
+  .section-label {
+    font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em;
+    color: var(--slate-soft); margin: 0 0 1rem;
+  }
+  .section + .section { margin-top: 2.75rem; }
+
   .grid {
     list-style: none;
     margin: 0;
@@ -154,6 +202,10 @@ const categories = [...new Set(projects.map((p) => p.data.category))].sort();
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(16.5rem, 1fr));
     gap: 1rem;
+  }
+  .grid-featured {
+    grid-template-columns: repeat(auto-fill, minmax(19rem, 1fr));
+    gap: 1.25rem;
   }
 
   .card {
@@ -163,7 +215,7 @@ const categories = [...new Set(projects.map((p) => p.data.category))].sort();
     gap: 0.3rem;
     height: 100%;
     padding: 1.4rem 1.25rem 1.15rem;
-    background: #fff;
+    background: linear-gradient(165deg, color-mix(in srgb, var(--cat) 6%, #fff), #fff 55%);
     border: 1px solid var(--rule);
     border-top: 3px solid var(--cat);
     text-decoration: none;
@@ -184,7 +236,20 @@ const categories = [...new Set(projects.map((p) => p.data.category))].sort();
     box-shadow: 0 10px 26px -14px color-mix(in srgb, var(--cat) 60%, transparent);
     border-color: color-mix(in srgb, var(--cat) 35%, var(--rule));
   }
-  .card:hover::after { opacity: 0.028; }
+  .card:hover::after { opacity: 0.04; }
+
+  .card-featured {
+    grid-template-rows: auto auto auto auto 1fr auto;
+    padding: 1.75rem 1.6rem 1.4rem;
+    border-top-width: 4px;
+    background: linear-gradient(165deg, color-mix(in srgb, var(--cat) 11%, #fff), #fff 60%);
+  }
+  .card-featured .figure { font-size: clamp(2.4rem, 6vw, 3.1rem); }
+  .card-featured .name { font-size: 1.18rem; }
+  .card-featured .summary {
+    font-size: 0.88rem; line-height: 1.5; color: var(--slate);
+    margin-top: 0.3rem; max-width: 42ch;
+  }
 
   .tag {
     font-size: 0.72rem;
