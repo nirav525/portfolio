@@ -5,44 +5,104 @@ interface Metric {
 }
 interface Props { metrics: Metric[] }
 const { metrics } = Astro.props;
+
+// Parse a leading number out of "12.9", "1,900", "~10 min", "194" etc. so
+// before/after can be drawn as a comparison bar. Returns null if either side
+// isn't numeric, or if the two sides aren't on the same scale (mixed units).
+function parseNum(s?: string): number | null {
+  if (!s) return null;
+  const m = s.replace(/,/g, '').match(/(\d+(?:\.\d+)?)/);
+  return m ? parseFloat(m[1]) : null;
+}
+function bars(m: Metric) {
+  const b = parseNum(m.before);
+  const a = parseNum(m.after);
+  if (b === null || a === null || b === a) return null;
+  const max = Math.max(b, a);
+  return { beforePct: (b / max) * 100, afterPct: (a / max) * 100 };
+}
 ---
 {metrics.length > 0 && (
 <ul class="tiles">
-  {metrics.map((m, i) => (
-    <li class={`tile rise${m.emphasis ? ' em' : ''}`} style={`--d:${Math.min(i,7)*50}ms`}>
-      <span class="v">{m.after ?? m.value ?? '—'}</span>
-      {m.before && <span class="from">from {m.before}</span>}
-      <span class="l">{m.label}</span>
-      {m.delta && m.delta !== 'flat' && <span class="d">{m.delta}</span>}
-    </li>
-  ))}
+  {metrics.map((m, i) => {
+    const bar = bars(m);
+    return (
+      <li class={`tile reveal${m.emphasis ? ' em' : ''}`} style={`--d:${Math.min(i,7)*60}ms`}>
+        <div class="top">
+          <span class="v">{m.after ?? m.value ?? '—'}</span>
+          {m.delta && m.delta !== 'flat' && <span class="d">{m.delta}</span>}
+        </div>
+        {m.before && <span class="from">from {m.before}</span>}
+        <span class="l">{m.label}</span>
+        {bar && (
+          <div class="bars" role="img" aria-label={`${m.before} before, ${m.after} after`}>
+            <span class="bar before" style={`--w:${bar.beforePct}%`}></span>
+            <span class="bar after" style={`--w:${bar.afterPct}%`}></span>
+          </div>
+        )}
+      </li>
+    );
+  })}
 </ul>
 )}
 
 <style>
   .tiles {
     list-style: none; margin: 1.5rem 0 0; padding: 0;
-    display: grid; grid-template-columns: repeat(auto-fit, minmax(10.5rem, 1fr));
-    gap: 0.75rem;
+    display: grid; grid-template-columns: 1fr;
+    gap: 0.9rem;
+  }
+  @media (min-width: 30rem) {
+    .tiles { grid-template-columns: repeat(2, 1fr); }
+  }
+  @media (min-width: 46rem) {
+    .tiles { grid-template-columns: repeat(4, 1fr); }
   }
   .tile {
-    position: relative; padding: 1.1rem 1rem 1rem;
+    position: relative; padding: 1.1rem 1.15rem 1.05rem;
     background: #fff; border: 1px solid var(--rule);
     border-left: 3px solid color-mix(in srgb, var(--cat, var(--signal)) 40%, var(--rule));
     display: grid; align-content: start; gap: 0.12rem;
+    transition: border-color 0.2s ease, box-shadow 0.2s ease, transform 0.2s ease;
   }
   .tile.em { border-left-color: var(--cat, var(--signal)); }
+  .tile:hover {
+    border-color: color-mix(in srgb, var(--cat, var(--signal)) 45%, var(--rule));
+    box-shadow: 0 10px 24px -18px color-mix(in srgb, var(--cat, var(--signal)) 60%, transparent);
+    transform: translateY(-2px);
+  }
+  .top { display: flex; align-items: baseline; justify-content: space-between; gap: 0.5rem; }
   .v {
-    font-size: 1.75rem; font-weight: 700; letter-spacing: -0.035em;
+    font-size: 1.7rem; font-weight: 700; letter-spacing: -0.035em;
     line-height: 1.05; font-variant-numeric: tabular-nums;
     color: var(--cat, var(--ink));
   }
   .from { font-size: 0.76rem; color: var(--slate-soft); }
   .l { font-size: var(--step--1); color: var(--slate); line-height: 1.4; margin-top: 0.4rem; }
   .d {
-    position: absolute; top: 0.9rem; right: 0.9rem;
-    font-size: 0.74rem; font-weight: 600; color: var(--cat, var(--signal));
+    font-size: 0.72rem; font-weight: 600; color: var(--cat, var(--signal));
     background: color-mix(in srgb, var(--cat, var(--signal)) 10%, #fff);
-    padding: 0.12rem 0.4rem;
+    padding: 0.12rem 0.4rem; white-space: nowrap;
+  }
+  .bars {
+    display: grid; gap: 0.22rem; margin-top: 0.7rem;
+  }
+  .bar {
+    position: relative; height: 4px; border-radius: 2px;
+    background: var(--rule);
+    overflow: hidden;
+  }
+  .bar::after {
+    content: ''; position: absolute; inset: 0; width: var(--w);
+    border-radius: inherit;
+    transform-origin: left;
+    animation: grow 0.8s cubic-bezier(0.2,0.7,0.2,1) both;
+    animation-delay: 0.1s;
+  }
+  .bar.before::after { background: var(--slate-soft); }
+  .bar.after::after { background: var(--cat, var(--signal)); }
+  @keyframes grow { from { transform: scaleX(0); } to { transform: scaleX(1); } }
+  @media (prefers-reduced-motion: reduce) {
+    .bar::after { animation: none; transform: none; }
   }
 </style>

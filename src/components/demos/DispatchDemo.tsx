@@ -170,8 +170,16 @@ export default function DispatchDemo() {
 
   const selectedIds = new Set(result.routes.flatMap((r) => r.seq.map((s) => s.id)));
 
+  const explainer = cluster
+    ? `${result.triggered} machines are at or below ${threshold}% full — those must be visited. Because clustering is on, the solver also swings by ${result.opportunistic} more that a technician is already driving past, rather than paying for a dedicated trip later. That combination is ${result.saved.toFixed(0)}% shorter than visiting the same stops in list order.`
+    : `${result.triggered} machines are at or below ${threshold}% full — those must be visited, and nothing else. Clustering is off, so the ${stops.filter((s) => s.fill > threshold && s.fill <= threshold + 22).length} machines just above the threshold get skipped this trip — they'll need a dedicated return later. Turn clustering back on to see the solver absorb them for free.`;
+
   return (
     <div className="dd">
+      <p className="dd-explain">
+        <strong>What's happening: </strong>
+        {explainer}
+      </p>
       <div className="dd-grid">
         <div className="dd-map">
           <svg viewBox="0 0 100 100" role="img" aria-label="Synthetic service map with optimised technician routes">
@@ -199,6 +207,11 @@ export default function DispatchDemo() {
             {stops.map((s) => {
               const on = selectedIds.has(s.id);
               const opportunistic = on && s.fill > threshold;
+              const status = opportunistic
+                ? 'added by clustering — a technician is already nearby'
+                : on
+                  ? 'below threshold — must be visited'
+                  : 'above threshold, not near a route — skipped this trip';
               return (
                 <circle
                   key={s.id}
@@ -208,7 +221,10 @@ export default function DispatchDemo() {
                   fill={on ? (opportunistic ? '#9a6b12' : '#14202a') : '#fafaf8'}
                   stroke={on ? 'none' : '#c3c9c2'}
                   strokeWidth="0.4"
-                />
+                  className="dd-dot"
+                >
+                  <title>{`Machine #${s.id + 1} — ${s.fill}% full — ${status}`}</title>
+                </circle>
               );
             })}
 

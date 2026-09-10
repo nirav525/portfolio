@@ -3,35 +3,55 @@ interface Props { steps: string[]; label?: string }
 const { steps, label = 'System flow' } = Astro.props;
 ---
 {steps.length > 0 && (
-<figure class="flow" aria-label={label}>
+<figure class="flow reveal" aria-label={label}>
   <ol>
-    {steps.map((s) => (
-      <li><span class="node">{s}</span></li>
+    {steps.map((s, i) => (
+      <li>
+        <span class="node"><b>{i + 1}</b>{s}</span>
+      </li>
     ))}
   </ol>
 </figure>
 )}
 
 <style>
-  .flow { margin: 2rem 0; max-width: var(--measure); }
+  .flow { margin: 2rem 0 0; max-width: 100%; }
   ol {
     list-style: none; margin: 0; padding: 0;
-    display: flex; flex-wrap: wrap; align-items: stretch; gap: 0.4rem;
+    display: flex; flex-wrap: wrap; align-items: center; gap: 0;
   }
-  li { display: flex; align-items: center; gap: 0.4rem; }
+  li { display: flex; align-items: center; }
   li:not(:last-child)::after {
-    content: ''; width: 1.05rem; height: 1px; background: var(--rule-strong); flex: none;
+    content: '';
+    width: 1.4rem; height: 1px; flex: none; margin-inline: 0.15rem;
+    background: repeating-linear-gradient(90deg,
+      var(--cat) 0 5px, transparent 5px 9px);
   }
   .node {
-    display: inline-flex; align-items: center;
-    border: 1px solid var(--rule-strong); background: var(--paper);
-    padding: 0.42rem 0.7rem; font-size: var(--step--1);
+    display: inline-flex; align-items: center; gap: 0.55rem;
+    border: 1px solid var(--rule-strong); background: #fff;
+    padding: 0.48rem 0.75rem; font-size: var(--step--1);
     line-height: 1.3; color: var(--ink);
+    transition: border-color 0.2s ease, transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  .node:hover {
+    border-color: var(--cat);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 18px -14px color-mix(in srgb, var(--cat) 60%, transparent);
+  }
+  .node b {
+    display: inline-grid; place-items: center; flex: none;
+    width: 1.3rem; height: 1.3rem; border-radius: 50%;
+    font-size: 0.68rem; font-weight: 700; font-style: normal;
+    color: #fff; background: var(--cat);
   }
   @media (max-width: 40rem) {
     ol { flex-direction: column; align-items: stretch; }
     li { flex-direction: column; align-items: stretch; }
-    li:not(:last-child)::after { width: 1px; height: 0.7rem; margin-left: 1.1rem; }
-    .node { justify-content: flex-start; }
+    li:not(:last-child)::after {
+      width: 1px; height: 1rem; margin: 0.1rem 0 0.1rem 1.3rem;
+      background: repeating-linear-gradient(180deg,
+        var(--cat) 0 5px, transparent 5px 9px);
+    }
   }
 </style>

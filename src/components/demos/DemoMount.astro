@@ -3,12 +3,15 @@
 // mounted here by name rather than resolved through a component map.
 // To add a demo: import it, add a `case`, and register the title in registry.ts.
 import DispatchDemo from './DispatchDemo';
-import CapacityCalculator from './CapacityCalculator';
 import OutreachPipeline from './OutreachPipeline';
+import OctoOpsMockup from './OctoOpsMockup';
+import SpreadsheetMockup from './SpreadsheetMockup';
 
 interface Props { name: string }
 const { name } = Astro.props;
+const [base, variant] = name.split(':');
 ---
-{name === 'dispatch' && <DispatchDemo client:visible />}
-{name === 'capacity' && <CapacityCalculator client:visible />}
-{name === 'outreach' && <OutreachPipeline client:visible />}
+{base === 'dispatch' && <DispatchDemo client:visible />}
+{base === 'outreach' && <OutreachPipeline client:visible />}
+{base === 'platform' && <OctoOpsMockup client:visible initialPage={variant as any} />}
+{base === 'sheet' && <SpreadsheetMockup client:visible variant={variant as any} />}

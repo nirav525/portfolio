@@ -1,12 +1,18 @@
 ---
-interface Props { title: string; note?: string; synthetic?: boolean }
-const { title, note, synthetic = true } = Astro.props;
+interface Props { title: string; note?: string; synthetic?: boolean; cue?: string }
+const {
+  title,
+  note,
+  synthetic = true,
+  cue = 'Adjust the controls below — the numbers and the explanation update live.',
+} = Astro.props;
 ---
-<section class="demo">
+<section class="demo reveal">
   <div class="head">
-    <h2>{title}</h2>
-    {synthetic && <span class="badge">Illustrative — synthetic data</span>}
+    <h2><span class="dot" aria-hidden="true" />{title}</h2>
+    {synthetic && <span class="badge">Interactive — synthetic data</span>}
   </div>
+  <p class="cue">{cue}</p>
   <div class="stage"><slot /></div>
   {note && <p class="note">{note}</p>}
 </section>
@@ -18,14 +24,33 @@ const { title, note, synthetic = true } = Astro.props;
     flex-wrap: wrap; gap: 0.6rem; padding-bottom: 0.8rem;
     border-bottom: 1px solid var(--rule-strong);
   }
-  h2 { font-size: var(--step-1); }
+  h2 { display: flex; align-items: center; gap: 0.55rem; font-size: var(--step-1); }
+  .dot {
+    width: 8px; height: 8px; border-radius: 50%; flex: none;
+    background: var(--cat, var(--signal));
+    animation: pulse 2.2s ease-in-out infinite;
+  }
+  @keyframes pulse { 50% { opacity: 0.35; transform: scale(0.8); } }
   .badge {
     font-size: var(--step--1); color: var(--amber);
     background: var(--amber-soft); padding: 0.22rem 0.55rem; border-radius: 2px;
   }
-  .stage { margin-top: 1.5rem; }
+  .cue {
+    margin-top: 0.9rem; font-size: var(--step--1); color: var(--slate-soft);
+    max-width: var(--measure); line-height: 1.5;
+  }
+  .stage {
+    margin-top: 1.25rem;
+    padding: clamp(1rem, 2.5vw, 1.5rem);
+    background: #fff;
+    border: 1px solid var(--rule);
+    border-top: 3px solid var(--cat, var(--signal));
+  }
   .note {
     margin-top: 1rem; font-size: var(--step--1); color: var(--slate-soft);
     max-width: var(--measure); line-height: 1.55;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .dot { animation: none; }
   }
 </style>

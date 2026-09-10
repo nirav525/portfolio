@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Archivo:wght@400;500;600;700&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,500;0,8..60,600;1,8..60,400;1,8..60,600&display=swap');
 
 :root {
   /* Palette */
@@ -196,6 +196,27 @@ a {
 [data-cat='Internal Tools'] { --cat: var(--c-tools); }
 [data-cat='GTM / Growth'] { --cat: var(--c-gtm); }
 [data-cat='Side Projects'] { --cat: var(--c-side); }
+
+/* A deepened variant of the category hue — for hover/active states where the
+   base --cat needs more contrast against white. */
+[data-cat] { --cat-deep: color-mix(in srgb, var(--cat) 80%, #000 20%); }
+
+/* Reveal-on-scroll. Elements start hidden and rise in once observed —
+   see the IntersectionObserver wiring in Base.astro. Falls back to visible
+   if JS never runs. */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s cubic-bezier(0.2, 0.7, 0.2, 1), transform 0.7s cubic-bezier(0.2, 0.7, 0.2, 1);
+  transition-delay: var(--d, 0ms);
+}
+.reveal.in {
+  opacity: 1;
+  transform: none;
+}
+@media (prefers-reduced-motion: reduce) {
+  .reveal { opacity: 1; transform: none; transition: none; }
+}
 
 /* One shared entrance. Elements opt in with .rise and a --d delay. */
 @keyframes rise {

@@ -23,7 +23,7 @@ const STOPS = [
 
 <Base
   title="Nirav — Proof of work"
-  description="Operating systems, optimization tools, and internal platforms I have built, shipped, and run. Twelve projects with interactive demos on synthetic data."
+  description={`Operating systems, optimization tools, and internal platforms I have built, shipped, and run. ${projects.length} projects with interactive demos on synthetic data.`}
   path="/"
 >
   <section class="hero">
@@ -39,7 +39,8 @@ const STOPS = [
       <p class="kicker rise">Strategy and operations, built rather than presented</p>
       <h1 class="rise" style="--d:80ms">I find the expensive problem, then build the thing that fixes it.</h1>
       <p class="sub rise" style="--d:160ms">
-        Twelve projects. Real numbers. {demoCount} of them you can click and run yourself.
+        {projects.length} projects. Real numbers.{' '}
+        {demoCount === projects.length ? 'Every one of them' : `${demoCount} of them`} you can click and run yourself.
       </p>
 
       <dl class="stats rise" style="--d:240ms">

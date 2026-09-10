@@ -5,7 +5,7 @@ import MetricTiles from '../../components/sections/MetricTiles.astro';
 import ArchitectureFlow from '../../components/sections/ArchitectureFlow.astro';
 import DemoFrame from '../../components/sections/DemoFrame.astro';
 import DemoMount from '../../components/demos/DemoMount.astro';
-import { demoTitles, isDemoKey } from '../../components/demos/registry';
+import { demoTitles, demoCues, isDemoKey, baseDemoKey } from '../../components/demos/registry';
 import '../../styles/demos.css';
 
 export async function getStaticPaths() {
@@ -15,14 +15,15 @@ export async function getStaticPaths() {
   );
   return sorted.map((entry, i) => ({
     params: { id: entry.id },
-    props: { entry, prev: sorted[i - 1] ?? null, next: sorted[i + 1] ?? null },
+    props: { entry, index: i + 1, total: sorted.length, prev: sorted[i - 1] ?? null, next: sorted[i + 1] ?? null },
   }));
 }
 
-const { entry, prev, next } = Astro.props;
+const { entry, index, total, prev, next } = Astro.props;
 const d = entry.data;
 const { Content } = await render(entry);
-const demoTitle = isDemoKey(d.demo) ? demoTitles[d.demo] : null;
+const demoBase = baseDemoKey(d.demo) as keyof typeof demoTitles | undefined;
+const demoTitle = isDemoKey(d.demo) && demoBase ? demoTitles[demoBase] : null;
 
 const disclosureCopy: Record<string, string> = {
   A: '',
@@ -35,31 +36,49 @@ const disclosureCopy: Record<string, string> = {
   <article data-cat={d.category}>
     <header class="band">
       <div class="shell band-inner">
-        <a href="/" class="back">All projects</a>
-        <p class="tag rise">{d.category}</p>
-        <h1 class="rise" style="--d:60ms">{d.title}</h1>
-        <p class="summary rise" style="--d:120ms">{d.summary}</p>
-        <p class="who rise" style="--d:180ms">{d.org} · {d.period} · {d.role}</p>
+        <div class="band-text">
+          <a href="/" class="back">&larr; All projects</a>
+          <div class="tagrow reveal">
+            <p class="tag"><i></i>{d.category}</p>
+            <p class="case">Case {String(index).padStart(2, '0')} / {String(total).padStart(2, '0')}</p>
+          </div>
+          <h1 class="reveal" style="--d:70ms">{d.title}</h1>
+          <p class="summary reveal" style="--d:140ms">{d.summary}</p>
+          <p class="who reveal" style="--d:200ms">{d.org} &middot; {d.period} &middot; {d.role}</p>
+
+          {d.tldr.length > 0 && (
+            <ul class="tldr">
+              {d.tldr.map((t, i) => (
+                <li class="reveal" style={`--d:${260 + i * 70}ms`}>
+                  <svg viewBox="0 0 16 16" aria-hidden="true"><circle cx="8" cy="8" r="7.25" /><path d="M4.8 8.3l2.1 2.1 4.3-4.3" /></svg>
+                  {t}
+                </li>
+              ))}
+            </ul>
+          )}
+        </div>
+
+        <div class="headline-stat reveal" style="--d:180ms">
+          <span class="hs-value">{d.headline.value}</span>
+          <span class="hs-label">{d.headline.label}</span>
+        </div>
       </div>
     </header>
 
     <div class="shell">
-      {d.tldr.length > 0 && (
-        <ul class="tldr">
-          {d.tldr.map((t, i) => (
-            <li class="rise" style={`--d:${i * 60}ms`}>{t}</li>
-          ))}
-        </ul>
+      {d.metrics.length > 0 && (
+        <section class="block reveal">
+          <h2>The numbers</h2>
+          <MetricTiles metrics={d.metrics} />
+        </section>
       )}
 
-      {d.metrics.length > 0 && <MetricTiles metrics={d.metrics} />}
-
       {d.stack.length > 0 && (
-        <ul class="stack">{d.stack.map((s) => <li>{s}</li>)}</ul>
+        <ul class="stack reveal">{d.stack.map((s) => <li>{s}</li>)}</ul>
       )}
 
       {demoTitle && (
-        <DemoFrame title={demoTitle} note={d.demoNote}>
+        <DemoFrame title={demoTitle} note={d.demoNote} cue={demoBase ? demoCues[demoBase] : undefined}>
           <DemoMount name={d.demo!} />
         </DemoFrame>
       )}
@@ -71,15 +90,16 @@ const disclosureCopy: Record<string, string> = {
         </section>
       )}
 
-      <details class="story">
+      <details class="story reveal">
         <summary>
+          <span class="chev" aria-hidden="true"></span>
           <span class="open-label">Read the full case study</span>
           <span class="shut-label">Hide the case study</span>
         </summary>
         <div class="prose"><Content /></div>
       </details>
 
-      <section class="reflect">
+      <section class="reflect reveal">
         <div>
           <h3>What I learned</h3>
           <p>{d.learned}</p>
@@ -111,12 +131,12 @@ const disclosureCopy: Record<string, string> = {
       <nav class="pager" aria-label="Other projects">
         {prev ? (
           <a href={`/projects/${prev.id}`} data-cat={prev.data.category}>
-            <span>Previous</span><strong>{prev.data.title}</strong>
+            <span>&larr; Previous</span><strong>{prev.data.title}</strong>
           </a>
         ) : <span />}
         {next && (
           <a href={`/projects/${next.id}`} class="nx" data-cat={next.data.category}>
-            <span>Next</span><strong>{next.data.title}</strong>
+            <span>Next &rarr;</span><strong>{next.data.title}</strong>
           </a>
         )}
       </nav>
@@ -133,32 +153,86 @@ const disclosureCopy: Record<string, string> = {
     border-top: 3px solid var(--cat);
     padding-block: clamp(2rem, 5vw, 3.25rem) clamp(2rem, 5vw, 3rem);
   }
-  .band-inner { max-width: 48rem; }
+  .band-inner {
+    display: grid;
+    grid-template-columns: minmax(0, 1.4fr) minmax(13rem, 0.9fr);
+    gap: clamp(2rem, 5vw, 4rem);
+    align-items: center;
+  }
+  .band-text { max-width: 44rem; }
+  .headline-stat {
+    justify-self: end;
+    text-align: right;
+    padding: 1.5rem 0 1.5rem 1.75rem;
+    border-left: 1px solid color-mix(in srgb, var(--cat) 30%, var(--rule));
+  }
+  .hs-value {
+    display: block;
+    font-family: var(--font-prose);
+    font-weight: 600;
+    font-size: clamp(3rem, 8vw, 5rem);
+    line-height: 0.95;
+    letter-spacing: -0.02em;
+    color: var(--cat);
+    font-variant-numeric: tabular-nums;
+  }
+  .hs-label {
+    display: block;
+    margin-top: 0.85rem;
+    font-size: 0.92rem;
+    line-height: 1.4;
+    color: var(--slate);
+    max-width: 20ch;
+    margin-left: auto;
+  }
+  @media (max-width: 46rem) {
+    .band-inner { grid-template-columns: 1fr; }
+    .headline-stat {
+      justify-self: start; text-align: left;
+      border-left: none; border-top: 1px solid color-mix(in srgb, var(--cat) 30%, var(--rule));
+      padding: 1.5rem 0 0; margin-top: 0.5rem;
+    }
+    .hs-label { margin-left: 0; }
+  }
   .back {
     font-size: var(--step--1); color: var(--slate);
     text-decoration: none; display: inline-block; margin-bottom: 1.6rem;
   }
   .back:hover { color: var(--ink); text-decoration: underline; }
-  .tag { font-size: 0.78rem; font-weight: 600; color: var(--cat); margin-bottom: 0.6rem; }
-  h1 { font-size: clamp(1.9rem, 5vw, 2.9rem); letter-spacing: -0.035em; }
+
+  .tagrow { display: flex; align-items: center; justify-content: space-between; gap: 1rem; margin-bottom: 0.9rem; }
+  .tag { display: inline-flex; align-items: center; gap: 0.5rem; font-size: 0.78rem; font-weight: 600; color: var(--cat); }
+  .tag i { width: 7px; height: 7px; border-radius: 50%; background: var(--cat); }
+  .case {
+    font-family: var(--font-prose); font-style: italic;
+    font-size: 0.85rem; color: var(--slate-soft);
+    font-variant-numeric: tabular-nums;
+  }
+
+  h1 {
+    font-family: var(--font-prose); font-weight: 600;
+    font-size: clamp(2rem, 5.2vw, 3.1rem); letter-spacing: -0.015em; line-height: 1.08;
+  }
   .summary {
-    margin-top: 0.9rem; font-size: 1.1rem; line-height: 1.5;
-    color: #33454f; max-width: 50ch;
+    margin-top: 1rem; font-size: 1.1rem; line-height: 1.5;
+    color: #33454f; max-width: 52ch;
   }
   .who { margin-top: 1.1rem; font-size: var(--step--1); color: var(--slate-soft); }
 
   .tldr {
-    list-style: none; margin: 2.25rem 0 0; padding: 0;
-    display: grid; gap: 0.6rem; max-width: 56ch;
+    list-style: none; margin: 2.1rem 0 0; padding: 0;
+    display: grid; gap: 0.55rem; max-width: 58ch;
   }
   .tldr li {
-    position: relative; padding-left: 1.5rem;
-    font-size: 1.02rem; line-height: 1.5; color: #22323d;
+    display: flex; align-items: flex-start; gap: 0.6rem;
+    font-size: 1rem; line-height: 1.5; color: #22323d;
   }
-  .tldr li::before {
-    content: ''; position: absolute; left: 0; top: 0.62em;
-    width: 8px; height: 2px; background: var(--cat);
+  .tldr svg {
+    width: 17px; height: 17px; flex: none; margin-top: 0.15em;
+    fill: none; stroke: var(--cat); stroke-width: 1.4;
   }
+  .tldr svg circle { fill: color-mix(in srgb, var(--cat) 10%, transparent); }
+  .tldr svg path { stroke-width: 1.8; stroke-linecap: round; stroke-linejoin: round; }
 
   .stack {
     display: flex; flex-wrap: wrap; gap: 0.35rem;
@@ -230,6 +304,7 @@ const disclosureCopy: Record<string, string> = {
   .pager {
     display: grid; grid-template-columns: 1fr 1fr; gap: 1rem;
     margin-top: 4rem; padding-top: 1.5rem; border-top: 1px solid var(--rule);
+    margin-bottom: 2rem;
   }
   .pager a {
     text-decoration: none; display: grid; gap: 0.2rem;
