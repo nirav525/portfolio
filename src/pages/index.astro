@@ -6,7 +6,6 @@ import ProjectGrid from '../components/ProjectGrid.astro';
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.tier - b.data.tier || a.data.order - b.data.order,
 );
-const demoCount = projects.filter((p) => p.data.demo).length;
 
 // Hero animation geometry: a depot, three technician loops, clustered stops.
 const ROUTES = [
@@ -36,11 +35,9 @@ const STOPS = [
     </div>
 
     <div class="shell hero-inner">
-      <p class="kicker rise">Strategy and operations, built rather than presented</p>
-      <h1 class="rise" style="--d:80ms">I find the expensive problem, then build the thing that fixes it.</h1>
+      <h1 class="rise" style="--d:80ms">Nirav Sampat</h1>
       <p class="sub rise" style="--d:160ms">
-        {projects.length} projects. Real numbers.{' '}
-        {demoCount === projects.length ? 'Every one of them' : `${demoCount} of them`} you can click and run yourself.
+        Operations and automation projects — a mix of professional work and things I built on my own time.
       </p>
 
       <dl class="stats rise" style="--d:240ms">
@@ -88,7 +85,6 @@ const STOPS = [
   }
 
   .hero-inner { position: relative; max-width: 46rem; }
-  .kicker { font-size: var(--step--1); color: #2ec4a6; margin-bottom: 1.1rem; font-weight: 500; }
   h1 {
     font-size: clamp(2.1rem, 6vw, 3.5rem); letter-spacing: -0.035em;
     line-height: 1.06; max-width: 17ch;
