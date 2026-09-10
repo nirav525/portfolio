@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 
 /**
  * A faithful recreation of the real operating platform's UI — same "Crave
@@ -136,6 +136,90 @@ const SETTINGS_ROWS = [
   { label: 'Seasonality window', value: 'Trailing 12 months' },
 ];
 
+type Range = '7d' | '30d' | '90d';
+
+function rng(seed: number) {
+  let s = seed;
+  return () => { s = (s * 1664525 + 1013904223) % 4294967296; return s / 4294967296; };
+}
+function series(seed: number, n: number, base: number, spread: number) {
+  const rand = rng(seed);
+  return Array.from({ length: n }, () => Math.round((base + (rand() - 0.5) * spread) * 10) / 10);
+}
+
+const UPTIME_BY_RANGE: Record<Range, { labels: string[]; values: number[] }> = {
+  '7d': { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], values: series(701, 7, 97, 4) },
+  '30d': { labels: Array.from({ length: 30 }, (_, i) => `${i + 1}`), values: series(702, 30, 96, 5) },
+  '90d': { labels: Array.from({ length: 12 }, (_, i) => `W${i + 1}`), values: series(703, 12, 95, 6) },
+};
+
+const WASTE_TREND_BY_RANGE: Record<Range, { labels: string[]; values: number[] }> = {
+  '7d': { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'], values: [22, 14, 16, 9, 18, 25, 11] },
+  '30d': { labels: ['Wk 1', 'Wk 2', 'Wk 3', 'Wk 4'], values: [61, 54, 70, 48] },
+  '90d': { labels: ['Jul', 'Aug', 'Sep'], values: [210, 240, 198] },
+};
+
+const DEMAND_TREND = {
+  labels: ['Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep'],
+  values: [142, 158, 151, 169, 176, 181],
+};
+
+// Labels render as plain HTML below the plot rather than inside the SVG,
+// so preserveAspectRatio="none" (needed to fill a wide, short card) never
+// non-uniformly stretches the glyphs the way SVG <text> would.
+function ChartLabels({ labels, showEvery = 1 }: { labels: string[]; showEvery?: number }) {
+  return (
+    <div className="co-minichart-labels">
+      {labels.map((l, i) => <span key={i}>{i % showEvery === 0 ? l : ''}</span>)}
+    </div>
+  );
+}
+
+function MiniLine({ labels, values, color = '#5A8F4A', height = 70 }: { labels: string[]; values: number[]; color?: string; height?: number }) {
+  const w = 100, h = 100, pad = 6;
+  const max = Math.max(...values), min = Math.min(...values);
+  const range = max - min || 1;
+  const stepX = w / (values.length - 1 || 1);
+  const pts = values.map((v, i) => `${i * stepX},${pad + (1 - (v - min) / range) * (h - pad * 2)}`).join(' ');
+  const showEvery = Math.ceil(labels.length / 7);
+  return (
+    <div className="co-minichart-wrap">
+      <svg viewBox={`0 0 ${w} ${h}`} className="co-minichart" style={{ height }} preserveAspectRatio="none">
+        <polyline points={pts} fill="none" stroke={color} strokeWidth="1.6" vectorEffect="non-scaling-stroke" />
+      </svg>
+      <ChartLabels labels={labels} showEvery={showEvery} />
+    </div>
+  );
+}
+
+function MiniBars({ labels, values, color = '#C73E1F', height = 70 }: { labels: string[]; values: number[]; color?: string; height?: number }) {
+  const w = 100, h = 100, pad = 4;
+  const max = Math.max(...values) || 1;
+  const groupW = w / values.length;
+  const barW = groupW * 0.55;
+  return (
+    <div className="co-minichart-wrap">
+      <svg viewBox={`0 0 ${w} ${h}`} className="co-minichart" style={{ height }} preserveAspectRatio="none">
+        {values.map((v, i) => {
+          const bh = (v / max) * (h - pad * 2);
+          return <rect key={i} x={i * groupW + (groupW - barW) / 2} y={h - pad - bh} width={barW} height={bh} fill={color} />;
+        })}
+      </svg>
+      <ChartLabels labels={labels} />
+    </div>
+  );
+}
+
+function DateRange({ value, onChange }: { value: Range; onChange: (r: Range) => void }) {
+  return (
+    <div className="co-daterange">
+      {(['7d', '30d', '90d'] as Range[]).map((r) => (
+        <button key={r} className={`co-drbtn${value === r ? ' is-active' : ''}`} onClick={() => onChange(r)}>{r.toUpperCase()}</button>
+      ))}
+    </div>
+  );
+}
+
 function Kpi({ label, value, tone }: { label: string; value: string; tone: 'primary' | 'success' | 'warning' | 'destructive' }) {
   return (
     <div className={`co-kpi co-tone-${tone}`}>
@@ -156,7 +240,19 @@ function StatusBadge({ status }: { status: string }) {
 
 export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPage?: PageKey }) {
   const [page, setPage] = useState<PageKey>(initialPage);
+  const [dashRange, setDashRange] = useState<Range>('7d');
+  const [wasteRange, setWasteRange] = useState<Range>('7d');
+  const [machineRegion, setMachineRegion] = useState('all');
+  const [machineStatus, setMachineStatus] = useState('all');
+  const [lotLocation, setLotLocation] = useState('all');
   const meta = PAGE_TITLES[page];
+
+  const regions = useMemo(() => [...new Set(MACHINES.map((m) => m.region))], []);
+  const locations = useMemo(() => [...new Set(LOTS.map((l) => l.loc))], []);
+  const filteredMachines = MACHINES.filter(
+    (m) => (machineRegion === 'all' || m.region === machineRegion) && (machineStatus === 'all' || m.status === machineStatus),
+  );
+  const filteredLots = LOTS.filter((l) => lotLocation === 'all' || l.loc === lotLocation);
 
   return (
     <div className="co">
@@ -192,8 +288,12 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
 
           <div className="co-main">
             <header className="co-topbar">
-              <span className="co-eyebrow">{meta.eyebrow}</span>
-              <h3>{meta.title}</h3>
+              <div>
+                <span className="co-eyebrow">{meta.eyebrow}</span>
+                <h3>{meta.title}</h3>
+              </div>
+              {page === 'dashboard' && <DateRange value={dashRange} onChange={setDashRange} />}
+              {page === 'inv-waste' && <DateRange value={wasteRange} onChange={setWasteRange} />}
             </header>
 
             <div className="co-content">
@@ -204,6 +304,10 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
                     <Kpi label="Online" value="21" tone="success" />
                     <Kpi label="Issues" value="3" tone="warning" />
                     <Kpi label="Offline" value="1" tone="destructive" />
+                  </div>
+                  <div className="co-card">
+                    <h4>Fleet uptime, {dashRange.toUpperCase()}</h4>
+                    <MiniLine labels={UPTIME_BY_RANGE[dashRange].labels} values={UPTIME_BY_RANGE[dashRange].values} color="#5A8F4A" height={90} />
                   </div>
                   <div className="co-split">
                     <div className="co-card">
@@ -232,12 +336,28 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
 
               {page === 'machines' && (
                 <div className="co-card co-tablecard">
+                  <div className="co-filters">
+                    <label className="co-select">
+                      <span>Region</span>
+                      <select value={machineRegion} onChange={(e) => setMachineRegion(e.target.value)}>
+                        <option value="all">All regions</option>
+                        {regions.map((r) => <option key={r} value={r}>{r}</option>)}
+                      </select>
+                    </label>
+                    <label className="co-select">
+                      <span>Status</span>
+                      <select value={machineStatus} onChange={(e) => setMachineStatus(e.target.value)}>
+                        <option value="all">All statuses</option>
+                        {Object.entries(STATUS).map(([k, v]) => <option key={k} value={k}>{v.label}</option>)}
+                      </select>
+                    </label>
+                  </div>
                   <table className="co-table">
                     <thead>
                       <tr><th>Machine</th><th>Site</th><th>Region</th><th>Fill</th><th>Status</th><th>Revenue (wk)</th></tr>
                     </thead>
                     <tbody>
-                      {MACHINES.map((m) => (
+                      {filteredMachines.map((m) => (
                         <tr key={m.muid}>
                           <td className="co-mono">{m.muid}</td>
                           <td>
@@ -253,9 +373,12 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
                           <td className={`co-mono co-rev ${revClass(m.rev)}`}>${m.rev}</td>
                         </tr>
                       ))}
+                      {filteredMachines.length === 0 && (
+                        <tr><td colSpan={6} className="co-foot">No machines match those filters.</td></tr>
+                      )}
                     </tbody>
                   </table>
-                  <p className="co-foot">+19 more machines</p>
+                  <p className="co-foot">{filteredMachines.length === MACHINES.length ? '+19 more machines' : `${filteredMachines.length} of 25 machines shown`}</p>
                 </div>
               )}
 
@@ -315,15 +438,27 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
                     <Kpi label="Open recalls" value="0" tone="success" />
                   </div>
                   <div className="co-card co-tablecard">
+                    <div className="co-filters">
+                      <label className="co-select">
+                        <span>Location</span>
+                        <select value={lotLocation} onChange={(e) => setLotLocation(e.target.value)}>
+                          <option value="all">All locations</option>
+                          {locations.map((l) => <option key={l} value={l}>{l}</option>)}
+                        </select>
+                      </label>
+                    </div>
                     <table className="co-table">
                       <thead><tr><th>Lot</th><th>Product</th><th>Qty</th><th>Expires</th><th>Location</th></tr></thead>
                       <tbody>
-                        {LOTS.map((l) => (
+                        {filteredLots.map((l) => (
                           <tr key={l.lot} className={l.warn ? 'co-rowwarn' : ''}>
                             <td className="co-mono">{l.lot}</td><td>{l.product}</td><td className="co-mono">{l.qty}</td>
                             <td>{l.exp}{l.warn && <span className="co-flag">soon</span>}</td><td>{l.loc}</td>
                           </tr>
                         ))}
+                        {filteredLots.length === 0 && (
+                          <tr><td colSpan={5} className="co-foot">No lots at that location.</td></tr>
+                        )}
                       </tbody>
                     </table>
                   </div>
@@ -364,7 +499,12 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
               )}
 
               {page === 'inv-waste' && (
-                <div className="co-card co-tablecard">
+                <>
+                  <div className="co-card">
+                    <h4>Waste cost, {wasteRange.toUpperCase()}</h4>
+                    <MiniBars labels={WASTE_TREND_BY_RANGE[wasteRange].labels} values={WASTE_TREND_BY_RANGE[wasteRange].values} color="#C73E1F" height={90} />
+                  </div>
+                  <div className="co-card co-tablecard">
                   <table className="co-table">
                     <thead><tr><th>Date</th><th>Product</th><th>Qty</th><th>Reason</th><th>Cost</th></tr></thead>
                     <tbody>
@@ -376,7 +516,8 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
                       ))}
                     </tbody>
                   </table>
-                </div>
+                  </div>
+                </>
               )}
 
               {page === 'inv-recalls' && (
@@ -407,11 +548,17 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
               )}
 
               {page === 'demand-overview' && (
-                <div className="co-kpirow">
-                  <Kpi label="SKUs forecasted" value="34" tone="primary" />
-                  <Kpi label="Stockout risk" value="0" tone="success" />
-                  <Kpi label="Reorder recs pending" value="6" tone="warning" />
-                </div>
+                <>
+                  <div className="co-kpirow">
+                    <Kpi label="SKUs forecasted" value="34" tone="primary" />
+                    <Kpi label="Stockout risk" value="0" tone="success" />
+                    <Kpi label="Reorder recs pending" value="6" tone="warning" />
+                  </div>
+                  <div className="co-card">
+                    <h4>Forecasted volume, trailing 6 months</h4>
+                    <MiniLine labels={DEMAND_TREND.labels} values={DEMAND_TREND.values} color="#C73E1F" height={90} />
+                  </div>
+                </>
               )}
 
               {page === 'demand-plan' && (

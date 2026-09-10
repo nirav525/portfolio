@@ -15,16 +15,16 @@ const { steps, label = 'System flow' } = Astro.props;
 )}
 
 <style>
-  .flow { margin: 2rem 0 0; max-width: 100%; }
+  .flow { margin: 2rem 0 0; max-width: 34rem; }
   ol {
     list-style: none; margin: 0; padding: 0;
-    display: flex; flex-wrap: wrap; align-items: center; gap: 0;
+    display: flex; flex-direction: column; align-items: stretch;
   }
-  li { display: flex; align-items: center; }
+  li { display: flex; flex-direction: column; align-items: stretch; }
   li:not(:last-child)::after {
     content: '';
-    width: 1.4rem; height: 1px; flex: none; margin-inline: 0.15rem;
-    background: repeating-linear-gradient(90deg,
+    width: 1px; height: 1rem; flex: none; margin: 0.1rem 0 0.1rem 1.3rem;
+    background: repeating-linear-gradient(180deg,
       var(--cat) 0 5px, transparent 5px 9px);
   }
   .node {
@@ -36,7 +36,7 @@ const { steps, label = 'System flow' } = Astro.props;
   }
   .node:hover {
     border-color: var(--cat);
-    transform: translateY(-2px);
+    transform: translateX(2px);
     box-shadow: 0 8px 18px -14px color-mix(in srgb, var(--cat) 60%, transparent);
   }
   .node b {
@@ -44,14 +44,5 @@ const { steps, label = 'System flow' } = Astro.props;
     width: 1.3rem; height: 1.3rem; border-radius: 50%;
     font-size: 0.68rem; font-weight: 700; font-style: normal;
     color: #fff; background: var(--cat);
-  }
-  @media (max-width: 40rem) {
-    ol { flex-direction: column; align-items: stretch; }
-    li { flex-direction: column; align-items: stretch; }
-    li:not(:last-child)::after {
-      width: 1px; height: 1rem; margin: 0.1rem 0 0.1rem 1.3rem;
-      background: repeating-linear-gradient(180deg,
-        var(--cat) 0 5px, transparent 5px 9px);
-    }
   }
 </style>

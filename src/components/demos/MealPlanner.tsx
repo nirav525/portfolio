@@ -245,6 +245,7 @@ export default function MealPlanner() {
 
         <div className="mp-list">
           <h4>Grocery list</h4>
+          <div className="mp-listbody">
           {selectedIds.length === 0 && customItems.length === 0 ? (
             <p className="mp-empty">Pick a few dishes to build the list.</p>
           ) : (
@@ -289,6 +290,7 @@ export default function MealPlanner() {
               <ul>{customItems.map((c, i) => <li key={i}><span className="mp-item mp-item-static"><span>{c}</span></span></li>)}</ul>
             </div>
           )}
+          </div>
           <div className="mp-addcustom">
             <input
               type="text"

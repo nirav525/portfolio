@@ -10,8 +10,13 @@ type Variant = 'forecast' | 'ibp';
 
 type Row = Record<string, string | number>;
 type Col = { key: string; label: string; align?: 'left' | 'right'; flag?: boolean };
+type Chart = { title: string; kind: 'bar' | 'line'; labels: string[]; a: number[]; b?: number[]; aLabel?: string; bLabel?: string };
+type Tab = { label: string; cols: Col[]; rows: Row[]; formula: string; chart?: Chart };
 
-const FORECAST_TABS: { label: string; cols: Col[]; rows: Row[]; formula: string }[] = [
+const TOTAL_COLS = 8;
+const TOTAL_ROWS = 15;
+
+const FORECAST_TABS: Tab[] = [
   {
     label: 'Forecast — Category A',
     formula: '=FORECAST.ETS(B2, $C$2:$C$61, $A$2:$A$61)',
@@ -30,6 +35,15 @@ const FORECAST_TABS: { label: string; cols: Col[]; rows: Row[]; formula: string 
       { sku: 'SKU-A1388', avg: 2270, season: 1.02, fcst: 2310, err: '1.9%' },
       { sku: 'SKU-A1417', avg: 1420, season: 1.31, fcst: 1860, err: '6.7%' },
     ],
+    chart: {
+      title: 'Forecast vs trailing average',
+      kind: 'bar',
+      labels: ['A1042', 'A1197', 'A1256', 'A1309', 'A1388', 'A1417'],
+      a: [4180, 2640, 3110, 1890, 2270, 1420],
+      b: [4680, 2480, 3260, 1660, 2310, 1860],
+      aLabel: 'Trailing avg',
+      bLabel: 'Forecast',
+    },
   },
   {
     label: 'Forecast — Category B',
@@ -46,6 +60,15 @@ const FORECAST_TABS: { label: string; cols: Col[]; rows: Row[]; formula: string 
       { sku: 'SKU-B2098', avg: 2810, season: 1.08, fcst: 3030, err: '5.3%' },
       { sku: 'SKU-B2144', avg: 4460, season: 1.15, fcst: 5120, err: '1.4%' },
     ],
+    chart: {
+      title: 'Forecast vs trailing average',
+      kind: 'bar',
+      labels: ['B2011', 'B2098', 'B2144'],
+      a: [3320, 2810, 4460],
+      b: [4050, 3030, 5120],
+      aLabel: 'Trailing avg',
+      bLabel: 'Forecast',
+    },
   },
   {
     label: 'Accuracy Tracking',
@@ -62,10 +85,17 @@ const FORECAST_TABS: { label: string; cols: Col[]; rows: Row[]; formula: string 
       { month: '2025-12', skus: 610, mape: '6.1%', savings: '$460,000' },
       { month: '2026-02', skus: 620, mape: '5.4%', savings: '$3,000,000+' },
     ],
+    chart: {
+      title: 'MAPE trend, falling as coverage grew',
+      kind: 'line',
+      labels: ['Jun', 'Sep', 'Dec', 'Feb'],
+      a: [9.8, 7.6, 6.1, 5.4],
+      aLabel: 'MAPE %',
+    },
   },
 ];
 
-const IBP_TABS: { label: string; cols: Col[]; rows: Row[]; formula: string }[] = [
+const IBP_TABS: Tab[] = [
   {
     label: 'Demand',
     formula: '=SUMIFS(Demand!$C:$C, Demand!$A:$A, $A2)',
@@ -80,6 +110,15 @@ const IBP_TABS: { label: string; cols: Col[]; rows: Row[]; formula: string }[] =
       { region: 'Central', baseline: 94000, shock: 88000, delta: '−6.4%' },
       { region: 'East', baseline: 111000, shock: 121000, delta: '+9.0%' },
     ],
+    chart: {
+      title: 'Baseline vs demand-shock scenario',
+      kind: 'bar',
+      labels: ['West', 'Central', 'East'],
+      a: [128000, 94000, 111000],
+      b: [146000, 88000, 121000],
+      aLabel: 'Baseline',
+      bLabel: 'Scenario',
+    },
   },
   {
     label: 'Finance',
@@ -110,6 +149,15 @@ const IBP_TABS: { label: string; cols: Col[]; rows: Row[]; formula: string }[] =
       { supplier: 'Primary ingredient supplier', leadtime: 21, coverage: 14, status: 'AT RISK' },
       { supplier: 'Packaging', leadtime: 9, coverage: 30, status: 'OK' },
     ],
+    chart: {
+      title: 'Lead time vs coverage, by supplier',
+      kind: 'bar',
+      labels: ['Logistics', 'Ingredient', 'Packaging'],
+      a: [12, 21, 9],
+      b: [18, 14, 30],
+      aLabel: 'Lead time',
+      bLabel: 'Coverage',
+    },
   },
   {
     label: 'Scenario Summary',
@@ -145,10 +193,54 @@ function flagClass(v: string | number): string {
   return Math.abs(n) > 8 ? 'sm-warn' : 'sm-ok';
 }
 
+const TOOLBAR_ICONS = ['↶', '↷', '🖨', '100%', '$', '%', '.00', '⊞', '▾', '⊟', 'Σ'];
+
+function MiniChart({ chart }: { chart: Chart }) {
+  const w = 260, h = 130, padL = 4, padR = 4, padT = 6, padB = 16;
+  const max = Math.max(...chart.a, ...(chart.b ?? []));
+  const n = chart.labels.length;
+  if (chart.kind === 'line') {
+    const stepX = (w - padL - padR) / (n - 1 || 1);
+    const pts = chart.a.map((v, i) => `${padL + i * stepX},${padT + (1 - v / max) * (h - padT - padB)}`).join(' ');
+    return (
+      <svg viewBox={`0 0 ${w} ${h}`} className="sm-chart-svg">
+        <polyline points={pts} fill="none" stroke="#1a73e8" strokeWidth="2" />
+        {chart.a.map((v, i) => (
+          <circle key={i} cx={padL + i * stepX} cy={padT + (1 - v / max) * (h - padT - padB)} r="2.4" fill="#1a73e8" />
+        ))}
+        {chart.labels.map((l, i) => (
+          <text key={l} x={padL + i * stepX} y={h - 4} textAnchor="middle" className="sm-chart-label">{l}</text>
+        ))}
+      </svg>
+    );
+  }
+  const groupW = (w - padL - padR) / n;
+  const barW = chart.b ? groupW / 2.6 : groupW / 1.8;
+  return (
+    <svg viewBox={`0 0 ${w} ${h}`} className="sm-chart-svg">
+      {chart.a.map((v, i) => {
+        const x = padL + i * groupW + groupW / 2 - (chart.b ? barW * 1.1 : barW / 2);
+        const bh = (v / max) * (h - padT - padB);
+        return <rect key={i} x={x} y={h - padB - bh} width={barW} height={bh} fill="#4285f4" />;
+      })}
+      {chart.b?.map((v, i) => {
+        const x = padL + i * groupW + groupW / 2 + barW * 0.1;
+        const bh = (v / max) * (h - padT - padB);
+        return <rect key={i} x={x} y={h - padB - bh} width={barW} height={bh} fill="#ea4335" />;
+      })}
+      {chart.labels.map((l, i) => (
+        <text key={l} x={padL + i * groupW + groupW / 2} y={h - 4} textAnchor="middle" className="sm-chart-label">{l}</text>
+      ))}
+    </svg>
+  );
+}
+
 export default function SpreadsheetMockup({ variant }: { variant: Variant }) {
   const tabs = variant === 'ibp' ? IBP_TABS : FORECAST_TABS;
   const [i, setI] = useState(0);
   const active = tabs[i];
+  const blankCols = Math.max(0, TOTAL_COLS - active.cols.length);
+  const blankRows = Math.max(0, TOTAL_ROWS - active.rows.length);
 
   return (
     <div className="sm">
@@ -162,6 +254,9 @@ export default function SpreadsheetMockup({ variant }: { variant: Variant }) {
             <span className="sm-doctitle">{variant === 'ibp' ? 'Integrated Business Plan — v14' : 'Demand Forecast Model — v22'}</span>
             <span className="sm-menu">File&nbsp;&nbsp;Edit&nbsp;&nbsp;View&nbsp;&nbsp;Insert&nbsp;&nbsp;Format&nbsp;&nbsp;Data&nbsp;&nbsp;Extensions</span>
           </div>
+          <div className="sm-toolbar">
+            {TOOLBAR_ICONS.map((ic, idx) => <span key={idx} className="sm-ticon">{ic}</span>)}
+          </div>
           <div className="sm-formulabar">
             <span className="sm-fx">fx</span>
             <span className="sm-formula">{active.formula}</span>
@@ -174,12 +269,18 @@ export default function SpreadsheetMockup({ variant }: { variant: Variant }) {
                   {active.cols.map((c, ci) => (
                     <th key={c.key} className="sm-colhead">{String.fromCharCode(65 + ci)}</th>
                   ))}
+                  {Array.from({ length: blankCols }).map((_, bi) => (
+                    <th key={`bh-${bi}`} className="sm-colhead sm-blank">{String.fromCharCode(65 + active.cols.length + bi)}</th>
+                  ))}
                 </tr>
                 <tr className="sm-labelrow">
                   <th className="sm-rownum">1</th>
                   {active.cols.map((c) => (
-                    <th key={c.key} style={{ textAlign: c.align === 'right' ? 'right' : 'left' }}>{c.label}</th>
+                    <th key={c.key} style={{ textAlign: c.align === 'right' ? 'right' : 'left' }}>
+                      {c.label}<span className="sm-filter">▾</span>
+                    </th>
                   ))}
+                  {Array.from({ length: blankCols }).map((_, bi) => <th key={`bl-${bi}`} className="sm-blank" />)}
                 </tr>
               </thead>
               <tbody>
@@ -195,10 +296,29 @@ export default function SpreadsheetMockup({ variant }: { variant: Variant }) {
                         {r[c.key]}
                       </td>
                     ))}
+                    {Array.from({ length: blankCols }).map((_, bi) => <td key={`br-${bi}`} className="sm-blank" />)}
+                  </tr>
+                ))}
+                {Array.from({ length: blankRows }).map((_, bri) => (
+                  <tr key={`blank-row-${bri}`}>
+                    <td className="sm-rownum">{active.rows.length + bri + 2}</td>
+                    {Array.from({ length: TOTAL_COLS }).map((_, bi) => <td key={bi} className="sm-blank" />)}
                   </tr>
                 ))}
               </tbody>
             </table>
+            {active.chart && (
+              <div className="sm-chartcard">
+                <div className="sm-chartcard-head">{active.chart.title}<span className="sm-chartmenu">⋮</span></div>
+                <MiniChart chart={active.chart} />
+                {active.chart.b && (
+                  <div className="sm-chartlegend">
+                    <span><i style={{ background: '#4285f4' }} />{active.chart.aLabel}</span>
+                    <span><i style={{ background: '#ea4335' }} />{active.chart.bLabel}</span>
+                  </div>
+                )}
+              </div>
+            )}
           </div>
           <div className="sm-tabbar">
             {tabs.map((t, ti) => (

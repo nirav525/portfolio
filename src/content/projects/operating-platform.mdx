@@ -27,15 +27,16 @@ metrics:
 tldr:
   - "Replaced spreadsheets and $100K+/year of SaaS with one owned platform."
   - "Seven operational domains, from dispatch to FDA recall traceability."
+  - "Used daily by field technicians and leadership, not just me — open for any department to pull what it needs."
   - "Sole product owner, engineer, and operator."
 learned: >-
   Being both the operator and the builder collapsed the requirements loop — I was the user filing
-  the bug. The risk is building for exactly one user. The modules that generalized well were the
-  ones where I forced myself to define the process before writing the interface.
+  the bug, at least at first. Once field technicians and leadership started relying on it daily,
+  the risk shifted to designing an interface only I found intuitive. The modules that generalized
+  well were the ones where I forced myself to define the process before writing the interface.
 next: >-
-  Role-based permissions as the team grows. An audit trail across inventory movements. Test
-  coverage on the scheduled jobs, which are the highest-consequence and least-covered surface
-  in the system.
+  Role-based permissions as the team grows. Test coverage on the scheduled jobs, which are the
+  highest-consequence and least-covered surface in the system.
 bullets:
   headline: Built the company's operating infrastructure 0→1 — a multi-module platform spanning fleet operations, inventory, demand planning, dispatch, recalls, and executive reporting — consolidating $100K+/year of SaaS into a single owned system.
   quantified: Eliminated $100K+/year in SaaS spend while replacing a spreadsheet-based operating stack with a single source of truth across seven operational domains.
@@ -64,12 +65,14 @@ A multi-module internal platform. The modules, and what each one actually does:
 - **Machine detail** — per-unit state, telemetry, service history
 - **Dispatching** — the routing system described in [Autonomous technician dispatch](/projects/dispatch-optimization)
 - **Restocking** — pick lists and execution tracking
-- **Inventory** — transfer logs, lot-code tracking, waste, expiration management, and FDA/USDA recall traceability
+- **Inventory** — transfer logs, lot-code tracking, waste, expiration management, FDA/USDA recall traceability, and a full audit trail across every inventory movement
 - **Menu optimization** — [location-level assortment](/projects/assortment-optimization)
 - **Demand planning** — [12-month forecasts, seasonality, and reorder cadence](/projects/demand-planning)
 - **Product settings** — vendor records, lead times, nutritional information, allergens
 - **Executive reporting** — operating metrics for leadership and board materials
 
 I also moved the platform off a prototyping environment onto production hosting, which meant working through lockfile, monorepo, and Node runtime issues that had nothing to do with the product and everything to do with it staying up.
+
+It isn't a tool I use alone. Field technicians run their day through the dispatch and restocking modules, leadership pulls executive reporting directly instead of asking me for a number, and it's open for any department to check whatever it needs — inventory, demand, machine status — without a spreadsheet request in between.
 
 The clearest illustration of what the platform bought is a recall. On the old stack, tracing an affected lot across machines meant reconciling several spreadsheets by hand under time pressure. On the platform it is a query.

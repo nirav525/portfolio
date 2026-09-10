@@ -15,8 +15,10 @@ headline: { value: "70%", label: "of planning workflows automated" }
 stack: [Google Sheets, Apps Script, LLM-assisted development]
 architecture:
   - Functional data inputs
+  - Sales commitments
   - Automated consolidation
   - Single reconciled dataset
+  - Readiness flagging
   - Scenario engine
   - Trade-off outputs
   - Executive reporting
@@ -29,6 +31,7 @@ metrics:
   - { label: "Functions on a shared dataset", value: "4" }
 tldr:
   - "Four functions were planning against four different sets of numbers."
+  - "Sales could promise a deployment before supply chain confirmed it was ready — that gap is now flagged automatically."
   - "Automated 70% of planning workflows onto one shared dataset."
   - "Scenario engine for demand shocks, supplier constraints, logistics disruptions."
 learned: >-
@@ -63,3 +66,5 @@ Integrated business planning only works if functions plan against the same data.
 Planning infrastructure creating a single source of truth across demand, supply, and financial data, with automated data flows replacing manual consolidation.
 
 On top of it, a scenario and what-if module for testing demand volatility, supplier constraints, and logistics disruptions — quantifying the revenue, margin, inventory, and service-level trade-offs of each, so executive and Board discussions started from a comparison rather than an assertion.
+
+The function most worth naming is Sales. Sales would commit to a customer's requested deployment — a menu, a timeline — before checking whether supply chain could actually support it. Folding Sales' commitments into the same reconciled dataset meant any commitment that outran current supply chain readiness surfaced as a flag automatically, instead of being discovered when a truck failed to show up with the right product. That gave supply chain a real choice: push back on the commitment before the customer heard about it, or start reacting and optimizing procurement immediately instead of finding out at the deployment date.

@@ -9,20 +9,22 @@ tier: 1
 order: 1
 disclosure: B
 headline: { value: "−31%", label: "miles driven, while the fleet grew 67%" }
-stack: [Google OR-Tools, Node.js, PostgreSQL, GitHub Actions, Slack API]
+stack: [Google OR-Tools, Node.js, PostgreSQL, Google Maps API, GitHub Actions, Slack API]
 architecture:
   - Machine telemetry
   - Sell-through velocity
   - Stockout projection
-  - Constraint assembly
+  - Time-window & fairness constraints
+  - Live traffic travel times
   - VRP solve
   - Routes to Slack
   - Human re-optimization
 demo: dispatch
 demoNote: >-
-  Production runs Google OR-Tools, which cannot execute in a browser. This demo uses a
-  nearest-neighbour construction with 2-opt improvement — the same class of heuristic at a
-  scale small enough to solve instantly on the client. Locations, fill levels, and the depot
+  Production runs Google OR-Tools with live traffic travel times, time-window, and fairness
+  constraints, none of which can execute in a browser. This demo uses a nearest-neighbour
+  construction with 2-opt improvement over straight-line distance — the same class of heuristic,
+  at a scale small enough to solve instantly on the client. Locations, fill levels, and the depot
   are synthetic.
 metrics:
   - { label: "Machines in fleet", before: "15", after: "25", delta: "+67%", emphasis: true }
@@ -42,9 +44,9 @@ learned: >-
   technicians actually operate under — and the largest cost win came from relaxing a business
   rule rather than tuning the optimizer.
 next: >-
-  Time-window constraints for locations with restricted access hours. Travel times from live
-  traffic instead of static estimates. A fairness term so route quality does not concentrate on
-  one technician. Automated back-testing of threshold changes against historical velocity.
+  Automated back-testing of threshold changes against historical velocity, so a change to the
+  clustering radius or restock threshold can be evaluated against real history before it ships,
+  rather than judged after the fact.
 bullets:
   headline: Engineered an autonomous nightly dispatch system (Google OR-Tools VRP, live machine telemetry, technician constraints) that scaled a vending-robot fleet 67% with zero added field headcount while cutting drive time 31%.
   quantified: Grew serviced fleet from 15 to 25 machines while reducing per-technician monthly hours 32% (194→132) and mileage 31% (1,900→1,312) at flat headcount.
@@ -68,6 +70,8 @@ Field labour and mileage are the dominant controllable cost in a physical fleet 
 ## What I built
 
 A nightly optimizer that ingests live machine telemetry, computes per-machine per-product sell-through velocity, projects which machines will hit stockout thresholds, and solves a capacitated vehicle-routing problem across available technicians and shift constraints. Optimized routes post to the team's chat channel the evening before, so technicians know their day in advance. A human-in-the-loop path re-solves in under 30 seconds when something changes.
+
+Three constraints were added after the initial version shipped, once the gap between the model and the street became obvious: time windows for locations with restricted access hours, so a route no longer assumes a site is reachable whenever it's convenient; live traffic travel times from the Google Maps API in place of straight-line estimates, since a mile in stop-and-go traffic and a mile on a freeway are not the same cost; and a fairness term so route quality doesn't quietly concentrate on whichever technician's territory happens to optimize best.
 
 The decision that mattered most was **choosing geographic clustering over strict threshold discipline**. A machine at 51% does not trip a 50% restock flag, but if a technician is already in that cluster, servicing it now is cheaper than a dedicated return trip later. Letting the optimizer make that trade — rather than treating the threshold as a hard rule — is where most of the drive-time reduction came from. The demo below lets you turn that behaviour off and watch the total distance move.
 

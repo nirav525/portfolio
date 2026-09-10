@@ -9,13 +9,10 @@ import { useMemo, useState } from 'react';
 type Session = { date: string; weight: number; reps: number; difficulty: number };
 
 const DIFFICULTY_LEVELS = [
-  { label: 'Very Easy', color: '#3b82f6' },
-  { label: 'Easy', color: '#06b6d4' },
-  { label: 'Moderate', color: '#22c55e' },
-  { label: 'Somewhat Challenging', color: '#eab308' },
-  { label: 'Challenging', color: '#f97316' },
-  { label: 'Very Challenging', color: '#ef4444' },
-  { label: 'Maximal', color: '#b91c1c' },
+  { label: 'Easy', color: '#22c55e' },
+  { label: 'Moderate', color: '#eab308' },
+  { label: 'Hard', color: '#f97316' },
+  { label: 'Max effort', color: '#dc2626' },
 ];
 
 function rng(seed: number) {
@@ -35,7 +32,7 @@ function genHistory(seed: number, startWeight: number, incPerSession: number, re
     const d = new Date(anchor);
     d.setUTCDate(d.getUTCDate() - i * 4);
     const reps = Math.max(4, repsBase + Math.round((rand() - 0.5) * 3));
-    const difficulty = Math.min(7, Math.max(1, 3 + Math.round((rand() - 0.35) * 4)));
+    const difficulty = Math.min(4, Math.max(1, 2 + Math.round((rand() - 0.4) * 3)));
     sessions.push({ date: d.toISOString().slice(0, 10), weight: Math.round(weight), reps, difficulty });
     weight += incPerSession * (0.5 + rand());
   }
@@ -68,10 +65,10 @@ const DAYS: { day: string; exercises: Exercise[] }[] = [
 ];
 
 function suggestion(last: Session): { move: string; reason: string } {
-  if (last.difficulty <= 2) return { move: 'Add weight', reason: `Last session was rated "${DIFFICULTY_LEVELS[last.difficulty - 1].label}" — there was clearly more in the tank.` };
-  if (last.difficulty <= 4) return { move: 'Add reps', reason: `"${DIFFICULTY_LEVELS[last.difficulty - 1].label}" leaves room to add a rep or two before adding load.` };
-  if (last.difficulty === 5) return { move: 'Hold', reason: 'Rated "Challenging" — repeat the same weight and reps and see if difficulty drops.' };
-  return { move: 'Hold, or deload slightly', reason: `"${DIFFICULTY_LEVELS[last.difficulty - 1].label}" is close to a limit set — consistency matters more than pushing further right now.` };
+  if (last.difficulty === 1) return { move: 'Add weight', reason: 'Last session was rated "Easy" — there was clearly more in the tank.' };
+  if (last.difficulty === 2) return { move: 'Add reps', reason: '"Moderate" leaves room to add a rep or two before adding load.' };
+  if (last.difficulty === 3) return { move: 'Hold', reason: 'Rated "Hard" — repeat the same weight and reps and see if difficulty drops.' };
+  return { move: 'Hold, or deload slightly', reason: '"Max effort" is a limit set — consistency matters more than pushing further right now.' };
 }
 
 const short = (iso: string) => { const d = new Date(iso); return `${d.getUTCMonth() + 1}/${d.getUTCDate()}`; };
@@ -82,7 +79,7 @@ export default function LiftLog() {
   const [logs, setLogs] = useState<Record<string, Session[]>>({});
   const [weight, setWeight] = useState('');
   const [reps, setReps] = useState('');
-  const [difficulty, setDifficulty] = useState(4);
+  const [difficulty, setDifficulty] = useState(2);
   const [justAdded, setJustAdded] = useState(false);
 
   const exercise = DAYS[dayIdx].exercises[exIdx];
@@ -146,7 +143,10 @@ export default function LiftLog() {
       </div>
 
       <div className="ll-chartwrap">
-        <svg viewBox={`0 0 ${chartW} ${chartH}`} className="ll-chart" role="img" aria-label={`${exercise.name} history: weight and reps over time`}>
+        <svg viewBox={`0 0 ${chartW} ${chartH}`} className="ll-chart" role="img" aria-label={`${exercise.name} history: weight, reps, and difficulty over time`}>
+          {[0.25, 0.5, 0.75].map((f) => (
+            <line key={f} x1={padL} x2={chartW - padR} y1={8 + f * (chartH - padB - 8)} y2={8 + f * (chartH - padB - 8)} className="ll-grid" />
+          ))}
           {sessions.map((s, i) => {
             const x = padL + barW * i + barW * 0.18;
             const w = barW * 0.64;
@@ -154,12 +154,10 @@ export default function LiftLog() {
             const y = chartH - padB - h;
             const isNew = justAdded && i === sessions.length - 1;
             return (
-              <rect
-                key={i}
-                x={x} y={y} width={w} height={h}
-                className={`ll-bar${isNew ? ' ll-bar-new' : ''}`}
-                fill={DIFFICULTY_LEVELS[s.difficulty - 1].color}
-              />
+              <g key={i}>
+                <rect x={x} y={y} width={w} height={h} className={`ll-bar${isNew ? ' ll-bar-new' : ''}`} />
+                <circle cx={x + w / 2} cy={y - 6} r="3.2" fill={DIFFICULTY_LEVELS[s.difficulty - 1].color} />
+              </g>
             );
           })}
           <polyline points={linePoints} className="ll-line" fill="none" />
@@ -176,7 +174,8 @@ export default function LiftLog() {
         </svg>
         <ul className="ll-legend">
           <li><i className="ll-sw-bar" />Weight per set</li>
-          <li><i className="ll-sw-line" />Reps (line)</li>
+          <li><i className="ll-sw-line" />Reps</li>
+          <li><i className="ll-sw-dot" />Difficulty</li>
         </ul>
       </div>
 
@@ -198,13 +197,12 @@ export default function LiftLog() {
                 className={`ll-difbtn${difficulty === i + 1 ? ' is-active' : ''}`}
                 style={{ '--dc': lvl.color } as React.CSSProperties}
                 onClick={() => setDifficulty(i + 1)}
-                title={lvl.label}
-                aria-label={lvl.label}
                 aria-pressed={difficulty === i + 1}
-              />
+              >
+                {lvl.label}
+              </button>
             ))}
           </div>
-          <span className="ll-diflabel">{DIFFICULTY_LEVELS[difficulty - 1].label}</span>
         </div>
         <button className="ll-submit" onClick={submit}>Log set</button>
       </div>

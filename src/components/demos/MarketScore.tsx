@@ -1,149 +1,179 @@
-import { useLayoutEffect, useMemo, useRef, useState } from 'react';
+import { useMemo, useState } from 'react';
 
 /**
- * All tickers, company names, and figures below are invented for this demo.
- * None correspond to real companies or real market data.
+ * Real, well-known tickers so the demo doesn't read as a toy — but every
+ * share count, price, and P&L figure below is synthetic and illustrative,
+ * not a live feed or a real position. Not investment advice.
  */
 
-type Factor = 'Valuation' | 'Growth' | 'Quality' | 'Momentum' | 'Sentiment';
-const FACTORS: Factor[] = ['Valuation', 'Growth', 'Quality', 'Momentum', 'Sentiment'];
-const FACTOR_COLOR: Record<Factor, string> = {
-  Valuation: '#0891b2',
-  Growth: '#16a34a',
-  Quality: '#7c3aed',
-  Momentum: '#f59e0b',
-  Sentiment: '#dc2626',
+type Holding = {
+  ticker: string; name: string; sector: string;
+  shares: number; avgCost: number; price: number; dayChgPct: number;
+  pe: number; earnings: string;
 };
 
-type Ticker = { id: string; name: string; scores: Record<Factor, number> };
-
-const TICKERS: Ticker[] = [
-  { id: 'NWRB', name: 'Northwind Robotics', scores: { Valuation: 52, Growth: 88, Quality: 71, Momentum: 76, Sentiment: 69 } },
-  { id: 'BHFD', name: 'Blue Harbor Foods', scores: { Valuation: 74, Growth: 40, Quality: 66, Momentum: 48, Sentiment: 55 } },
-  { id: 'VRTM', name: 'Vertex Materials', scores: { Valuation: 61, Growth: 55, Quality: 58, Momentum: 51, Sentiment: 47 } },
-  { id: 'CDSY', name: 'Cascade Data Systems', scores: { Valuation: 38, Growth: 82, Quality: 79, Momentum: 84, Sentiment: 80 } },
-  { id: 'IRLF', name: 'Ironleaf Energy', scores: { Valuation: 80, Growth: 30, Quality: 52, Momentum: 35, Sentiment: 40 } },
-  { id: 'SLST', name: 'Solstice Biotech', scores: { Valuation: 29, Growth: 91, Quality: 44, Momentum: 62, Sentiment: 58 } },
-  { id: 'MRLN', name: 'Marlin Logistics', scores: { Valuation: 68, Growth: 48, Quality: 61, Momentum: 53, Sentiment: 50 } },
-  { id: 'AMBF', name: 'Amberfield Retail', scores: { Valuation: 71, Growth: 36, Quality: 49, Momentum: 41, Sentiment: 44 } },
-  { id: 'QLLF', name: 'Quill & Ledger Finance', scores: { Valuation: 77, Growth: 42, Quality: 73, Momentum: 46, Sentiment: 52 } },
-  { id: 'PHSC', name: 'Pinehollow Semiconductors', scores: { Valuation: 34, Growth: 85, Quality: 68, Momentum: 89, Sentiment: 77 } },
-  { id: 'DRFT', name: 'Driftwood Media', scores: { Valuation: 58, Growth: 33, Quality: 39, Momentum: 29, Sentiment: 36 } },
-  { id: 'HLCY', name: 'Halcyon Aerospace', scores: { Valuation: 46, Growth: 63, Quality: 75, Momentum: 66, Sentiment: 61 } },
+const HOLDINGS: Holding[] = [
+  { ticker: 'AAPL', name: 'Apple', sector: 'Technology', shares: 25, avgCost: 165.20, price: 228.40, dayChgPct: 1.2, pe: 34.1, earnings: 'Oct 30' },
+  { ticker: 'MSFT', name: 'Microsoft', sector: 'Technology', shares: 15, avgCost: 310.00, price: 412.80, dayChgPct: 0.6, pe: 35.7, earnings: 'Oct 22' },
+  { ticker: 'JNJ', name: 'Johnson & Johnson', sector: 'Healthcare', shares: 30, avgCost: 152.10, price: 158.90, dayChgPct: -0.3, pe: 15.2, earnings: 'Oct 15' },
+  { ticker: 'PG', name: 'Procter & Gamble', sector: 'Consumer Staples', shares: 20, avgCost: 145.00, price: 168.30, dayChgPct: 0.2, pe: 26.4, earnings: 'Oct 18' },
+  { ticker: 'JPM', name: 'JPMorgan Chase', sector: 'Financials', shares: 18, avgCost: 138.50, price: 205.60, dayChgPct: 1.8, pe: 12.1, earnings: 'Oct 11' },
+  { ticker: 'XOM', name: 'Exxon Mobil', sector: 'Energy', shares: 22, avgCost: 98.20, price: 112.40, dayChgPct: -1.1, pe: 13.8, earnings: 'Nov 1' },
+  { ticker: 'HD', name: 'Home Depot', sector: 'Consumer Discretionary', shares: 10, avgCost: 310.00, price: 358.70, dayChgPct: 0.4, pe: 24.3, earnings: 'Nov 19' },
+  { ticker: 'KO', name: 'Coca-Cola', sector: 'Consumer Staples', shares: 40, avgCost: 58.30, price: 63.90, dayChgPct: 0.1, pe: 24.9, earnings: 'Oct 23' },
+  { ticker: 'V', name: 'Visa', sector: 'Financials', shares: 12, avgCost: 220.00, price: 289.50, dayChgPct: 0.9, pe: 30.6, earnings: 'Oct 24' },
+  { ticker: 'UNH', name: 'UnitedHealth Group', sector: 'Healthcare', shares: 8, avgCost: 480.00, price: 561.20, dayChgPct: -2.4, pe: 19.7, earnings: 'Oct 16' },
 ];
 
-const prefersReducedMotion = () =>
-  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const fmt$ = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', maximumFractionDigits: 0 });
+const fmt2 = (n: number) => n.toLocaleString('en-US', { style: 'currency', currency: 'USD', minimumFractionDigits: 2 });
+const sign = (n: number) => (n >= 0 ? '+' : '−');
+
+function withMath(h: Holding) {
+  const value = h.shares * h.price;
+  const cost = h.shares * h.avgCost;
+  const plVal = value - cost;
+  const plPct = (plVal / cost) * 100;
+  const prevPrice = h.price / (1 + h.dayChgPct / 100);
+  const dayVal = (h.price - prevPrice) * h.shares;
+  return { ...h, value, cost, plVal, plPct, dayVal };
+}
+
+type Row = ReturnType<typeof withMath>;
+type SortKey = 'ticker' | 'value' | 'dayChgPct' | 'plPct' | 'pe';
 
 export default function MarketScore() {
-  const [tab, setTab] = useState<'score' | 'brief'>('score');
-  const [weights, setWeights] = useState<Record<Factor, number>>({
-    Valuation: 20, Growth: 20, Quality: 20, Momentum: 20, Sentiment: 20,
-  });
+  const [tab, setTab] = useState<'holdings' | 'brief'>('holdings');
+  const [sortKey, setSortKey] = useState<SortKey>('value');
+  const [sortDir, setSortDir] = useState<1 | -1>(-1);
 
-  const totalWeight = FACTORS.reduce((a, f) => a + weights[f], 0) || 1;
+  const rows = useMemo(() => HOLDINGS.map(withMath), []);
+  const sorted = useMemo(() => {
+    return [...rows].sort((a, b) => {
+      const av = a[sortKey], bv = b[sortKey];
+      const cmp = typeof av === 'string' ? av.localeCompare(bv as string) : (av as number) - (bv as number);
+      return cmp * sortDir;
+    });
+  }, [rows, sortKey, sortDir]);
 
-  const ranked = useMemo(() => {
-    return TICKERS.map((t) => {
-      const contributions = FACTORS.map((f) => ({ factor: f, value: (t.scores[f] * weights[f]) / totalWeight }));
-      const composite = contributions.reduce((a, c) => a + c.value, 0);
-      return { ...t, composite, contributions };
-    }).sort((a, b) => b.composite - a.composite);
-  }, [weights, totalWeight]);
+  const totalValue = rows.reduce((s, r) => s + r.value, 0);
+  const totalCost = rows.reduce((s, r) => s + r.cost, 0);
+  const totalPL = totalValue - totalCost;
+  const totalPLPct = (totalPL / totalCost) * 100;
+  const totalDay = rows.reduce((s, r) => s + r.dayVal, 0);
+  const totalDayPct = (totalDay / (totalValue - totalDay)) * 100;
 
-  const rowRefs = useRef<Record<string, HTMLLIElement | null>>({});
-  const prevRects = useRef<Record<string, DOMRect>>({});
-
-  useLayoutEffect(() => {
-    if (prefersReducedMotion()) return;
-    const nextRects: Record<string, DOMRect> = {};
-    for (const t of ranked) {
-      const el = rowRefs.current[t.id];
-      if (el) nextRects[t.id] = el.getBoundingClientRect();
+  const bySector = useMemo(() => {
+    const map = new Map<string, { value: number; day: number }>();
+    for (const r of rows) {
+      const e = map.get(r.sector) ?? { value: 0, day: 0 };
+      e.value += r.value; e.day += r.dayVal;
+      map.set(r.sector, e);
     }
-    for (const t of ranked) {
-      const el = rowRefs.current[t.id];
-      const prev = prevRects.current[t.id];
-      const next = nextRects[t.id];
-      if (el && prev && next) {
-        const dy = prev.top - next.top;
-        if (Math.abs(dy) > 0.5) {
-          el.style.transition = 'none';
-          el.style.transform = `translateY(${dy}px)`;
-          requestAnimationFrame(() => {
-            el.style.transition = 'transform 0.42s cubic-bezier(0.2,0.7,0.2,1)';
-            el.style.transform = '';
-          });
-        }
-      }
-    }
-    prevRects.current = nextRects;
-  }, [ranked]);
+    return [...map.entries()]
+      .map(([sector, v]) => ({ sector, value: v.value, dayPct: (v.day / (v.value - v.day)) * 100 }))
+      .sort((a, b) => b.value - a.value);
+  }, [rows]);
+
+  function sortBy(key: SortKey) {
+    if (key === sortKey) setSortDir((d) => (d === 1 ? -1 : 1));
+    else { setSortKey(key); setSortDir(-1); }
+  }
+  function caret(key: SortKey) {
+    if (key !== sortKey) return '';
+    return sortDir === 1 ? ' ▲' : ' ▼';
+  }
 
   return (
     <div className="ms">
       <div className="ms-tabs" role="tablist">
-        <button className={`ms-tab${tab === 'score' ? ' is-active' : ''}`} onClick={() => setTab('score')}>Score</button>
+        <button className={`ms-tab${tab === 'holdings' ? ' is-active' : ''}`} onClick={() => setTab('holdings')}>Holdings</button>
         <button className={`ms-tab${tab === 'brief' ? ' is-active' : ''}`} onClick={() => setTab('brief')}>Brief</button>
       </div>
 
-      <p className="ms-disclaimer">Tickers and figures are entirely synthetic. This is not investment advice.</p>
+      <p className="ms-disclaimer">Real tickers, illustrative positions and prices. Not investment advice.</p>
 
-      {tab === 'score' && (
-        <div className="ms-score">
-          <div className="ms-weights">
-            {FACTORS.map((f) => (
-              <label className="ms-weight" key={f}>
-                <span className="ms-wlabel"><i style={{ background: FACTOR_COLOR[f] }} />{f}</span>
-                <input
-                  type="range" min={0} max={40} value={weights[f]}
-                  onChange={(e) => setWeights((w) => ({ ...w, [f]: Number(e.target.value) }))}
-                />
-                <output>{weights[f]}</output>
-              </label>
-            ))}
+      {tab === 'holdings' && (
+        <div className="ms-holdings">
+          <div className="ms-summary">
+            <div><span>Total value</span><b>{fmt$(totalValue)}</b></div>
+            <div className={totalDay >= 0 ? 'ms-pos' : 'ms-neg'}>
+              <span>Today</span><b>{sign(totalDay)}{fmt$(Math.abs(totalDay))} ({sign(totalDayPct)}{Math.abs(totalDayPct).toFixed(2)}%)</b>
+            </div>
+            <div className={totalPL >= 0 ? 'ms-pos' : 'ms-neg'}>
+              <span>Total P/L</span><b>{sign(totalPL)}{fmt$(Math.abs(totalPL))} ({sign(totalPLPct)}{Math.abs(totalPLPct).toFixed(1)}%)</b>
+            </div>
           </div>
 
-          <ul className="ms-list">
-            {ranked.map((t, i) => (
-              <li key={t.id} ref={(el) => { rowRefs.current[t.id] = el; }} className="ms-row">
-                <span className="ms-rank">{i + 1}</span>
-                <div className="ms-name">
-                  <span className="ms-ticker">{t.id}</span>
-                  <span className="ms-company">{t.name}</span>
-                </div>
-                <div className="ms-composebar" title={`Composite score ${t.composite.toFixed(1)}`}>
-                  {t.contributions.map((c) => (
-                    <span key={c.factor} style={{ width: `${c.value}%`, background: FACTOR_COLOR[c.factor] }} />
-                  ))}
-                </div>
-                <span className="ms-score-v">{t.composite.toFixed(1)}</span>
-              </li>
-            ))}
-          </ul>
+          <div className="ms-tablewrap">
+            <table className="ms-htable">
+              <thead>
+                <tr>
+                  <th className="ms-sortable" onClick={() => sortBy('ticker')}>Ticker{caret('ticker')}</th>
+                  <th>Sector</th>
+                  <th className="ms-num">Shares</th>
+                  <th className="ms-num">Avg cost</th>
+                  <th className="ms-num">Price</th>
+                  <th className="ms-num ms-sortable" onClick={() => sortBy('dayChgPct')}>Day{caret('dayChgPct')}</th>
+                  <th className="ms-num ms-sortable" onClick={() => sortBy('value')}>Value{caret('value')}</th>
+                  <th className="ms-num ms-sortable" onClick={() => sortBy('plPct')}>P/L{caret('plPct')}</th>
+                  <th className="ms-num ms-sortable" onClick={() => sortBy('pe')}>P/E{caret('pe')}</th>
+                  <th>Earnings</th>
+                </tr>
+              </thead>
+              <tbody>
+                {sorted.map((r) => (
+                  <tr key={r.ticker}>
+                    <td><span className="ms-t">{r.ticker}</span><span className="ms-n">{r.name}</span></td>
+                    <td className="ms-sector">{r.sector}</td>
+                    <td className="ms-num ms-mono">{r.shares}</td>
+                    <td className="ms-num ms-mono">{fmt2(r.avgCost)}</td>
+                    <td className="ms-num ms-mono">{fmt2(r.price)}</td>
+                    <td className={`ms-num ms-mono ${r.dayChgPct >= 0 ? 'ms-pos' : 'ms-neg'}`}>{sign(r.dayChgPct)}{Math.abs(r.dayChgPct).toFixed(1)}%</td>
+                    <td className="ms-num ms-mono">{fmt$(r.value)}</td>
+                    <td className={`ms-num ms-mono ${r.plPct >= 0 ? 'ms-pos' : 'ms-neg'}`}>{sign(r.plPct)}{Math.abs(r.plPct).toFixed(1)}%</td>
+                    <td className="ms-num ms-mono">{r.pe.toFixed(1)}</td>
+                    <td className="ms-mono">{r.earnings}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+
+          <div className="ms-sectors">
+            <h4>Sector performance today</h4>
+            <ul>
+              {bySector.map((s) => (
+                <li key={s.sector}>
+                  <span className="ms-seclabel">{s.sector}</span>
+                  <div className="ms-secbar"><span style={{ width: `${Math.min(100, (s.value / totalValue) * 100)}%` }} /></div>
+                  <span className={`ms-mono ${s.dayPct >= 0 ? 'ms-pos' : 'ms-neg'}`}>{sign(s.dayPct)}{Math.abs(s.dayPct).toFixed(1)}%</span>
+                </li>
+              ))}
+            </ul>
+          </div>
         </div>
       )}
 
       {tab === 'brief' && (
         <div className="ms-email">
           <div className="ms-email-head">
-            <div><span className="ms-emsub">Market Brief — Wednesday, September 9</span><span className="ms-emfrom">from: daily-brief@ (automated)</span></div>
+            <div><span className="ms-emsub">Portfolio Brief — Wednesday, September 9</span><span className="ms-emfrom">from: daily-brief@ (automated)</span></div>
           </div>
           <div className="ms-email-body">
-            <svg viewBox="0 0 320 90" className="ms-emchart" role="img" aria-label="Synthetic index chart">
+            <svg viewBox="0 0 320 90" className="ms-emchart" role="img" aria-label="Synthetic portfolio value chart">
               <polyline
                 points="0,60 30,55 60,58 90,45 120,50 150,38 180,42 210,30 240,34 270,22 300,26 320,18"
                 fill="none" stroke="#16a34a" strokeWidth="2"
               />
             </svg>
             <p>
-              Broad synthetic indices drifted higher this session. Growth-tilted names in the model
-              portfolio outperformed value names for a third straight session. <strong>Cascade Data
-              Systems</strong> and <strong>Pinehollow Semiconductors</strong> led the shortlist on
-              strength in Momentum and Sentiment; <strong>Driftwood Media</strong> remained at the
-              bottom of the ranking on weak Growth and Quality readings.
+              Portfolio value {sign(totalDayPct)}{Math.abs(totalDayPct).toFixed(2)}% today, led by <strong>JPMorgan Chase</strong> and{' '}
+              <strong>Apple</strong> on broad strength in Financials and Technology. <strong>UnitedHealth Group</strong> was the
+              largest drag, down {Math.abs(HOLDINGS.find((h) => h.ticker === 'UNH')!.dayChgPct)}% after a sector-wide
+              pullback in Healthcare. Full holdings and today's P/L are on the Holdings tab.
             </p>
-            <p className="ms-emnote">Generated automatically. Figures are synthetic and do not reflect real market data.</p>
+            <p className="ms-emnote">Generated automatically and delivered every weekday morning before the open.</p>
           </div>
         </div>
       )}

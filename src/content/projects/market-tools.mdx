@@ -12,24 +12,29 @@ accent: "#7c3aed"
 headline: { value: "Every weekday", label: "unattended, since 2025" }
 stack: [Python, matplotlib, LLM API, Oracle Cloud ARM VM, cron]
 tldr:
-  - "My dad cannot access the brokerage app our positions sit in."
-  - "So a digest emails him charts and a written brief every weekday morning."
-  - "It has run unattended on a free-tier cloud VM since I set it up."
+  - "The positions are mine. My dad likes to follow how they're doing without logging into a brokerage app."
+  - "So a digest emails both of us holdings, charts, and a written brief every weekday morning."
+  - "It has run unattended on a free-tier cloud VM since I set it up, alerts included if a run fails."
   - "A second tool scores names on fixed criteria, so I stop picking on impulse."
 architecture:
   - Scheduled trigger
   - Market data pull
+  - Portfolio and P&L calculation
   - Chart generation
   - LLM-written brief
   - Email delivery
+  - Failure alerting
 demo: marketscore
+demoNote: >-
+  Real, well-known tickers so this doesn't read as a toy — but the shares, prices, and P&L below
+  are illustrative, not my actual positions. This shows the holdings-and-brief side of the
+  system; the separate scoring tool that shortlists new candidate names isn't modelled here.
 learned: >-
   Building something another person depends on changes how you build it. A script that
   fails silently is fine when it is only for me; it is not fine when someone is waiting
   for an email at seven in the morning. That pushed me toward unattended operation and
-  failure handling much earlier than I would have bothered with otherwise.
+  failure alerting much earlier than I would have bothered with otherwise.
 next: >-
-  Alerting when a run fails, rather than finding out because the email did not arrive.
   Moving the scoring tool off my laptop onto the same scheduled infrastructure as the
   digest. And back-testing the scoring criteria, which I have not done and should not
   claim to have done.
@@ -43,7 +48,7 @@ roleFit: { "AI": 2, "BizOps": 1, "Product Ops": 1, "Strategy & Ops": 1, "GTM / G
 
 ## The problem
 
-My dad has money in the market and no practical way to look at it. The brokerage app is not something he can navigate, so checking on positions meant asking me, and I would answer when I got round to it.
+The positions are mine, but my dad likes to keep an eye on how they're doing. He isn't going to log into a brokerage app to do it, so in practice that meant texting me and waiting for whenever I got around to answering.
 
 Separately, I had my own problem: I was picking stocks on whatever I had read that week. No consistent criteria, no way to compare two names against the same yardstick, and no record of why I had bought anything.
 
@@ -55,8 +60,6 @@ The second is a discipline problem. Ad-hoc selection feels like research and is 
 
 ## What I built
 
-The digest runs every weekday on a free-tier ARM cloud instance. It pulls market data, generates charts, has an LLM write a short plain-language brief, and emails the lot to both of us before the market opens. It has run unattended since I set it up.
+The digest runs every weekday on a free-tier ARM cloud instance. It pulls market data, values the portfolio, generates charts, has an LLM write a short plain-language brief, and emails the lot to both of us before the market opens. It has run unattended since I set it up, with alerting if a run fails, so a missed morning email gets caught immediately instead of discovered by its absence.
 
 The scoring tool ranks names against fixed criteria to produce a daily shortlist. It is explicitly not a buy signal — it narrows the field so my own research starts somewhere defensible instead of starting with whatever I saw last night.
-
-I should be straight about the limits: I have not back-tested the scoring criteria. It imposes consistency on my process, which was the point. It does not claim to predict anything.
