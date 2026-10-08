@@ -80,17 +80,6 @@ const projects = defineCollection({
     demo: z.string().optional(),
     demoNote: z.string().optional(),
 
-    // Resume source material. Surfaced on /resume, not on the project page.
-    bullets: z
-      .object({
-        headline: z.string().optional(),
-        quantified: z.string().optional(),
-        technical: z.string().optional(),
-        strategy: z.string().optional(),
-        ownership: z.string().optional(),
-      })
-      .default({}),
-
     // 3 = lead with this, 2 = strong, 1 = supporting, 0 = omit
     roleFit: z.record(z.enum(ROLES), z.number().min(0).max(3)).default({}),
 

@@ -1,21 +1,21 @@
 ---
-title: What 2,000 emails taught me about data quality
-summary: Shipped an AI-powered outbound system, instrumented it properly, and found the bottleneck was list quality — not messaging.
+title: What 3,000 outbound emails taught me about list quality
+summary: An agentic outbound workflow that researches companies, finds contacts, writes the email, and follows up on its own — and what measuring it honestly showed about list quality.
 category: AI / Automation
 org: Crave Robotics
 period: "2026"
 role: Sole designer and builder
 tier: 1
-order: 3
+order: 6
 disclosure: B
-headline: { value: "1.5%", label: "true conversation rate, 0 meetings booked" }
-stack: [Apollo.io, LLM APIs, Resend, Gmail API, Railway]
+headline: { value: "3.1%", label: "reply rate across 3,000+ agent-written outbound emails" }
+stack: [Apollo.io, LLM APIs, Resend, Gmail API, Python, Railway]
 architecture:
-  - Lead sourcing
-  - Enrichment
-  - Validation (missing)
-  - LLM personalization
-  - Send
+  - Company research
+  - Contact identification
+  - Validation (added later)
+  - LLM conversation points
+  - Send and follow-up
   - Engagement capture
   - Reply classification
 demo: outreach
@@ -23,30 +23,23 @@ demoNote: >-
   Synthetic lead list. Company names and domains are fictional. The failure modes shown are the
   ones the real diagnostic surfaced.
 metrics:
-  - { label: "Outbound emails sent", value: "2,000+" }
-  - { label: "True conversation rate", value: "1.5%", emphasis: true }
-  - { label: "Meetings booked", value: "0", emphasis: true }
+  - { label: "Outbound emails sent", value: "3,000+" }
+  - { label: "Reply rate", value: "3.1%", emphasis: true }
+  - { label: "True conversation rate, first 2,000 sends", value: "~1.5%" }
 tldr:
-  - "Shipped a full LLM outbound pipeline. 2,000+ emails sent."
-  - "It did not work: 1.5% real conversations, zero meetings."
-  - "Root cause was fabricated domains in the lead data, not the messaging."
-  - "Including it because the diagnosis is the transferable part."
+  - "An agent researches target companies, identifies contacts, writes the conversation points, and sends and follows up."
+  - "3,000+ emails sent, 3.1% reply rate."
+  - "Measuring real conversations, not just replies, showed the bottleneck was list quality — fabricated domains and wrong roles — not the copy."
+  - "Including the diagnosis because it is the transferable part."
 learned: >-
   Instrumenting for the real success metric mattered more than anything else I built. A reply-rate
-  dashboard would have shown a working system; measuring genuine conversations revealed it was
-  not. I also learned that AI-generated volume amplifies bad inputs rather than compensating for
-  them — 2,000 well-written emails to poorly-qualified contacts is worse than 200 to good ones,
+  number alone looks healthy; measuring genuine conversations showed how much of it was not. I also learned that AI-generated volume amplifies bad inputs rather than compensating for
+  them — a thousand well-written emails to poorly-qualified contacts is worse than a hundred to good ones,
   because it spends domain reputation to do it.
 next: >-
   Domain and deliverability validation as a hard gate before send. A tightly-defined ICP with
   qualification criteria instead of broad sourcing. Sequences designed to reach a booked meeting
   rather than a reply. Volume traded down for list quality.
-bullets:
-  headline: Designed and shipped an AI-powered GTM workflow (Apollo.io, LLM generation, Resend/Gmail API) generating 2,000+ personalized outbound emails, then diagnosed enrichment data quality — not messaging — as the binding constraint on conversion.
-  quantified: Instrumented 2,000+ outbound sends to measure true conversation rate at 1.5%, isolating fabricated domains and dead DNS records in enriched lists as the root cause.
-  technical: Built an end-to-end LLM outreach pipeline — sourcing, enrichment, generation, delivery, engagement capture — deployed as a scheduled production service.
-  strategy: Measured for genuine conversations rather than replies, surfacing a data-quality failure a conventional engagement dashboard would have concealed.
-  ownership: Built, shipped, and honestly post-mortemed a commercial system, converting a failed motion into a specific redesign for list validation and ICP definition.
 roleFit: { "AI": 3, "GTM / Growth": 3, "BizOps": 2, "Product Ops": 2, "Strategy & Ops": 2, "Supply Chain / Ops": 0 }
 ---
 
@@ -60,13 +53,13 @@ Machine placement drives revenue directly. A repeatable outbound motion was wort
 
 ## What I built
 
-An end-to-end pipeline: lead sourcing and enrichment, LLM-generated personalized outreach and follow-up sequencing, automated sending, and engagement instrumentation, deployed as a service with scheduled execution.
+An agentic outbound workflow. It researches target companies, identifies the relevant contacts through Apollo.io, has an LLM draft personalized conversation points, and then sends and follows up through Resend and the Gmail API, with engagement captured at each step. It runs as a deployed service with scheduled execution.
 
-Then I measured it, and it had not worked. Over 2,000 emails produced a true conversation rate of about 1.5% and zero booked meetings. The conversations that did happen stayed in email and died before reaching a meeting.
+Then I measured it properly. Across 3,000+ emails the reply rate is 3.1%. But replies are not conversations, and when I classified the first 2,000 sends by whether a real person engaged, the true conversation rate was about 1.5% — and the conversations that did happen mostly stayed in email and died before reaching a meeting.
 
 ## What actually went wrong
 
-The instrumentation is the reason this page exists. The nominal reply rate looked survivable; the conversation rate did not, and the gap between them was the finding. Tracing it back, the enriched lists contained fabricated domains and dead DNS records, so a meaningful share of sends were reaching unintended recipients or nobody at all. Others reached real people in the wrong role at the right company.
+The instrumentation is the reason this page exists. The headline reply rate looked survivable; the conversation rate was half of it, and the gap between them was the finding. Tracing it back, the enriched lists contained fabricated domains and dead DNS records, so a meaningful share of sends were reaching unintended recipients or nobody at all. Others reached real people in the wrong role at the right company.
 
 The constraint was never message generation. LLM personalization worked fine — the copy was good. The failure sat one step upstream, in list quality and ICP definition, and no amount of generation quality compensates for sending to the wrong person.
 

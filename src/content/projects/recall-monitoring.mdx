@@ -1,0 +1,50 @@
+---
+title: Automated FDA and USDA recall monitoring
+summary: A monitor that pulls live FDA and USDA recall feeds, fuzzy-matches each notice to our SKU catalog, and alerts Slack — replacing someone reading the notices by hand.
+category: Product Operations
+org: Crave Robotics
+period: "2026"
+role: Sole designer and builder
+tier: 1
+order: 5
+disclosure: B
+headline: { value: "FDA + USDA", label: "recall feeds checked automatically against every SKU we sell" }
+stack: [FDA and USDA APIs, Fuzzy matching, Slack API, Scheduled jobs]
+architecture:
+  - Live FDA and USDA recall feeds
+  - Normalize and tokenize notices
+  - SKU-level fuzzy matching
+  - Score against threshold
+  - Slack alert
+  - Lot-level traceability
+demo: recall
+demoNote: >-
+  Production reads the live FDA and USDA feeds. This demo uses synthetic notices and a synthetic
+  catalog, with the same normalize, tokenize, fuzzy-match, and threshold logic.
+tldr:
+  - "Recalls are published by two agencies, in free text, with product names that rarely match ours exactly."
+  - "The monitor pulls both feeds live, fuzzy-matches against the SKU catalog, and posts to Slack."
+  - "Alongside lot-code traceability in the platform, a match becomes a query for which machines hold the product."
+learned: >-
+  The matching threshold is a business decision, not a technical one. Set it too tight and you miss
+  an exposure; too loose and the team learns to ignore the channel. That is why the demo makes it a
+  control instead of burying it in code.
+next: >-
+  Close the loop inside the platform: a confirmed match should open the recall workflow itself and
+  pre-fill the affected lots, instead of ending at a Slack message.
+roleFit: { "Product Ops": 3, "Supply Chain / Ops": 3, "BizOps": 2, "Strategy & Ops": 1, "AI": 2, "GTM / Growth": 0 }
+---
+
+## The problem
+
+Food recalls are announced by the FDA and the USDA as free-text notices. Someone has to read them, work out whether a recalled product or ingredient is in our catalog, and do it fast enough to act. That is easy to do for a handful of SKUs and does not hold up as the catalog grows, or as the person responsible gets busy.
+
+## Why it mattered
+
+For frozen food sold from machines in public places, a missed recall is the worst-case operational failure, and the cost of a slow response grows with every hour the product stays on sale.
+
+## What I built
+
+A scheduled job that reads the live FDA and USDA recall feeds through their APIs, normalizes the text, and matches each notice against every active SKU with fuzzy matching, so a misspelled or reworded product name still lands on the right item. Matches above a threshold post to a Slack channel with the agency, recall class, reason, and the SKUs it touches.
+
+Ingredient-level notices are handled separately from finished products, because a recall of a raw ingredient is an exposure question, not a name match. It sits alongside the lot-code traceability in the [operating platform](/projects/operating-platform), which is what lets a confirmed match be traced to specific machines.

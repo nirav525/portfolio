@@ -9,6 +9,8 @@ interface Props {
 const { title, description, path = '' } = Astro.props;
 const canonical = new URL(path, Astro.site).href;
 const owner = 'Nirav';
+const email = 'niravsampat525@gmail.com';
+const linkedin = 'https://www.linkedin.com/in/nirav-sampat/';
 ---
 <!doctype html>
 <html lang="en">
@@ -32,7 +34,9 @@ const owner = 'Nirav';
       <div class="shell masthead-inner">
         <a href="/" class="wordmark">{owner}<i>Proof of work</i></a>
         <nav aria-label="Primary">
-          <a href="/">Catalog</a>
+          <a href="/">Projects</a>
+          <a href={linkedin} rel="noopener" target="_blank">LinkedIn</a>
+          <a href={`mailto:${email}`} class="nav-cta">Email me</a>
         </nav>
       </div>
     </header>
@@ -41,7 +45,11 @@ const owner = 'Nirav';
     </main>
     <footer class="footer">
       <div class="shell footer-inner">
-        <p>Built and maintained by {owner}. Source on GitHub.</p>
+        <p>
+          Built and maintained by {owner} Sampat &middot;
+          <a href={`mailto:${email}`}>{email}</a> &middot;
+          <a href={linkedin} rel="noopener" target="_blank">LinkedIn</a>
+        </p>
         <p class="footer-note">
           Project demos run on synthetic data and do not contain confidential
           information from any employer.
@@ -123,6 +131,24 @@ const owner = 'Nirav';
     transition: color 0.15s ease;
   }
   nav a:hover {
+    color: var(--ink);
+  }
+  nav {
+    align-items: center;
+  }
+  .nav-cta {
+    color: var(--ink);
+    font-weight: 500;
+    padding: 0.3rem 0.8rem;
+    border: 1px solid var(--rule-strong);
+    border-radius: 999px;
+  }
+  .nav-cta:hover {
+    background: var(--ink);
+    color: var(--paper);
+    border-color: var(--ink);
+  }
+  .footer-inner a {
     color: var(--ink);
   }
   .footer {

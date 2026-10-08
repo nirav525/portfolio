@@ -59,7 +59,7 @@ const disclosureCopy: Record<string, string> = {
         </div>
 
         <div class="headline-stat reveal" style="--d:180ms">
-          <span class="hs-value">{d.headline.value}</span>
+          <span class={`hs-value${d.headline.value.length > 7 ? " long" : ""}`}>{d.headline.value}</span>
           <span class="hs-label">{d.headline.label}</span>
         </div>
       </div>
@@ -169,6 +169,7 @@ const disclosureCopy: Record<string, string> = {
     color: var(--cat);
     font-variant-numeric: tabular-nums;
   }
+  .hs-value.long { font-size: clamp(2rem, 4.4vw, 3.1rem); white-space: nowrap; }
   .hs-label {
     display: block;
     margin-top: 0.85rem;

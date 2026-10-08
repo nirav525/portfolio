@@ -1,18 +1,18 @@
 ---
 title: Demand forecasting across 600+ SKUs
-summary: Statistical forecasting at portfolio scale that improved accuracy and drove $3M+ in cost savings through better procurement and inventory decisions.
+summary: Python regression and time-series forecasts across 600+ SKUs that improved forecast accuracy 24% and enabled $3M+ in procurement and planning savings.
 category: Data / Analytics
 org: Botrista
 period: "2023–2025"
-role: Supply Chain Planner; owner of the forecasting models
+role: Demand Planner; owner of the forecasting models
 tier: 2
-order: 1
+order: 2
 disclosure: B
 disclosureNote: >-
   Prior employer. Described without supplier, customer, or product information. Any figures in
   the demo are synthetic.
-headline: { value: "$3M+", label: "cost savings from forecast accuracy" }
-stack: [Google Sheets, Apps Script, LLM-assisted development, Statistical forecasting]
+headline: { value: "$3M+", label: "procurement and planning savings from better forecasts" }
+stack: [Python, Regression, Time-series models, Google Sheets, Apps Script]
 architecture:
   - Source data consolidation
   - Automated cleaning
@@ -20,36 +20,26 @@ architecture:
   - Error measurement
 demo: sheet:forecast
 demoNote: >-
-  Built on the actual substrate — Google Sheets plus Apps Script, not a purpose-built app. SKU
-  codes and figures are synthetic; the sheet structure and formulas are representative.
-  - Procurement and inventory planning
+  The forecasts reach planners in the tool they already used, Google Sheets, so that is what this
+  mockup shows. SKU codes and figures are synthetic; the sheet structure and formulas are
+  representative.
 metrics:
-  - { label: "Cost savings", value: "$3,000,000+", emphasis: true }
+  - { label: "Procurement and planning savings", value: "$3M+", emphasis: true }
   - { label: "Forecast accuracy improvement", value: "24%" }
   - { label: "SKUs under model-based forecasting", value: "600+" }
 tldr:
   - "600+ SKUs moved from judgment-based to model-based forecasting."
-  - "$3M+ in cost savings, 24% accuracy improvement."
-  - "Built inside Google Sheets, because that is where the planners already worked."
+  - "24% better forecast accuracy, enabling $3M+ in procurement and planning savings."
+  - "Models in Python, delivered through Google Sheets, because that is where the planners already worked."
 learned: >-
   Accuracy improvements only convert to savings if the downstream process actually consumes the
   forecast. The modelling was less than half the work. Getting procurement to plan against model
   output rather than judgment was the rest, and it took longer.
 next: >-
-  Move off a spreadsheet substrate onto a proper analytical stack. Segment SKUs so high-volume and
+  Move the delivery layer off spreadsheets onto a proper analytical stack. Segment SKUs so high-volume and
   intermittent-demand items get different methods rather than one approach applied uniformly.
   Hierarchical reconciliation across product families.
-bullets:
-  headline: Built statistical demand forecasting across 600+ SKUs, improving forecast accuracy 24% and driving $3M+ in cost savings through better procurement, inventory, and planning decisions.
-  quantified: $3M+ in cost savings and 24% forecast accuracy improvement across a 600+ SKU portfolio.
-  technical: Automated the full forecasting pipeline in Apps Script with LLM-assisted development, delivering model-based forecasts at 600+ SKU scale inside the organization's existing tooling.
-  strategy: Connected forecast accuracy to procurement and inventory decisions, quantifying the cost of error rather than optimizing a metric in isolation.
-  ownership: Owned the forecasting function end to end — model design, automation, and adoption by Procurement and Supply Chain.
 roleFit: { "Supply Chain / Ops": 3, "BizOps": 3, "Strategy & Ops": 2, "AI": 1, "Product Ops": 0, "GTM / Growth": 0 }
-todo:
-  - Define what the 24% measures — MAPE reduction, improvement vs naive baseline, or vs prior manual process — and over what horizon
-  - Specify which statistical methods were used (moving average, exponential smoothing, regression)
-  - Confirm the Sheets/Apps Script description is accurate, or specify where Python was used
 ---
 
 ## The problem
@@ -64,4 +54,4 @@ At that SKU count, forecast error is expensive in both directions. Excess invent
 
 Statistical forecasting models across the full SKU portfolio, incorporating seasonality and trend, with an automated data pipeline replacing manual consolidation.
 
-This was built in Google Sheets with Apps Script automation and LLM-assisted development. That was a deliberate constraint rather than a limitation I worked around: the organization's planning workflows already lived in Sheets, and adoption mattered more than tooling elegance. A better model that Procurement would not use is worth less than a good model wired into the process they already run.
+The models themselves were statistical — regression and time-series methods in Python — and the outputs were delivered into Google Sheets with Apps Script automation. That was a deliberate constraint rather than a limitation I worked around: the organization's planning workflows already lived in Sheets, and adoption mattered more than tooling elegance. A better model that Procurement would not use is worth less than a good model wired into the process they already run.

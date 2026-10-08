@@ -10,6 +10,9 @@ export const demoTitles = {
   mealplanner: 'Plan a week, get the list',
   liftlog: 'Log a set, watch the trend',
   marketscore: 'See the holdings, then the brief',
+  fou: 'Move the inputs, watch the metric',
+  recall: 'Match a recall to the catalog',
+  shelflife: 'Find what will expire unsold',
 } as const;
 
 export const demoCues: Record<keyof typeof demoTitles, string> = {
@@ -20,6 +23,9 @@ export const demoCues: Record<keyof typeof demoTitles, string> = {
   mealplanner: 'Pick a few dishes, then tap a combined ingredient to see which dishes it came from.',
   liftlog: 'Pick a day and an exercise, log a set, and watch the chart and suggestion update.',
   marketscore: 'Click a column to sort the holdings — then switch to Brief to see the emailed output.',
+  fou: 'Load each preset, then drag the sliders. Total cost and cost per unit move in different directions.',
+  recall: 'Pick a notice, change the threshold, or type your own. Matches and the Slack alert update live.',
+  shelflife: 'Drag the trigger and the recovery rate. The table shows which lots get flagged and what is recovered.',
 };
 
 export type DemoKey = keyof typeof demoTitles;

@@ -36,7 +36,7 @@ const NAV: { section?: string; items: { key: PageKey; label: string }[] }[] = [
 
 const PAGE_TITLES: Record<PageKey, { eyebrow: string; title: string }> = {
   dashboard: { eyebrow: 'Fleet status', title: 'Dashboard' },
-  machines: { eyebrow: '25 units', title: 'Machines' },
+  machines: { eyebrow: '28 units', title: 'Machines' },
   dispatch: { eyebrow: "Today's routes", title: 'Dispatch & Restocking' },
   tracking: { eyebrow: 'Live positions', title: 'Field Tracking' },
   'inv-overview': { eyebrow: 'Inventory', title: 'Overview' },
@@ -300,8 +300,8 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
               {page === 'dashboard' && (
                 <>
                   <div className="co-kpirow">
-                    <Kpi label="Total machines" value="25" tone="primary" />
-                    <Kpi label="Online" value="21" tone="success" />
+                    <Kpi label="Total machines" value="28" tone="primary" />
+                    <Kpi label="Online" value="24" tone="success" />
                     <Kpi label="Issues" value="3" tone="warning" />
                     <Kpi label="Offline" value="1" tone="destructive" />
                   </div>
@@ -313,10 +313,10 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
                     <div className="co-card">
                       <h4>Fleet by region</h4>
                       <ul className="co-barlist">
-                        {[['LA-West', 8], ['LA-Central', 6], ['LA-East', 7], ['East SG Valley', 4]].map(([r, n]) => (
+                        {[['LA-West', 9], ['LA-Central', 7], ['LA-East', 8], ['East SG Valley', 4]].map(([r, n]) => (
                           <li key={r as string}>
                             <span>{r}</span>
-                            <div className="co-hbar"><span style={{ width: `${(Number(n) / 8) * 100}%` }} /></div>
+                            <div className="co-hbar"><span style={{ width: `${(Number(n) / 9) * 100}%` }} /></div>
                             <b>{n}</b>
                           </li>
                         ))}
@@ -378,7 +378,7 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
                       )}
                     </tbody>
                   </table>
-                  <p className="co-foot">{filteredMachines.length === MACHINES.length ? '+19 more machines' : `${filteredMachines.length} of 25 machines shown`}</p>
+                  <p className="co-foot">{filteredMachines.length === MACHINES.length ? '+22 more machines' : `${filteredMachines.length} of 28 machines shown`}</p>
                 </div>
               )}
 

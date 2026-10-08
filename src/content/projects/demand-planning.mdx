@@ -6,7 +6,7 @@ org: Crave Robotics
 period: "2026"
 role: Sole owner
 tier: 2
-order: 2
+order: 4
 disclosure: B
 headline: { value: "12 mo", label: "rolling forecast horizon" }
 stack: [TypeScript, Node.js, PostgreSQL, Scheduled jobs]
@@ -24,11 +24,11 @@ demoNote: >-
 metrics:
   - { label: "Forecast horizon", value: "12 months rolling" }
   - { label: "Reorder logic", value: "Stockout-projection driven", emphasis: true }
-  - { label: "Stockout-driven lost sales in period", value: "0", emphasis: true }
+  - { label: "Fleet supported by the forecast", before: "15", after: "28", delta: "machines", emphasis: true }
 tldr:
   - "12-month rolling forecasts wired directly into purchasing."
   - "Reorder timing driven by projected stockout dates, not a fixed calendar."
-  - "Zero stockout-driven lost sales through a 67% fleet expansion."
+  - "Planned inventory through a fleet that grew from 15 to 28 machines, feeding the out-of-stock rate drop from 11% to 4.8%."
 learned: >-
   The forecast was only useful once it was wired to a decision. Projecting demand was
   straightforward; the value came from converting a projection into a dated purchase order
@@ -37,16 +37,7 @@ next: >-
   Backtesting infrastructure to measure accuracy by horizon. Per-SKU method selection for
   intermittent demand. Explicit safety-stock optimization against service-level targets rather
   than threshold heuristics.
-bullets:
-  headline: Built 12-month rolling demand forecasts with seasonality and velocity-based stockout projection, connecting commercial demand to inventory, purchasing, and operational capacity planning.
-  quantified: Replaced fixed reorder cadence with stockout-projection-driven purchasing across the SKU portfolio, supporting zero stockout-driven lost sales through a 67% fleet expansion.
-  technical: Built the forecasting and reorder-trigger engine on live telemetry with scheduled refresh and automated exception flagging.
-  strategy: Integrated the machine installation schedule into demand planning so growth plans carried their own inventory and capacity requirements.
-  ownership: Own demand planning end to end — model, purchasing recommendations, and vendor lead-time parameters.
 roleFit: { "Supply Chain / Ops": 3, "BizOps": 2, "Strategy & Ops": 2, "Product Ops": 2, "AI": 0, "GTM / Growth": 0 }
-todo:
-  - Add forecast accuracy figures if tracked
-  - Add waste or expiration reduction if tracked
 ---
 
 ## The problem

@@ -1,0 +1,55 @@
+---
+title: Cutting excess and obsolete inventory by 29%
+summary: Variance reporting that traced forecast error to its root causes, plus a redesigned shelf-life and offload process that recovered $300K of at-risk stock.
+category: Supply Chain / Operations
+org: Botrista
+period: "2023–2025"
+role: Demand Planner; owner of variance reporting and the offload process
+tier: 2
+order: 3
+disclosure: B
+disclosureNote: >-
+  Prior employer. Described without supplier, customer, or financial detail beyond the headline
+  figures. Any figures in the demo are synthetic.
+headline: { value: "−29%", label: "excess and obsolete inventory, plus $300K of at-risk stock recovered" }
+stack: [Python, Google Sheets]
+architecture:
+  - Forecast vs actual
+  - Variance by SKU
+  - Root-cause classification
+  - Shelf-life exposure
+  - Early offload trigger
+  - Vendor renegotiation
+demo: shelflife
+demoNote: >-
+  Lots, costs, and recovery rates are synthetic. The logic is the part that is real: flag excess
+  against current velocity, and act while there is still time to recover value.
+metrics:
+  - { label: "Excess and obsolete inventory", value: "−29%", emphasis: true }
+  - { label: "At-risk stock recovered", value: "$300K", emphasis: true }
+  - { label: "Forecast accuracy improvement", value: "24%" }
+tldr:
+  - "Automated variance reporting showed where forecast error came from, not just how big it was."
+  - "Excess and obsolete inventory fell 29%."
+  - "Redesigning the shelf-life and offload process, and negotiating with vendors, recovered $300K of at-risk stock."
+learned: >-
+  Most excess inventory is visible weeks before it is a loss. The savings came from acting at the
+  point where there was still a choice — renegotiate, redirect, or offload — rather than writing it
+  off at expiry, and from making that point a standing trigger instead of a judgment call.
+next: >-
+  Tie the offload trigger to a per-SKU cost of capital and shelf life, rather than one fixed window
+  for every item.
+roleFit: { "Supply Chain / Ops": 3, "BizOps": 2, "Strategy & Ops": 2, "Product Ops": 1, "AI": 0, "GTM / Growth": 0 }
+---
+
+## The problem
+
+Forecast error was being measured as a single number, which says how wrong the plan was and nothing about why. Meanwhile inventory that would not sell through before expiry was discovered when it expired.
+
+## Why it mattered
+
+Excess and obsolete stock is capital and shelf space already spent. Once a lot is past its recovery window it is a pure loss; a few weeks earlier the same lot could be renegotiated with a vendor, redirected, or moved at a discount.
+
+## What I built
+
+Automated planning analytics and variance reporting that decomposed forecast error by SKU and cause, so the fix could target the actual driver. On top of it, a redesigned shelf-life process with an early trigger for offloading inventory that current velocity would not sell before expiry, paired with vendor contract negotiation. Excess and obsolete inventory fell 29%, and $300K of at-risk stock was recovered.

@@ -1,14 +1,14 @@
 ---
 title: Location-level assortment optimization
-summary: Product mix tailored per machine using sell-through velocity and free public demographic data.
+summary: Fleet-wide menu and assortment strategy. The product mix is tailored per location from sell-through velocity and free public demographic data, and lifted sales 33%.
 category: Optimization
 org: Crave Robotics
 period: "2026"
 role: Sole owner
 tier: 2
-order: 3
+order: 1
 disclosure: B
-headline: { value: "Cold start", label: "assortment for machines with no sales history" }
+headline: { value: "+33%", label: "sales increase after reworking the fleet-wide product mix" }
 stack: [Public census data, Machine telemetry, PostgreSQL]
 architecture:
   - Per-machine velocity history
@@ -20,10 +20,15 @@ demo: platform:menus
 demoNote: >-
   This is the actual Preset Menus module of the operating platform. Location names and product
   lists are synthetic; the screen and its layout are real.
+metrics:
+  - { label: "Sales increase", value: "+33%", emphasis: true }
+  - { label: "Declining categories rescued", value: "+26%", emphasis: true }
+  - { label: "Machines covered", value: "28" }
 tldr:
   - "A campus and an office should not stock the same products."
   - "Velocity drives the mix; public census data covers new machines with no sales history."
-  - "Shipped, but not yet measured. No impact number claimed."
+  - "Analyzing product and location performance drove a 33% sales increase through better product positioning."
+  - "Declining categories were rescued, with their sales up 26%."
 learned: >-
   Demographics are a useful prior and a poor substitute for observed behaviour. The recommendation
   is only as good as the handoff from demographic prior to velocity-driven optimization once real
@@ -31,15 +36,8 @@ learned: >-
 next: >-
   A formal cold-start-to-velocity blend with an explicit confidence weight. Margin weighting rather
   than velocity alone. Slot-level constrained optimization instead of ranked scoring. Controlled
-  A/B testing of assortment changes so the effect is measurable.
-bullets:
-  headline: Built location-level assortment optimization combining per-machine sell-through velocity with public demographic data, solving the cold-start problem for newly installed machines.
-  technical: Integrated free public demographic datasets with live telemetry into a per-location product scoring and slot allocation system.
-  strategy: Reframed a uniform product catalog as a constrained allocation problem, targeting the highest-leverage revenue lever available without capital expenditure.
-  ownership: Designed and shipped the assortment methodology as a module of the platform I own.
+  A/B testing of assortment changes, so the effect of each lever can be separated from the others.
 roleFit: { "BizOps": 3, "Strategy & Ops": 2, "Supply Chain / Ops": 2, "Product Ops": 2, "AI": 1, "GTM / Growth": 0 }
-todo:
-  - No measured impact yet. Add revenue per machine, waste reduction, or slow-mover slot reduction if any becomes available.
 ---
 
 ## The problem
@@ -56,4 +54,4 @@ A location-level assortment recommendation combining observed per-machine per-pr
 
 Velocity is the primary signal wherever it exists. The demographic layer exists to solve the cold-start problem: a machine installed last week has no sales history, and the alternative to a demographic prior is stocking it with the fleet average and waiting a month to find out it was wrong.
 
-I have deliberately not published an impact figure here, because I do not have one that I trust. The methodology shipped; the controlled measurement of its effect has not been run.
+The analysis behind it went product by product and location by location: which items earn their slot where, and which categories were declining rather than genuinely weak. Improved product positioning drove a 33% increase in sales, and categories that had been in decline recovered, with their sales up 26%. I am also developing supplier partnerships for in-house branded food products, so the menu is not limited to what the market already sells us.

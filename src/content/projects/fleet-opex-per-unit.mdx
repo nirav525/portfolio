@@ -1,0 +1,53 @@
+---
+title: Fleet OpEx per Unit — one number for a growing fleet
+summary: Defined a per-machine operating-cost metric so the business could tell whether growth was getting cheaper or more expensive to run, then cut it by a third.
+category: Strategy & Operations
+org: Crave Robotics
+period: "2026"
+role: Metric owner; built the tracking and the improvements behind it
+tier: 1
+order: 4
+disclosure: B
+headline: { value: "−33%", label: "Fleet OpEx per Unit, while the fleet grew from 15 to 28 machines" }
+stack: [Operating platform data, Executive reporting]
+architecture:
+  - Service and field cost inputs
+  - Active machine count
+  - All-in cost per machine per month
+  - Targeted improvements
+  - Dispatch and route clustering
+demo: fou
+demoNote: >-
+  An illustrative model of how the metric behaves. Every input and rate is synthetic; the real
+  cost components and values are internal. The −33% on this page is the real result.
+metrics:
+  - { label: "Fleet OpEx per Unit", value: "−33%", emphasis: true }
+  - { label: "Machines in fleet", before: "15", after: "28", delta: "+87%" }
+tldr:
+  - "A growing fleet makes total cost useless as a signal, so I defined a per-unit one: all-in service cost per active machine per month."
+  - "Defined it, tracked it, and used it to judge which operational changes were worth keeping."
+  - "Dispatch optimization and route clustering reduced it by 33%."
+learned: >-
+  Total cost rises with the fleet whether operations improve or not, so it hides the thing you
+  most want to see. The fix was not better reporting; it was choosing the right denominator.
+  Once the metric was per active machine, a change in cost could be read as a change in how well
+  the fleet was run.
+next: >-
+  Break FOU out by region and location type so the cost of a new placement can be estimated before
+  it is signed, not measured after.
+roleFit: { "Strategy & Ops": 3, "BizOps": 3, "Supply Chain / Ops": 2, "Product Ops": 1, "AI": 0, "GTM / Growth": 0 }
+---
+
+## The problem
+
+The fleet was growing, and total operating cost grew with it. That made total cost a poor signal: it rises whether operations are getting better or worse, so it cannot answer the question leadership actually asked, which was whether each additional machine was getting cheaper or more expensive to run.
+
+## Why it mattered
+
+Every placement decision, hiring decision, and routing decision has a service-cost consequence, and none of them were being compared on one scale. Without a shared denominator, an improvement in one place could not be told apart from growth somewhere else.
+
+## What I built
+
+A single metric, **Fleet OpEx per Unit (FOU)**: the all-in cost of servicing the fleet in a month, divided by the number of active machines. I defined it and I track it, and it is the number I use to judge whether an operational change was worth keeping.
+
+FOU fell by 33%. The large movers were operational rather than financial: dispatch optimization and geographic clustering of stops, described in [Autonomous technician dispatch](/projects/dispatch-optimization). Because the metric is per unit, the result holds while the fleet nearly doubled from 15 to 28 machines, which total cost could never have shown.

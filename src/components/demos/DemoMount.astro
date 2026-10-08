@@ -9,6 +9,9 @@ import SpreadsheetMockup from './SpreadsheetMockup';
 import MealPlanner from './MealPlanner';
 import LiftLog from './LiftLog';
 import MarketScore from './MarketScore';
+import FouModel from './FouModel';
+import RecallMatcher from './RecallMatcher';
+import ShelfLife from './ShelfLife';
 
 interface Props { name: string }
 const { name } = Astro.props;
@@ -21,3 +24,6 @@ const [base, variant] = name.split(':');
 {base === 'mealplanner' && <MealPlanner client:visible />}
 {base === 'liftlog' && <LiftLog client:visible />}
 {base === 'marketscore' && <MarketScore client:visible />}
+{base === 'fou' && <FouModel client:visible />}
+{base === 'recall' && <RecallMatcher client:visible />}
+{base === 'shelflife' && <ShelfLife client:visible />}
