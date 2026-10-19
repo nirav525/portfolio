@@ -1,0 +1,62 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base
+  title="Privacy policy – Nirav Sampat"
+  description="How niravsampat.com and Nirav Sampat's poutreach email tool handle data."
+  path="/privacy/"
+>
+  <article class="policy">
+    <h1>Privacy policy</h1>
+    <p class="updated">Last updated 19 October 2026</p>
+
+    <h2>This website</h2>
+    <p>
+      niravsampat.com is my personal portfolio. It sets no cookies and runs no analytics,
+      advertising or tracking scripts. It is hosted on Cloudflare Pages, which processes
+      standard technical information (such as your IP address and browser) to deliver the
+      pages, and its fonts are served by Google Fonts.
+    </p>
+
+    <h2>poutreach, my email tool</h2>
+    <p>
+      poutreach is a private tool I built for my own use. The Google app named "poutreach"
+      connects only to my own Google accounts, with permission to read and send email. It
+      sends individual emails I have written or approved, and reads the replies to them. It
+      is not offered to anyone else.
+    </p>
+    <ul>
+      <li>Google user data it reads stays on my own computer. It is never sold, shared for
+        advertising, or used to build profiles.</li>
+      <li>The text of a reply may be processed by Anthropic's Claude API only to sort it
+        (for example "interested" or "not now"), so I can answer it.</li>
+      <li>Anthropic does not use API data to train its models by default.</li>
+    </ul>
+
+    <h2>If I have emailed you</h2>
+    <p>
+      I keep your name, work email address, job title and company, which come from public
+      business sources (Apollo) and your company's website, plus whether you replied. I use
+      them only to write to you, to avoid writing twice, and to respect a request to stop.
+      Email addresses are checked for deliverability with ZeroBounce before I write.
+    </p>
+    <p>
+      To stop hearing from me, reply "stop" to any email. To have your details deleted,
+      email <a href="mailto:nirav@niravsampat.com">nirav@niravsampat.com</a> and I will
+      remove them.
+    </p>
+
+    <h2>Contact</h2>
+    <p>Nirav Sampat, <a href="mailto:nirav@niravsampat.com">nirav@niravsampat.com</a></p>
+  </article>
+</Base>
+
+<style>
+  .policy { max-width: 42rem; margin: 0 auto; padding: 3rem 1.25rem 4rem; line-height: 1.6; }
+  .policy h1 { margin-bottom: 0.25rem; }
+  .policy .updated { opacity: 0.7; margin-top: 0; }
+  .policy h2 { margin-top: 2rem; font-size: 1.15rem; }
+  .policy ul { padding-left: 1.2rem; }
+  .policy li { margin-bottom: 0.4rem; }
+</style>
