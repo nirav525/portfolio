@@ -107,8 +107,8 @@ export default function HeroScene() {
   useEffect(() => {
     const el = host.current;
     if (!el) return;
-    // Reduced-motion visitors skip the build-up and the camera sway, but the vans still
-    // drive (slowly), and everyone gets a pause button.
+    // Reduced-motion visitors skip the camera sway and the mouse parallax and get slower vans;
+    // the build-up still plays, and everyone gets a pause button.
     const calm = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     let renderer: THREE.WebGLRenderer;
@@ -256,25 +256,30 @@ export default function HeroScene() {
     window.addEventListener('pointermove', onMove, { passive: true });
 
     // State for the animation.
-    const GROW_AT = 2.2, GROW_STEP = 0.16;
+    // One cycle: hold at 15, add the 13 machines one at a time, hold at 28, then wind back.
+    const GROW_AT = 2.5, GROW_STEP = 0.42, GROW_LEN = 0.7, HOLD = 7, SHRINK_LEN = 1.4;
+    const SHRINK_AT = GROW_AT + 13 * GROW_STEP + GROW_LEN + HOLD;
+    const PERIOD = SHRINK_AT + SHRINK_LEN + 0.8;
+    const cycle = () => t % PERIOD;
+    const shrinkK = () => clamp01((cycle() - SHRINK_AT) / SHRINK_LEN);
     // A route switches over (or appears) once the last machine added to its area has grown in.
     const doneAt = Array.from({ length: CENTERS.length }, (_, c) => {
-      const last = Math.max(...machines.filter((m) => m.cluster === c && m.order >= START).map((m) => m.order), START);
-      return GROW_AT + (last - START) * GROW_STEP + 0.7;
+      const lastOrder = Math.max(...machines.filter((m) => m.cluster === c && m.order >= START).map((m) => m.order), START);
+      return GROW_AT + (lastOrder - START) * GROW_STEP + GROW_LEN;
     });
-    const fade = (c: number) => (calm ? 1 : clamp01((t - doneAt[c]) / 1.0));
-    const vstate = vans.map(() => ({ lap: -1, curve: routesA[0].curve }));
+    const fade = (c: number) => clamp01((cycle() - doneAt[c]) / 1.0) * (1 - shrinkK());
+    const vstate = vans.map(() => ({ lap: -1, c: 0, shift: 0, curve: routesA[0].curve }));
     let shown = START;
     let visible = true;
     let raf = 0;
     let last = performance.now();
-    let t = calm ? 99 : 0; // scene timeline: machines growing, routes swapping
+    let t = 0; // scene timeline: loops forever (15 machines, growth, 28 machines, reset)
     let vt = 0; // van clock
 
     const frame = (now: number) => {
       const dt = Math.min(0.05, (now - last) / 1000);
       last = now;
-      if (!calm) t += dt;
+      t += dt;
       vt += dt;
 
       // Grow the new machines in sequence.
@@ -282,7 +287,7 @@ export default function HeroScene() {
       meshes.forEach((g, i) => {
         const m = machines[i];
         if (m.order < START) return;
-        const k = clamp01((t - GROW_AT - (m.order - START) * GROW_STEP) / 0.6);
+        const k = clamp01((cycle() - GROW_AT - (m.order - START) * GROW_STEP) / GROW_LEN) * (1 - shrinkK());
         g.scale.setScalar(Math.max(0.0001, easeOutBack(k) * machineScale));
         if (k > 0.45) n++;
       });
@@ -297,15 +302,18 @@ export default function HeroScene() {
       // switch happens at the depot and looks seamless.
       vans.forEach((v, k) => {
         const speed = (0.055 + k * 0.006) * (calm ? 0.55 : 1); // laps per second: ~18s a lap
-        const L = vt * speed + k * 0.25;
+        const st = vstate[k];
+        // If the loop a van is on has been wound back, send it to the depot to start a fresh lap.
+        if (st.c >= BASE && fade(st.c) < 0.2) st.shift += 1 - (((vt * speed + k * 0.25 + st.shift) % 1 + 1) % 1);
+        const L = vt * speed + k * 0.25 + st.shift;
         const lap = Math.floor(L);
         const u = L - lap;
-        const st = vstate[k];
         if (st.lap !== lap) {
           st.lap = lap;
           const loops = [k];
           for (let c = BASE + k; c < CENTERS.length; c += VANS) if (fade(c) > 0.5) loops.push(c);
           const c = loops[lap % loops.length];
+          st.c = c;
           st.curve = (c >= BASE || fade(c) > 0.5 ? routesB : routesA)[c].curve;
           cargoMats[k].color.setHex(PALETTE[c]);
         }
@@ -339,7 +347,6 @@ export default function HeroScene() {
     const onVis = () => { if (!document.hidden && visible && !pausedRef.current) start(); };
     document.addEventListener('visibilitychange', onVis);
     start();
-    if (calm) setCount(TOTAL);
 
     return () => {
       cancelAnimationFrame(raf);
