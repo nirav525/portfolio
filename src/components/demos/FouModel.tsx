@@ -12,7 +12,7 @@ const MILE_COST = 0.7; // $/mile, illustrative
 type Inputs = { machines: number; hours: number; miles: number; other: number };
 
 const BEFORE: Inputs = { machines: 15, hours: 200, miles: 1900, other: 500 };
-const AFTER: Inputs = { machines: 28, hours: 136, miles: 1310, other: 500 };
+const AFTER: Inputs = { machines: 35, hours: 136, miles: 1310, other: 540 };
 
 function breakdown(i: Inputs) {
   const labor = i.hours * LABOR_RATE;
@@ -64,7 +64,7 @@ export default function FouModel() {
     <div className="fx">
       <div className="fx-presets" role="group" aria-label="Scenario presets">
         <button type="button" className={v === BEFORE ? 'on' : ''} onClick={() => setV(BEFORE)}>Hand-planned routes, 15 machines</button>
-        <button type="button" className={v === AFTER ? 'on' : ''} onClick={() => setV(AFTER)}>Optimized routes, 28 machines</button>
+        <button type="button" className={v === AFTER ? 'on' : ''} onClick={() => setV(AFTER)}>Optimized routes, 35 machines</button>
       </div>
 
       <div className="dd-grid">
@@ -116,7 +116,7 @@ export default function FouModel() {
       <p className="dd-explain">
         <strong>Why per unit.</strong> Total cost goes up when a fleet grows even if operations get
         better, so it cannot tell you whether growth is getting cheaper to run. Dividing by active
-        machines can. Slide the machine count up with the 28-machine route settings: the total
+        machines can. Slide the machine count up with the 35-machine route settings: the total
         rises, but FOU falls.
       </p>
     </div>

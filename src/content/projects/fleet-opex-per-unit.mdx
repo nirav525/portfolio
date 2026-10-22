@@ -8,7 +8,7 @@ role: Metric owner; built the tracking and the improvements behind it
 tier: 1
 order: 4
 disclosure: B
-headline: { value: "−33%", label: "Fleet OpEx per Unit, while the fleet grew from 15 to 28 machines" }
+headline: { value: "−33%", label: "Fleet OpEx per Unit, while the fleet grew from 15 to 35 machines" }
 stack: [Operating platform data, Executive reporting]
 architecture:
   - Service and field cost inputs
@@ -22,7 +22,7 @@ demoNote: >-
   cost components and values are internal. The −33% on this page is the real result.
 metrics:
   - { label: "Fleet OpEx per Unit", value: "−33%", emphasis: true }
-  - { label: "Machines in fleet", before: "15", after: "28", delta: "+87%" }
+  - { label: "Machines in fleet", before: "15", after: "35", delta: "+133%" }
 tldr:
   - "A growing fleet makes total cost useless as a signal, so I defined a per-unit one: all-in service cost per active machine per month."
   - "Defined it, tracked it, and used it to judge which operational changes were worth keeping."
@@ -50,4 +50,4 @@ Every placement decision, hiring decision, and routing decision has a service-co
 
 A single metric, **Fleet OpEx per Unit (FOU)**: the all-in cost of servicing the fleet in a month, divided by the number of active machines. I defined it and I track it, and it is the number I use to judge whether an operational change was worth keeping.
 
-FOU fell by 33%. The large movers were operational rather than financial: dispatch optimization and geographic clustering of stops, described in [Autonomous technician dispatch](/projects/dispatch-optimization). Because the metric is per unit, the result holds while the fleet nearly doubled from 15 to 28 machines, which total cost could never have shown.
+FOU fell by 33%. The large movers were operational rather than financial: dispatch optimization and geographic clustering of stops, described in [Autonomous technician dispatch](/projects/dispatch-optimization). Because the metric is per unit, the result holds while the fleet more than doubled from 15 to 35 machines, which total cost could never have shown.

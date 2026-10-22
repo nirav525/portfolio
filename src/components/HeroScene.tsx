@@ -3,24 +3,24 @@ import * as THREE from 'three';
 
 /**
  * A small 3D model of the dispatch story: a depot, four technician routes, and
- * a fleet that grows from 15 to 28 machines while the same vans keep
+ * a fleet that grows from 15 to 35 machines while the same vans keep
  * serving it. Purely illustrative; positions are random, not real locations.
  */
 
 const START = 15;
-const TOTAL = 28;
-// Seven service areas. The fleet starts in the first four; growth fills them in and
-// opens three new ones, each of which becomes its own route.
-const PALETTE = [0x0f766e, 0x1d4ed8, 0xb45309, 0x6d28d9, 0xbe185d, 0x4d7c0f, 0x0369a1];
+const TOTAL = 35;
+// Eight service areas. The fleet starts in the first four; growth fills them in and
+// opens four new ones, each of which becomes its own route.
+const PALETTE = [0x0f766e, 0x1d4ed8, 0xb45309, 0x6d28d9, 0xbe185d, 0x4d7c0f, 0x0369a1, 0x334155];
 const CENTERS: [number, number][] = [
   [-5.0, -3.2], [5.2, -3.6], [4.8, 5.0], [-4.4, 5.4],
-  [0.4, -8.4], [9.2, 0.8], [-9.2, 1.0],
+  [0.4, -8.4], [9.2, 0.8], [-9.2, 1.0], [0.2, 9.6],
 ];
 const BASE = 4; // service areas the starting fleet occupies
 const VANS = 4; // the team does not grow
 
 // Which service area machine i belongs to. The first 15 spread over the four base areas;
-// the next 4 densify them; the last 9 open three new areas.
+// the next 4 densify them; the last 16 open four new areas (4 each).
 function clusterOf(i: number) {
   if (i < START + BASE) return i % BASE;
   return BASE + ((i - START - BASE) % (CENTERS.length - BASE));
@@ -127,7 +127,7 @@ export default function HeroScene() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
     const world = new THREE.Group();
-    world.scale.setScalar(0.86); // leave room for the three new service areas
+    world.scale.setScalar(0.8); // leave room for the four new service areas
     scene.add(world);
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0xcfd9d4, 1.15));
@@ -256,9 +256,9 @@ export default function HeroScene() {
     window.addEventListener('pointermove', onMove, { passive: true });
 
     // State for the animation.
-    // One cycle: hold at 15, add the 13 machines one at a time, hold at 28, then wind back.
-    const GROW_AT = 2.5, GROW_STEP = 0.42, GROW_LEN = 0.7, HOLD = 7, SHRINK_LEN = 1.4;
-    const SHRINK_AT = GROW_AT + 13 * GROW_STEP + GROW_LEN + HOLD;
+    // One cycle: hold at 15, add the new machines one at a time, hold at 35, then wind back.
+    const GROW_AT = 2.5, GROW_STEP = 0.34, GROW_LEN = 0.7, HOLD = 7, SHRINK_LEN = 1.4;
+    const SHRINK_AT = GROW_AT + (TOTAL - START) * GROW_STEP + GROW_LEN + HOLD;
     const PERIOD = SHRINK_AT + SHRINK_LEN + 0.8;
     const cycle = () => t % PERIOD;
     const shrinkK = () => clamp01((cycle() - SHRINK_AT) / SHRINK_LEN);
@@ -273,7 +273,7 @@ export default function HeroScene() {
     let visible = true;
     let raf = 0;
     let last = performance.now();
-    let t = 0; // scene timeline: loops forever (15 machines, growth, 28 machines, reset)
+    let t = 0; // scene timeline: loops forever (15 machines, growth, 35 machines, reset)
     let vt = 0; // van clock
 
     const frame = (now: number) => {

@@ -1,6 +1,6 @@
 ---
 title: Autonomous technician dispatch
-summary: Nightly route optimization that took a vending-robot fleet from 15 to 28 machines on the same technician team, and cut the fleet-wide out-of-stock rate from 11% to 4.8%.
+summary: Nightly route optimization that took a vending-robot fleet from 15 to 35 machines on the same technician team, and cut the fleet-wide out-of-stock rate from 11% to 4.8%.
 category: Optimization
 org: Crave Robotics
 period: "2026"
@@ -8,7 +8,7 @@ role: Sole designer, builder, and operator
 tier: 1
 order: 1
 disclosure: B
-headline: { value: "11% → 4.8%", label: "fleet-wide out-of-stock rate, while the fleet grew from 15 to 28 machines" }
+headline: { value: "11% → 4.8%", label: "fleet-wide out-of-stock rate, while the fleet grew from 15 to 35 machines" }
 stack: [Google OR-Tools, Node.js, PostgreSQL, Google Maps API, GitHub Actions, Slack API]
 architecture:
   - Machine telemetry
@@ -27,7 +27,7 @@ demoNote: >-
   at a scale small enough to solve instantly on the client. Locations, fill levels, and the depot
   are synthetic.
 metrics:
-  - { label: "Machines in fleet", before: "15", after: "28", delta: "+87%", emphasis: true }
+  - { label: "Machines in fleet", before: "15", after: "35", delta: "+133%", emphasis: true }
   - { label: "Fleet-wide out-of-stock rate", before: "11%", after: "4.8%", delta: "−6.2 pts", emphasis: true }
   - { label: "Revenue lost to stockouts", value: "−60%", emphasis: true }
   - { label: "Field technician headcount", value: "Flat" }
@@ -36,7 +36,7 @@ metrics:
   - { label: "Daily planning time", before: "~120 min", after: "~10 min", delta: "−92%" }
   - { label: "Fleet OpEx per unit", value: "−33%" }
 tldr:
-  - "Fleet grew from 15 to 28 machines. The technician team did not grow."
+  - "Fleet grew from 15 to 35 machines. The technician team did not grow."
   - "Out-of-stock rate fell from 11% to 4.8%; revenue lost to stockouts fell 60%."
   - "Hours and mileage per technician fell about 32% and 31%."
   - "Planning went from about two hours a day to ten minutes, and a re-solve takes under 30 seconds."
@@ -69,6 +69,6 @@ The decision that mattered most was **choosing geographic clustering over strict
 
 Much of the iteration went into failure modes that only appear in production: keying velocity by machine serial number rather than location, because machines get relocated; PLC alert detection; product-ID casing normalization across data sources; top-sellers-out prioritization; and cron timing against telemetry refresh.
 
-> **On attributing the numbers.** Per-technician improvements are not attributable to routing alone. Growing from 15 to 28 machines increased geographic density, which reduces drive time per machine independent of route quality, and the periods compared differ seasonally for campus-adjacent locations. The defensible claim is the joint one: the fleet nearly doubled while hours and mileage per technician fell roughly 32% and 31% on the same team. Optimization and density together made that possible.
+> **On attributing the numbers.** Per-technician improvements are not attributable to routing alone. Growing from 15 to 35 machines increased geographic density, which reduces drive time per machine independent of route quality, and the periods compared differ seasonally for campus-adjacent locations. The defensible claim is the joint one: the fleet more than doubled while hours and mileage per technician fell roughly 32% and 31% on the same team. Optimization and density together made that possible.
 
 The out-of-stock rate is the number I watch most closely. It fell from 11% to 4.8% across the fleet and revenue lost to stockouts fell 60%, but it did not reach zero – a good share of what remains traces to hardware faults that a separate team owns. Routes also became stable enough to publish the night before, and the fleet ran two weeks at three technicians instead of four without service degradation.
