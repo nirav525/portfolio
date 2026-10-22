@@ -2,6 +2,10 @@
 import { getCollection } from 'astro:content';
 import Base from '../layouts/Base.astro';
 import ProjectGrid from '../components/ProjectGrid.astro';
+import HeroScene from '../components/HeroScene';
+import Timeline from '../components/sections/Timeline.astro';
+import Skills from '../components/sections/Skills.astro';
+import Contact from '../components/sections/Contact.astro';
 
 const projects = (await getCollection('projects', ({ data }) => !data.draft)).sort(
   (a, b) => a.data.tier - b.data.tier || a.data.order - b.data.order,
@@ -17,18 +21,6 @@ const RESULTS = [
   { value: '+33%', label: 'Sales from reworking the product mix', href: '/projects/assortment-optimization', cat: 'Optimization' },
   { value: '$3M+', label: 'Procurement and planning savings from forecasting', href: '/projects/demand-forecasting-scale', cat: 'Data / Analytics' },
 ];
-
-// Hero animation geometry: a depot, three technician loops, clustered stops.
-const ROUTES = [
-  'M300,150 L168,86 L104,132 L142,196 L228,206 Z',
-  'M300,150 L392,74 L470,104 L452,178 L376,164 Z',
-  'M300,150 L246,244 L318,286 L404,252 L386,190 Z',
-];
-const STOPS = [
-  [168, 86], [104, 132], [142, 196], [228, 206],
-  [392, 74], [470, 104], [452, 178], [376, 164],
-  [246, 244], [318, 286], [404, 252], [386, 190],
-];
 ---
 
 <Base
@@ -36,27 +28,25 @@ const STOPS = [
   description={`Strategy and operations work I built hands-on with AI: dispatch, planning, inventory, and reporting systems. ${projects.length} projects with interactive demos on synthetic data.`}
   path="/"
 >
-  <section class="hero">
-    <div class="hero-bg" aria-hidden="true">
-      <svg viewBox="0 0 600 340" preserveAspectRatio="xMidYMid slice">
-        {ROUTES.map((d, i) => <path class="route" d={d} style={`--i:${i}`} />)}
-        {STOPS.map(([x, y], i) => <circle class="stop" cx={x} cy={y} r="4" style={`--i:${i}`} />)}
-        <rect class="depot" x="293" y="143" width="14" height="14" />
-      </svg>
-    </div>
-
-    <div class="shell hero-inner">
-      <p class="eyebrow rise" style="--d:40ms">Strategy &amp; Operations &middot; Crave Robotics</p>
-      <h1 class="rise" style="--d:100ms">Nirav Sampat</h1>
-      <p class="sub rise" style="--d:170ms">
-        I built my company's operating platform, dispatch system, and planning models myself,
-        with AI, and ran them in production. Before that, demand planning at Botrista.
-      </p>
-      <p class="links rise" style="--d:230ms">
-        <a class="primary" href="mailto:niravsampat525@gmail.com">Email me</a>
-        <a href="https://www.linkedin.com/in/nirav-sampat/" rel="noopener" target="_blank">LinkedIn</a>
-        <span>San Francisco, CA</span>
-      </p>
+  <section class="hero" data-hero>
+    <div class="spot" aria-hidden="true"></div>
+    <div class="shell hero-grid">
+      <div class="copy">
+        <p class="eyebrow rise" style="--d:40ms">Strategy &amp; Operations &middot; Crave Robotics</p>
+        <h1 class="rise" style="--d:100ms">Nirav <span class="grad">Sampat</span></h1>
+        <p class="sub rise" style="--d:170ms">
+          I built my company's operating platform, dispatch system, and planning models myself,
+          with AI, and ran them in production. Before that, demand planning at Botrista.
+        </p>
+        <p class="links rise" style="--d:230ms">
+          <a class="primary" href="#work">See the work</a>
+          <a href="mailto:niravsampat525@gmail.com">Email me</a>
+          <a href="https://www.linkedin.com/in/nirav-sampat/" rel="noopener" target="_blank">LinkedIn</a>
+        </p>
+      </div>
+      <div class="scene rise" style="--d:200ms">
+        <HeroScene client:load />
+      </div>
     </div>
 
     <div class="shell">
@@ -64,7 +54,7 @@ const STOPS = [
         {RESULTS.map((r) => (
           <li>
             <a href={r.href} data-cat={r.cat}>
-              <span class="rv">{r.value}</span>
+              <span class="rv" data-count={r.value}>{r.value}</span>
               <span class="rl">{r.label}</span>
             </a>
           </li>
@@ -73,72 +63,115 @@ const STOPS = [
     </div>
   </section>
 
-  <div class="shell">
+  <div class="shell" id="work">
     <ProjectGrid projects={projects} />
   </div>
+
+  <Timeline />
+  <Skills />
+  <Contact />
 </Base>
+
+<script>
+  // Cursor spotlight behind the hero.
+  const hero = document.querySelector<HTMLElement>('[data-hero]');
+  if (hero && window.matchMedia('(hover: hover)').matches) {
+    hero.addEventListener('pointermove', (e) => {
+      const b = hero.getBoundingClientRect();
+      hero.style.setProperty('--mx', `${e.clientX - b.left}px`);
+      hero.style.setProperty('--my', `${e.clientY - b.top}px`);
+    });
+  }
+
+  // Count the headline figures up when they scroll into view.
+  const nums = document.querySelectorAll<HTMLElement>('.rv');
+  const io = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((e) => {
+        if (!e.isIntersecting) return;
+        io.unobserve(e.target);
+        if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+        const el = e.target as HTMLElement;
+        const raw = el.dataset.count ?? '';
+        // Rewrite every number in the string, so "11% → 4.8%" ticks both sides.
+        const parts = raw.split(/(\d[\d,.]*)/);
+        const start = performance.now();
+        const tick = (now: number) => {
+          const t = Math.min(1, (now - start) / 1100);
+          const eased = 1 - Math.pow(1 - t, 3);
+          el.textContent = parts
+            .map((p) => {
+              if (!/^\d/.test(p)) return p;
+              const target = parseFloat(p.replace(/,/g, ''));
+              const dp = p.includes('.') ? 1 : 0;
+              return Number((target * eased).toFixed(dp)).toLocaleString(undefined, { minimumFractionDigits: dp });
+            })
+            .join('');
+          if (t < 1) requestAnimationFrame(tick);
+          else el.textContent = raw;
+        };
+        requestAnimationFrame(tick);
+      });
+    },
+    { threshold: 0.6 },
+  );
+  nums.forEach((n) => io.observe(n));
+</script>
 
 <style>
   .hero {
+    --mx: 70%;
+    --my: 30%;
     position: relative;
     overflow: hidden;
-    padding-block: clamp(3rem, 8vw, 5.5rem) clamp(2rem, 5vw, 3rem);
-    background: linear-gradient(180deg, #f3f6f4 0%, var(--paper) 100%);
+    padding-block: clamp(2.5rem, 6vw, 4.5rem) clamp(2rem, 5vw, 3rem);
+    background:
+      radial-gradient(60rem 40rem at 88% 8%, rgba(29, 78, 216, 0.09), transparent 60%),
+      radial-gradient(48rem 34rem at 6% 90%, rgba(15, 118, 110, 0.1), transparent 60%),
+      linear-gradient(180deg, #f3f6f4 0%, var(--paper) 100%);
     border-bottom: 1px solid var(--rule);
     margin-bottom: clamp(2rem, 5vw, 3.25rem);
   }
-  .hero-bg { position: absolute; inset: 0; opacity: 0.55; }
-  .hero-bg svg { width: 100%; height: 100%; }
-  .hero-bg::after {
-    content: ''; position: absolute; inset: 0;
-    background: linear-gradient(100deg, #f3f6f4 30%, rgba(243, 246, 244, 0.35) 100%);
-  }
-  .route {
-    fill: none; stroke: var(--c-optimization); stroke-width: 1.4;
-    stroke-dasharray: 900; stroke-dashoffset: 900;
-    animation: draw 2.4s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-    animation-delay: calc(var(--i) * 320ms + 200ms); opacity: 0.45;
-  }
-  .stop {
-    fill: var(--c-optimization); opacity: 0;
-    animation: pop 0.4s ease forwards;
-    animation-delay: calc(var(--i) * 110ms + 700ms);
-  }
-  .depot { fill: var(--ink); opacity: 0.8; }
-  @keyframes draw { to { stroke-dashoffset: 0; } }
-  @keyframes pop { to { opacity: 0.6; } }
-  @media (prefers-reduced-motion: reduce) {
-    .route { animation: none; stroke-dashoffset: 0; }
-    .stop { animation: none; opacity: 0.6; }
+  .spot {
+    position: absolute; inset: 0; pointer-events: none;
+    background: radial-gradient(22rem circle at var(--mx) var(--my), rgba(15, 118, 110, 0.1), transparent 70%);
   }
 
-  .hero-inner { position: relative; }
-  .hero-inner > * { max-width: 46rem; }
+  .hero-grid { position: relative; display: grid; gap: 1rem; align-items: center; }
+  @media (min-width: 56rem) {
+    .hero-grid { grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr); gap: 2rem; }
+  }
+  .scene { height: clamp(19rem, 48vw, 33rem); position: relative; }
+  @media (min-width: 56rem) { .scene { height: 34rem; } }
+
   .eyebrow {
     font-size: 0.78rem; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase;
     color: var(--signal); margin: 0 0 0.9rem;
   }
   h1 {
-    font-size: clamp(2.4rem, 6.5vw, 3.9rem); letter-spacing: -0.04em; line-height: 1.04;
+    font-size: clamp(2.8rem, 7.5vw, 4.6rem); letter-spacing: -0.045em; line-height: 1.02;
     margin: 0; color: var(--ink);
+  }
+  .grad {
+    background: linear-gradient(100deg, var(--c-optimization) 0%, var(--c-strategy) 60%, var(--c-ai) 100%);
+    -webkit-background-clip: text; background-clip: text; color: transparent;
+    padding-right: 0.04em;
   }
   .sub {
     margin: 1.2rem 0 0; font-size: clamp(1.02rem, 1.4vw, 1.18rem);
-    color: var(--slate); max-width: 40rem; line-height: 1.55;
+    color: var(--slate); max-width: 34rem; line-height: 1.55;
   }
-  .links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.8rem; margin: 1.5rem 0 0; font-size: var(--step--1); }
+  .links { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.8rem; margin: 1.6rem 0 0; font-size: var(--step--1); }
   .links a {
-    padding: 0.5rem 1rem; border: 1px solid var(--rule-strong); border-radius: 999px;
+    padding: 0.6rem 1.15rem; border: 1px solid var(--rule-strong); border-radius: 999px;
     color: var(--ink); text-decoration: none; font-weight: 500; background: #fff;
-    transition: background-color 0.15s, color 0.15s, border-color 0.15s;
+    transition: transform 0.15s, background-color 0.15s, border-color 0.15s;
   }
-  .links a:hover { border-color: var(--ink); }
+  .links a:hover { border-color: var(--ink); transform: translateY(-2px); }
   .links a.primary { background: var(--ink); border-color: var(--ink); color: #fff; }
-  .links a.primary:hover { background: #24384a; }
-  .links span { color: var(--slate-soft); margin-left: 0.4rem; }
 
   .results {
-    position: relative; list-style: none; margin: clamp(2rem, 5vw, 3rem) 0 0; padding: 0;
+    position: relative; list-style: none; margin: clamp(2rem, 5vw, 2.75rem) 0 0; padding: 0;
     display: grid; gap: 0.85rem; grid-template-columns: repeat(2, minmax(0, 1fr));
   }
   @media (min-width: 52rem) { .results { grid-template-columns: repeat(3, minmax(0, 1fr)); } }
@@ -146,21 +179,39 @@ const STOPS = [
     --cat: var(--c-side);
     display: grid; gap: 0.25rem; height: 100%;
     padding: 1rem 1.1rem 1.05rem;
-    background: #fff; border: 1px solid var(--rule); border-top: 3px solid var(--cat);
+    background: rgba(255, 255, 255, 0.82); backdrop-filter: blur(6px);
+    border: 1px solid var(--rule); border-top: 3px solid var(--cat);
     text-decoration: none; color: inherit;
     transition: transform 0.16s ease, box-shadow 0.16s ease;
   }
-  .results a[data-cat='Optimization'] { --cat: var(--c-optimization); }
-  .results a[data-cat='Strategy & Operations'] { --cat: var(--c-strategy); }
-  .results a[data-cat='Internal Tools'] { --cat: var(--c-tools); }
-  .results a[data-cat='Data / Analytics'] { --cat: var(--c-data); }
   .results a:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 24px -16px color-mix(in srgb, var(--cat) 70%, transparent);
+    transform: translateY(-3px);
+    box-shadow: 0 12px 26px -16px color-mix(in srgb, var(--cat) 70%, transparent);
   }
   .rv {
     font-size: clamp(1.55rem, 4vw, 2.1rem); font-weight: 700; letter-spacing: -0.035em;
     line-height: 1.05; color: var(--cat); font-variant-numeric: tabular-nums; white-space: nowrap;
   }
   .rl { font-size: var(--step--1); color: var(--slate); line-height: 1.35; }
+</style>
+
+<style is:global>
+  .hs { position: absolute; inset: 0; }
+  .hs-canvas { position: absolute; inset: 0; }
+  .hs-hud {
+    position: absolute; left: 0.5rem; bottom: 0.5rem; display: flex; align-items: center; gap: 0.8rem;
+    padding: 0.65rem 0.95rem; background: rgba(255, 255, 255, 0.85); backdrop-filter: blur(8px);
+    border: 1px solid var(--rule); border-left: 3px solid var(--c-optimization);
+  }
+  .hs-num { font-size: 2.3rem; font-weight: 700; letter-spacing: -0.04em; line-height: 1; color: var(--c-optimization); font-variant-numeric: tabular-nums; min-width: 2.6ch; }
+  .hs-cap { font-size: 0.78rem; line-height: 1.3; color: var(--slate); }
+  .hs-pause {
+    position: absolute; right: 0.5rem; bottom: 0.5rem; font: inherit; font-size: 0.74rem; cursor: pointer;
+    padding: 0.3rem 0.7rem; border-radius: 999px; color: var(--slate); background: rgba(255, 255, 255, 0.85);
+    border: 1px solid var(--rule-strong);
+  }
+  .hs-pause:hover { color: var(--ink); border-color: var(--ink); }
+  .hs-canvas { pointer-events: none; }
+  .hs { pointer-events: none; }
+  .hs-pause { pointer-events: auto; }
 </style>

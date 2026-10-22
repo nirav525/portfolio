@@ -1,0 +1,39 @@
+---
+const email = 'niravsampat525@gmail.com';
+---
+
+<section class="contact" id="contact">
+  <div class="shell">
+    <div class="panel reveal">
+      <h2>Let's talk.</h2>
+      <p>If any of this looks like the kind of work you need done, I'd like to hear about it.</p>
+      <p class="actions">
+        <a class="primary" href={`mailto:${email}`}>{email}</a>
+        <a href="https://www.linkedin.com/in/nirav-sampat/" rel="noopener" target="_blank">LinkedIn</a>
+      </p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact { margin-top: 6rem; }
+  .panel {
+    position: relative; overflow: hidden; padding: clamp(2rem, 5vw, 3.5rem);
+    background: linear-gradient(135deg, #e8f1ee 0%, #e9eefb 55%, #efe9fb 100%);
+    border: 1px solid var(--rule);
+  }
+  .panel::before {
+    content: ''; position: absolute; width: 22rem; height: 22rem; right: -6rem; top: -8rem; border-radius: 50%;
+    background: radial-gradient(circle, rgba(29, 78, 216, 0.16), transparent 65%);
+  }
+  h2 { font-size: var(--step-3); letter-spacing: -0.04em; position: relative; }
+  p { position: relative; margin-top: 0.8rem; color: var(--slate); max-width: 38rem; }
+  .actions { display: flex; flex-wrap: wrap; gap: 0.7rem; margin-top: 1.6rem; }
+  .actions a {
+    padding: 0.7rem 1.3rem; border-radius: 999px; text-decoration: none; font-weight: 500;
+    background: #fff; border: 1px solid var(--rule-strong); color: var(--ink);
+    transition: transform 0.15s, background-color 0.15s;
+  }
+  .actions a:hover { transform: translateY(-2px); }
+  .actions a.primary { background: var(--ink); border-color: var(--ink); color: #fff; }
+</style>

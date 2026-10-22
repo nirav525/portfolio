@@ -59,6 +59,26 @@ const size = (v: string) => (v.length <= 6 ? 'big' : v.length <= 11 ? 'mid' : 's
 </section>
 
 <script>
+  // Tilt cards toward the pointer, with a soft highlight that follows it.
+  const canTilt = window.matchMedia('(hover: hover) and (prefers-reduced-motion: no-preference)').matches;
+  if (canTilt) {
+    document.querySelectorAll<HTMLElement>('.card').forEach((card) => {
+      card.addEventListener('pointermove', (e) => {
+        const b = card.getBoundingClientRect();
+        const x = (e.clientX - b.left) / b.width;
+        const y = (e.clientY - b.top) / b.height;
+        card.style.setProperty('--ry', `${(x - 0.5) * 9}deg`);
+        card.style.setProperty('--rx', `${(0.5 - y) * 7}deg`);
+        card.style.setProperty('--gx', `${x * 100}%`);
+        card.style.setProperty('--gy', `${y * 100}%`);
+      });
+      card.addEventListener('pointerleave', () => {
+        card.style.setProperty('--ry', '0deg');
+        card.style.setProperty('--rx', '0deg');
+      });
+    });
+  }
+
   // Count the numeric headline figures up when they first appear.
   const figures = document.querySelectorAll<HTMLElement>('.figure');
   const io = new IntersectionObserver(
@@ -126,14 +146,20 @@ const size = (v: string) => (v.length <= 6 ? 'big' : v.length <= 11 ? 'mid' : 's
     border-top: 3px solid var(--cat);
     text-decoration: none;
     overflow: hidden;
-    transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s;
+    transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg));
+    transition: transform 0.18s ease-out, box-shadow 0.18s ease, border-color 0.18s;
+    will-change: transform;
   }
+  .card::before {
+    content: ''; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity 0.2s;
+    background: radial-gradient(18rem circle at var(--gx, 50%) var(--gy, 50%), color-mix(in srgb, var(--cat) 16%, transparent), transparent 65%);
+  }
+  .card:hover::before { opacity: 1; }
   .card::after {
     content: ''; position: absolute; inset: 0; background: var(--cat);
     opacity: 0; transition: opacity 0.18s ease; pointer-events: none;
   }
   .card:hover {
-    transform: translateY(-3px);
     box-shadow: 0 10px 26px -14px color-mix(in srgb, var(--cat) 60%, transparent);
     border-color: color-mix(in srgb, var(--cat) 35%, var(--rule));
   }

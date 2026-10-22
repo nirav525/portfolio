@@ -30,13 +30,14 @@ const linkedin = 'https://www.linkedin.com/in/nirav-sampat/';
   </head>
   <body>
     <a href="#main" class="skip">Skip to content</a>
+    <div class="progress" aria-hidden="true"><i></i></div>
     <header class="masthead">
       <div class="shell masthead-inner">
         <a href="/" class="wordmark">{owner}<i>Proof of work</i></a>
         <nav aria-label="Primary">
-          <a href="/">Projects</a>
-          <a href={linkedin} rel="noopener" target="_blank">LinkedIn</a>
-          <a href={`mailto:${email}`} class="nav-cta">Email me</a>
+          <a href="/#work">Work</a>
+          <a href="/#experience">Experience</a>
+          <a href="/#contact" class="nav-cta">Contact</a>
         </nav>
       </div>
     </header>
@@ -60,6 +61,18 @@ const linkedin = 'https://www.linkedin.com/in/nirav-sampat/';
 </html>
 
 <script>
+  // Thin reading-progress bar under the masthead.
+  const bar = document.querySelector<HTMLElement>('.progress i');
+  if (bar) {
+    const update = () => {
+      const max = document.documentElement.scrollHeight - window.innerHeight;
+      bar.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max) : 0})`;
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+
   const io = new IntersectionObserver(
     (entries) => {
       for (const e of entries) {
@@ -75,6 +88,11 @@ const linkedin = 'https://www.linkedin.com/in/nirav-sampat/';
 </script>
 
 <style>
+  .progress { position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 40; pointer-events: none; }
+  .progress i {
+    display: block; height: 100%; transform-origin: left; transform: scaleX(0);
+    background: linear-gradient(90deg, var(--c-optimization), var(--c-strategy), var(--c-ai));
+  }
   .skip {
     position: absolute;
     left: -999px;

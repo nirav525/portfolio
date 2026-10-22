@@ -1,0 +1,162 @@
+---
+// Career timeline. Facts are from the resume; chips link to the matching case study.
+const jobs = [
+  {
+    org: 'Crave Robotics',
+    role: 'Strategy & Operations Analyst',
+    when: 'Mar 2026 – Present',
+    where: 'Los Angeles, CA',
+    cat: 'Optimization',
+    points: [
+      'Built the operating platform, dispatch system, and planning models from zero, and consolidated $100K+/year of SaaS into one owned platform.',
+      'Scaled the fleet from 15 to 28 machines with the same technician team; out-of-stock rate fell from 11% to 4.8%.',
+      'Works directly with the CEO on weekly operating reviews, quarterly priorities, and Board and investor materials.',
+    ],
+    links: [
+      ['Dispatch', 'dispatch-optimization'],
+      ['Operating platform', 'operating-platform'],
+      ['Fleet OpEx per unit', 'fleet-opex-per-unit'],
+      ['Recall monitoring', 'recall-monitoring'],
+      ['AI outreach', 'ai-outreach'],
+      ['Assortment', 'assortment-optimization'],
+    ],
+  },
+  {
+    org: 'Botrista',
+    role: 'Demand Planner',
+    when: 'Jun 2023 – Oct 2025',
+    where: 'San Francisco, CA',
+    cat: 'Supply Chain / Operations',
+    points: [
+      'Forecasts across 600+ SKUs improved accuracy 24% and enabled $3M+ in procurement and planning savings.',
+      'Built the integrated business-planning system that automated 70% of recurring planning workflows.',
+      'Cut excess and obsolete inventory 29% and recovered $300K of at-risk stock.',
+    ],
+    links: [
+      ['Forecasting', 'demand-forecasting-scale'],
+      ['Planning infrastructure', 'ibp-infrastructure'],
+      ['Excess & obsolete', 'excess-obsolete-inventory'],
+    ],
+  },
+  {
+    org: 'La Boulangerie (Shaw Bakers)',
+    role: 'Project Management Intern',
+    when: 'Jan – May 2023',
+    where: 'San Francisco, CA',
+    cat: 'Strategy & Operations',
+    points: ['Cut inventory variances 13% by rebuilding inventory-control processes, and supported an ERP rollout across Sales, Operations, Engineering, and Finance.'],
+    links: [],
+  },
+  {
+    org: 'Materne North America (GoGo Squeez)',
+    role: 'Supply Chain Planning Intern',
+    when: 'May – Dec 2022',
+    where: 'New York, NY',
+    cat: 'Data / Analytics',
+    points: ['Power BI dashboards across 200+ SKUs removed 8+ hours a week of manual reporting; packaging-station changes cut workforce requirements 60%.'],
+    links: [],
+  },
+  {
+    org: 'FactWise',
+    role: 'Product Management Intern',
+    when: 'Feb – Jul 2021',
+    where: 'Mumbai, India',
+    cat: 'Product Operations',
+    points: ['Co-developed the 0→1 product for a B2B procurement SaaS platform across the full Source-to-Pay lifecycle.'],
+    links: [],
+  },
+];
+---
+
+<section class="tl-section" id="experience">
+  <div class="shell">
+    <div class="head">
+      <h2>Where the work happened</h2>
+      <p>M.S. Engineering Management, USC &middot; B.E. Mechanical Engineering, DJS College of Engineering.</p>
+    </div>
+
+    <ol class="tl" data-tl>
+      <span class="spine" aria-hidden="true"><i data-fill></i></span>
+      {jobs.map((j, i) => (
+        <li class={`item reveal ${i % 2 ? 'right' : 'left'}`} data-cat={j.cat}>
+          <span class="node" aria-hidden="true"></span>
+          <div class="card">
+            <p class="when">{j.when} &middot; {j.where}</p>
+            <h3>{j.org}</h3>
+            <p class="role">{j.role}</p>
+            <ul>{j.points.map((p) => <li>{p}</li>)}</ul>
+            {j.links.length > 0 && (
+              <p class="chips">{j.links.map(([l, id]) => <a href={`/projects/${id}`}>{l}</a>)}</p>
+            )}
+          </div>
+        </li>
+      ))}
+    </ol>
+  </div>
+</section>
+
+<script>
+  // Fill the spine as the timeline scrolls through the viewport.
+  const tl = document.querySelector<HTMLElement>('[data-tl]');
+  const fill = tl?.querySelector<HTMLElement>('[data-fill]');
+  if (tl && fill) {
+    const update = () => {
+      const r = tl.getBoundingClientRect();
+      const vh = window.innerHeight;
+      const p = Math.min(1, Math.max(0, (vh * 0.65 - r.top) / r.height));
+      fill.style.transform = `scaleY(${p})`;
+    };
+    update();
+    window.addEventListener('scroll', update, { passive: true });
+    window.addEventListener('resize', update);
+  }
+</script>
+
+<style>
+  .tl-section { margin-top: 6rem; }
+  .head { margin-bottom: 2.5rem; }
+  .head h2 { font-size: var(--step-2); letter-spacing: -0.03em; }
+  .head p { margin-top: 0.4rem; color: var(--slate); font-size: var(--step--1); }
+
+  .tl { list-style: none; margin: 0; padding: 0; position: relative; display: grid; gap: 2.25rem; }
+  .spine {
+    position: absolute; top: 0.4rem; bottom: 0.4rem; left: 0.55rem; width: 2px;
+    background: var(--rule);
+  }
+  .spine i {
+    position: absolute; inset: 0; background: linear-gradient(180deg, var(--c-optimization), var(--c-strategy));
+    transform-origin: top; transform: scaleY(0);
+  }
+  .item { position: relative; padding-left: 2.4rem; }
+  .node {
+    position: absolute; left: 0; top: 1.5rem; width: 1.15rem; height: 1.15rem; border-radius: 50%;
+    background: #fff; border: 3px solid var(--cat); box-shadow: 0 0 0 5px var(--paper);
+  }
+  .card {
+    background: linear-gradient(165deg, color-mix(in srgb, var(--cat) 6%, #fff), #fff 60%);
+    border: 1px solid var(--rule); border-top: 3px solid var(--cat);
+    padding: 1.35rem 1.4rem 1.25rem;
+  }
+  .when { font-size: 0.74rem; font-weight: 600; letter-spacing: 0.04em; text-transform: uppercase; color: var(--cat); }
+  h3 { margin-top: 0.35rem; font-size: 1.2rem; letter-spacing: -0.02em; }
+  .role { color: var(--slate); font-size: var(--step--1); margin-top: 0.1rem; }
+  ul { margin: 0.85rem 0 0; padding-left: 1.05rem; display: grid; gap: 0.4rem; font-size: 0.92rem; line-height: 1.5; color: #1c2b36; }
+  .chips { display: flex; flex-wrap: wrap; gap: 0.4rem; margin-top: 1rem; }
+  .chips a {
+    font-size: 0.76rem; padding: 0.22rem 0.65rem; border-radius: 999px; text-decoration: none;
+    color: var(--cat); border: 1px solid color-mix(in srgb, var(--cat) 35%, var(--rule));
+    background: color-mix(in srgb, var(--cat) 5%, #fff); transition: background-color 0.15s, color 0.15s;
+  }
+  .chips a:hover { background: var(--cat); color: #fff; }
+
+  @media (min-width: 56rem) {
+    .spine { left: 50%; margin-left: -1px; }
+    .item { width: 50%; padding-left: 0; }
+    .item.left { padding-right: 3rem; }
+    .item.right { margin-left: 50%; padding-left: 3rem; }
+    .item.left .node { left: auto; right: -0.58rem; }
+    .item.right .node { left: -0.58rem; }
+    .item.left.reveal:not(.in) { transform: translateX(-18px); }
+    .item.right.reveal:not(.in) { transform: translateX(18px); }
+  }
+</style>
