@@ -9,8 +9,22 @@ import * as THREE from 'three';
 
 const START = 15;
 const TOTAL = 28;
-const PALETTE = [0x0f766e, 0x1d4ed8, 0xb45309, 0x6d28d9];
-const CENTERS: [number, number][] = [[-5.2, -3.4], [5.4, -3.8], [5.0, 5.2], [-4.6, 5.6]];
+// Seven service areas. The fleet starts in the first four; growth fills them in and
+// opens three new ones, each of which becomes its own route.
+const PALETTE = [0x0f766e, 0x1d4ed8, 0xb45309, 0x6d28d9, 0xbe185d, 0x4d7c0f, 0x0369a1];
+const CENTERS: [number, number][] = [
+  [-5.0, -3.2], [5.2, -3.6], [4.8, 5.0], [-4.4, 5.4],
+  [0.4, -8.4], [9.2, 0.8], [-9.2, 1.0],
+];
+const BASE = 4; // service areas the starting fleet occupies
+const VANS = 4; // the team does not grow
+
+// Which service area machine i belongs to. The first 15 spread over the four base areas;
+// the next 4 densify them; the last 9 open three new areas.
+function clusterOf(i: number) {
+  if (i < START + BASE) return i % BASE;
+  return BASE + ((i - START - BASE) % (CENTERS.length - BASE));
+}
 
 function rng(seed: number) {
   return () => {
@@ -29,15 +43,14 @@ type Machine = { cluster: number; pos: THREE.Vector3; order: number };
 function buildMachines(): Machine[] {
   const r = rng(11);
   const out: Machine[] = [];
-  // Round-robin so the first 15 are spread over all four clusters and the next 13 fill in.
   const taken: THREE.Vector3[] = [];
   for (let i = 0; i < TOTAL; i++) {
-    const cluster = i % 4;
+    const cluster = clusterOf(i);
     const [cx, cz] = CENTERS[cluster];
     let p = new THREE.Vector3();
     for (let tries = 0; tries < 60; tries++) {
       const a = r() * Math.PI * 2;
-      const d = 0.9 + r() * 2.6;
+      const d = cluster < BASE ? 0.9 + r() * 2.6 : 0.7 + r() * 1.7;
       p = new THREE.Vector3(cx + Math.cos(a) * d, 0, cz + Math.sin(a) * d);
       if (taken.every((q) => q.distanceTo(p) > 1.15) && p.length() > 2.2) break;
     }
@@ -114,6 +127,7 @@ export default function HeroScene() {
     const scene = new THREE.Scene();
     const camera = new THREE.PerspectiveCamera(30, 1, 0.1, 100);
     const world = new THREE.Group();
+    world.scale.setScalar(0.86); // leave room for the three new service areas
     scene.add(world);
 
     scene.add(new THREE.HemisphereLight(0xffffff, 0xcfd9d4, 1.15));
@@ -175,16 +189,16 @@ export default function HeroScene() {
     const machineScale = 0.78;
     meshes.forEach((g, i) => { if (machines[i].order < START) g.scale.setScalar(machineScale); });
 
-    // Routes: before (15 machines) and after (28), both as soft tubes.
-    const routeSets = [START, TOTAL].map((upTo) =>
-      [0, 1, 2, 3].map((c) => {
-        const curve = tourCurve(new THREE.Vector3(0, 0, 0), machines.filter((m) => m.cluster === c && m.order < upTo));
-        const mat = new THREE.MeshBasicMaterial({ color: PALETTE[c], transparent: true, opacity: upTo === START ? 0.75 : 0 });
-        const tube = new THREE.Mesh(new THREE.TubeGeometry(curve, 220, 0.035, 6, true), mat);
-        world.add(tube);
-        return { curve, mat };
-      }),
-    );
+    // Routes. Before: one loop per base area (15 machines). After: those loops absorb their
+    // new machines, and each new service area gets a loop of its own.
+    const mkRoute = (c: number, upTo: number, on: number) => {
+      const curve = tourCurve(new THREE.Vector3(0, 0, 0), machines.filter((m) => m.cluster === c && m.order < upTo));
+      const mat = new THREE.MeshBasicMaterial({ color: PALETTE[c], transparent: true, opacity: on });
+      world.add(new THREE.Mesh(new THREE.TubeGeometry(curve, 220, 0.035, 6, true), mat));
+      return { curve, mat };
+    };
+    const routesA = Array.from({ length: BASE }, (_, c) => mkRoute(c, START, 0.75));
+    const routesB = Array.from({ length: CENTERS.length }, (_, c) => mkRoute(c, TOTAL, 0));
 
     // Vans: cargo box, cab, windshield, wheels. Built along +z so lookAt() points the nose forward.
     const glass = new THREE.MeshStandardMaterial({ color: 0x1d2a38, roughness: 0.2, metalness: 0.2 });
@@ -195,9 +209,12 @@ export default function HeroScene() {
     const glassGeo = new THREE.BoxGeometry(0.42, 0.15, 0.02);
     const wheelGeo = new THREE.CylinderGeometry(0.1, 0.1, 0.07, 14);
     wheelGeo.rotateZ(Math.PI / 2);
-    const vans = [0, 1, 2, 3].map((c) => {
+    const cargoMats: THREE.MeshStandardMaterial[] = [];
+    const vans = Array.from({ length: VANS }, (_, c) => {
       const v = new THREE.Group();
-      const cargo = new THREE.Mesh(cargoGeo, new THREE.MeshStandardMaterial({ color: PALETTE[c], roughness: 0.35 }));
+      const cargoMat = new THREE.MeshStandardMaterial({ color: PALETTE[c], roughness: 0.35 });
+      cargoMats.push(cargoMat);
+      const cargo = new THREE.Mesh(cargoGeo, cargoMat);
       cargo.position.set(0, 0.36, -0.12);
       const cab = new THREE.Mesh(cabGeo, cabMat);
       cab.position.set(0, 0.28, 0.38);
@@ -239,7 +256,14 @@ export default function HeroScene() {
     window.addEventListener('pointermove', onMove, { passive: true });
 
     // State for the animation.
-    const GROW_AT = 2.2, GROW_STEP = 0.16, SWAP_AT = GROW_AT + 13 * GROW_STEP + 0.9;
+    const GROW_AT = 2.2, GROW_STEP = 0.16;
+    // A route switches over (or appears) once the last machine added to its area has grown in.
+    const doneAt = Array.from({ length: CENTERS.length }, (_, c) => {
+      const last = Math.max(...machines.filter((m) => m.cluster === c && m.order >= START).map((m) => m.order), START);
+      return GROW_AT + (last - START) * GROW_STEP + 0.7;
+    });
+    const fade = (c: number) => (calm ? 1 : clamp01((t - doneAt[c]) / 1.0));
+    const vstate = vans.map(() => ({ lap: -1, curve: routesA[0].curve }));
     let shown = START;
     let visible = true;
     let raf = 0;
@@ -264,18 +288,29 @@ export default function HeroScene() {
       });
       if (n !== shown) { shown = n; setCount(n); }
 
-      // Swap the route set once the fleet is complete.
-      const sw = clamp01((t - SWAP_AT) / 1.2);
-      routeSets[0].forEach((r) => (r.mat.opacity = 0.75 * (1 - sw)));
-      routeSets[1].forEach((r) => (r.mat.opacity = 0.75 * sw));
+      // Crossfade each base loop to its denser version, and draw the new loops in.
+      routesA.forEach((r, c) => (r.mat.opacity = 0.75 * (1 - fade(c))));
+      routesB.forEach((r, c) => (r.mat.opacity = 0.75 * fade(c)));
 
-      // Vans ride whichever set is current.
-      vans.forEach((v, c) => {
-        const set = routeSets[sw > 0.5 ? 1 : 0][c];
-        const speed = (0.055 + c * 0.006) * (calm ? 0.55 : 1); // laps per second: ~18s a lap, ~30s when calm
-        const u = ((vt * speed + c * 0.25) % 1 + 1) % 1;
-        const p = set.curve.getPointAt(u);
-        const tan = set.curve.getTangentAt(u);
+      // Same vans, more routes: once a new area's loop exists, its van alternates between its
+      // own loop and the new one, lap by lap. Every loop starts and ends at the depot, so the
+      // switch happens at the depot and looks seamless.
+      vans.forEach((v, k) => {
+        const speed = (0.055 + k * 0.006) * (calm ? 0.55 : 1); // laps per second: ~18s a lap
+        const L = vt * speed + k * 0.25;
+        const lap = Math.floor(L);
+        const u = L - lap;
+        const st = vstate[k];
+        if (st.lap !== lap) {
+          st.lap = lap;
+          const loops = [k];
+          for (let c = BASE + k; c < CENTERS.length; c += VANS) if (fade(c) > 0.5) loops.push(c);
+          const c = loops[lap % loops.length];
+          st.curve = (c >= BASE || fade(c) > 0.5 ? routesB : routesA)[c].curve;
+          cargoMats[k].color.setHex(PALETTE[c]);
+        }
+        const p = st.curve.getPointAt(u);
+        const tan = st.curve.getTangentAt(u);
         v.position.set(p.x, 0, p.z);
         // Yaw in the scene's own frame. lookAt() works in world space, which is wrong
         // here because the whole scene group is rotated.
