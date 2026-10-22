@@ -277,7 +277,9 @@ export default function HeroScene() {
         const p = set.curve.getPointAt(u);
         const tan = set.curve.getTangentAt(u);
         v.position.set(p.x, 0, p.z);
-        v.lookAt(p.x + tan.x, 0, p.z + tan.z);
+        // Yaw in the scene's own frame. lookAt() works in world space, which is wrong
+        // here because the whole scene group is rotated.
+        v.rotation.y = Math.atan2(tan.x, tan.z);
       });
 
       ring.scale.setScalar(1 + 0.08 * Math.sin(t * 2));
