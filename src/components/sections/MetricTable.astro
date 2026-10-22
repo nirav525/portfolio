@@ -34,12 +34,12 @@ const comparative = metrics.some((m) => m.before !== undefined);
           <th scope="row">{m.label}</th>
           {comparative ? (
             <>
-              <td class="num">{m.before ?? '—'}</td>
-              <td class="num">{m.after ?? m.value ?? '—'}</td>
-              <td class="num delta">{m.delta ?? '—'}</td>
+              <td class="num">{m.before ?? '–'}</td>
+              <td class="num">{m.after ?? m.value ?? '–'}</td>
+              <td class="num delta">{m.delta ?? '–'}</td>
             </>
           ) : (
-            <td class="num">{m.value ?? '—'}</td>
+            <td class="num">{m.value ?? '–'}</td>
           )}
         </tr>
       ))}

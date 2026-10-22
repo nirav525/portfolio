@@ -23,7 +23,7 @@ demo: dispatch
 demoNote: >-
   Production runs Google OR-Tools with live traffic travel times, time-window, and fairness
   constraints, none of which can execute in a browser. This demo uses a nearest-neighbour
-  construction with 2-opt improvement over straight-line distance — the same class of heuristic,
+  construction with 2-opt improvement over straight-line distance – the same class of heuristic,
   at a scale small enough to solve instantly on the client. Locations, fill levels, and the depot
   are synthetic.
 metrics:
@@ -42,7 +42,7 @@ tldr:
   - "Planning went from about two hours a day to ten minutes, and a re-solve takes under 30 seconds."
 learned: >-
   The solver was the easy part. Most of the work was data hygiene and modelling the constraints
-  technicians actually operate under — and the largest cost win came from relaxing a business
+  technicians actually operate under – and the largest cost win came from relaxing a business
   rule rather than tuning the optimizer.
 next: >-
   Automated back-testing of threshold changes against historical velocity, so a change to the
@@ -53,11 +53,11 @@ roleFit: { "Strategy & Ops": 3, "BizOps": 3, "Supply Chain / Ops": 3, "AI": 2, "
 
 ## The problem
 
-Restocking and service routes for a growing fleet of automated frozen-food vending machines were planned by hand every day — around two hours of work, based on judgment and a spreadsheet. Plans went stale as soon as reality intervened. Technicians were re-routed mid-day, backtracked across the metro area, and never knew their next day's work until that morning.
+Restocking and service routes for a growing fleet of automated frozen-food vending machines were planned by hand every day – around two hours of work, based on judgment and a spreadsheet. Plans went stale as soon as reality intervened. Technicians were re-routed mid-day, backtracked across the metro area, and never knew their next day's work until that morning.
 
 ## Why it mattered
 
-Field labour and mileage are the dominant controllable cost in a physical fleet business. Every machine added multiplied a planning process that already did not scale, and the company was adding machines faster than it was adding technicians. The instability was also a retention problem — technicians were visibly frustrated by the churn.
+Field labour and mileage are the dominant controllable cost in a physical fleet business. Every machine added multiplied a planning process that already did not scale, and the company was adding machines faster than it was adding technicians. The instability was also a retention problem – technicians were visibly frustrated by the churn.
 
 ## What I built
 
@@ -65,10 +65,10 @@ A nightly optimizer that ingests live machine telemetry, computes per-machine pe
 
 Three constraints were added after the initial version shipped, once the gap between the model and the street became obvious: time windows for locations with restricted access hours, so a route no longer assumes a site is reachable whenever it's convenient; live traffic travel times from the Google Maps API in place of straight-line estimates, since a mile in stop-and-go traffic and a mile on a freeway are not the same cost; and a fairness term so route quality doesn't quietly concentrate on whichever technician's territory happens to optimize best.
 
-The decision that mattered most was **choosing geographic clustering over strict threshold discipline**. A machine at 51% does not trip a 50% restock flag, but if a technician is already in that cluster, servicing it now is cheaper than a dedicated return trip later. Letting the optimizer make that trade — rather than treating the threshold as a hard rule — is where most of the drive-time reduction came from. The demo below lets you turn that behaviour off and watch the total distance move.
+The decision that mattered most was **choosing geographic clustering over strict threshold discipline**. A machine at 51% does not trip a 50% restock flag, but if a technician is already in that cluster, servicing it now is cheaper than a dedicated return trip later. Letting the optimizer make that trade – rather than treating the threshold as a hard rule – is where most of the drive-time reduction came from. The demo below lets you turn that behaviour off and watch the total distance move.
 
 Much of the iteration went into failure modes that only appear in production: keying velocity by machine serial number rather than location, because machines get relocated; PLC alert detection; product-ID casing normalization across data sources; top-sellers-out prioritization; and cron timing against telemetry refresh.
 
 > **On attributing the numbers.** Per-technician improvements are not attributable to routing alone. Growing from 15 to 28 machines increased geographic density, which reduces drive time per machine independent of route quality, and the periods compared differ seasonally for campus-adjacent locations. The defensible claim is the joint one: the fleet nearly doubled while hours and mileage per technician fell roughly 32% and 31% on the same team. Optimization and density together made that possible.
 
-The out-of-stock rate is the number I watch most closely. It fell from 11% to 4.8% across the fleet and revenue lost to stockouts fell 60%, but it did not reach zero — a good share of what remains traces to hardware faults that a separate team owns. Routes also became stable enough to publish the night before, and the fleet ran two weeks at three technicians instead of four without service degradation.
+The out-of-stock rate is the number I watch most closely. It fell from 11% to 4.8% across the fleet and revenue lost to stockouts fell 60%, but it did not reach zero – a good share of what remains traces to hardware faults that a separate team owns. Routes also became stable enough to publish the night before, and the fleet ran two weeks at three technicians instead of four without service degradation.

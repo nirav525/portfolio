@@ -48,10 +48,10 @@ Demand planning across 600+ SKUs was manual and judgment-driven. Forecast error 
 
 ## Why it mattered
 
-At that SKU count, forecast error is expensive in both directions. Excess inventory ties up capital and creates obsolescence; shortfalls hit service levels and revenue. The planning function was also a bottleneck — manual forecasting at that scale consumed the cycle time that should have gone to analysis.
+At that SKU count, forecast error is expensive in both directions. Excess inventory ties up capital and creates obsolescence; shortfalls hit service levels and revenue. The planning function was also a bottleneck – manual forecasting at that scale consumed the cycle time that should have gone to analysis.
 
 ## What I built
 
 Statistical forecasting models across the full SKU portfolio, incorporating seasonality and trend, with an automated data pipeline replacing manual consolidation.
 
-The models themselves were statistical — regression and time-series methods in Python — and the outputs were delivered into Google Sheets with Apps Script automation. That was a deliberate constraint rather than a limitation I worked around: the organization's planning workflows already lived in Sheets, and adoption mattered more than tooling elegance. A better model that Procurement would not use is worth less than a good model wired into the process they already run.
+The models themselves were statistical – regression and time-series methods in Python – and the outputs were delivered into Google Sheets with Apps Script automation. That was a deliberate constraint rather than a limitation I worked around: the organization's planning workflows already lived in Sheets, and adoption mattered more than tooling elegance. A better model that Procurement would not use is worth less than a good model wired into the process they already run.

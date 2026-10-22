@@ -4,7 +4,7 @@ import { useMemo, useState } from 'react';
  * Interactive routing demo on synthetic data.
  *
  * Production runs Google OR-Tools. OR-Tools does not run in a browser, so this
- * uses a nearest-neighbour construction with 2-opt improvement — the same class
+ * uses a nearest-neighbour construction with 2-opt improvement – the same class
  * of heuristic, at a scale small enough to solve instantly client-side.
  */
 
@@ -171,8 +171,8 @@ export default function DispatchDemo() {
   const selectedIds = new Set(result.routes.flatMap((r) => r.seq.map((s) => s.id)));
 
   const explainer = cluster
-    ? `${result.triggered} machines are at or below ${threshold}% full — those must be visited. Because clustering is on, the solver also swings by ${result.opportunistic} more that a technician is already driving past, rather than paying for a dedicated trip later. That combination is ${result.saved.toFixed(0)}% shorter than visiting the same stops in list order.`
-    : `${result.triggered} machines are at or below ${threshold}% full — those must be visited, and nothing else. Clustering is off, so the ${stops.filter((s) => s.fill > threshold && s.fill <= threshold + 22).length} machines just above the threshold get skipped this trip — they'll need a dedicated return later. Turn clustering back on to see the solver absorb them for free.`;
+    ? `${result.triggered} machines are at or below ${threshold}% full – those must be visited. Because clustering is on, the solver also swings by ${result.opportunistic} more that a technician is already driving past, rather than paying for a dedicated trip later. That combination is ${result.saved.toFixed(0)}% shorter than visiting the same stops in list order.`
+    : `${result.triggered} machines are at or below ${threshold}% full – those must be visited, and nothing else. Clustering is off, so the ${stops.filter((s) => s.fill > threshold && s.fill <= threshold + 22).length} machines just above the threshold get skipped this trip – they'll need a dedicated return later. Turn clustering back on to see the solver absorb them for free.`;
 
   return (
     <div className="dd">
@@ -208,10 +208,10 @@ export default function DispatchDemo() {
               const on = selectedIds.has(s.id);
               const opportunistic = on && s.fill > threshold;
               const status = opportunistic
-                ? 'added by clustering — a technician is already nearby'
+                ? 'added by clustering – a technician is already nearby'
                 : on
-                  ? 'below threshold — must be visited'
-                  : 'above threshold, not near a route — skipped this trip';
+                  ? 'below threshold – must be visited'
+                  : 'above threshold, not near a route – skipped this trip';
               return (
                 <circle
                   key={s.id}
@@ -223,7 +223,7 @@ export default function DispatchDemo() {
                   strokeWidth="0.4"
                   className="dd-dot"
                 >
-                  <title>{`Machine #${s.id + 1} — ${s.fill}% full — ${status}`}</title>
+                  <title>{`Machine #${s.id + 1} – ${s.fill}% full – ${status}`}</title>
                 </circle>
               );
             })}

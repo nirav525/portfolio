@@ -147,7 +147,7 @@ export default function RecallMatcher() {
                   <span className="rc-sku">{h.sku.name}</span>
                   <span className="rc-meter"><i style={{ width: `${h.score * 100}%` }} /></span>
                   <span className="rc-score">{h.score.toFixed(2)}</span>
-                  <small>{h.via === 'ingredient' ? 'Ingredient exposure' : 'Name match'} — {h.detail}</small>
+                  <small>{h.via === 'ingredient' ? 'Ingredient exposure' : 'Name match'} – {h.detail}</small>
                 </li>
               ))}
             </ul>
@@ -156,12 +156,12 @@ export default function RecallMatcher() {
           {flagged.length > 0 ? (
             <div className="rc-slack" aria-label="Slack alert preview">
               <div className="rc-slack-top"><b>Recall monitor</b> <span>#recalls</span></div>
-              <p><strong>{notice.cls} · {notice.source}</strong> — {notice.product}</p>
+              <p><strong>{notice.cls} · {notice.source}</strong> – {notice.product}</p>
               <p>Reason: {notice.reason}</p>
               <p>Matches {flagged.length} active SKU{flagged.length > 1 ? 's' : ''}: {flagged.map((h) => `${h.sku.name} (${h.score.toFixed(2)})`).join(', ')}</p>
             </div>
           ) : (
-            <p className="rc-quiet">No alert posted — nothing cleared the threshold.</p>
+            <p className="rc-quiet">No alert posted – nothing cleared the threshold.</p>
           )}
         </div>
       </div>

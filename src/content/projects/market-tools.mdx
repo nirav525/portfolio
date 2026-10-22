@@ -26,7 +26,7 @@ architecture:
   - Failure alerting
 demo: marketscore
 demoNote: >-
-  Real, well-known tickers so this doesn't read as a toy — but the shares, prices, and P&L below
+  Real, well-known tickers so this doesn't read as a toy – but the shares, prices, and P&L below
   are illustrative, not my actual positions. This shows the holdings-and-brief side of the
   system; the separate scoring tool that shortlists new candidate names isn't modelled here.
 learned: >-
@@ -51,10 +51,10 @@ Separately, I had my own problem: I was picking stocks on whatever I had read th
 
 The first is not really a technical problem. It is that someone I care about was dependent on me being available, for something that should not require a person at all.
 
-The second is a discipline problem. Ad-hoc selection feels like research and is mostly recency bias. I wanted a process I could apply the same way every time, even if the criteria turned out to be imperfect — at least they would be consistent and written down.
+The second is a discipline problem. Ad-hoc selection feels like research and is mostly recency bias. I wanted a process I could apply the same way every time, even if the criteria turned out to be imperfect – at least they would be consistent and written down.
 
 ## What I built
 
 The digest runs every weekday on a free-tier ARM cloud instance. It pulls market data, values the portfolio, generates charts, has an LLM write a short plain-language brief, and emails the lot to both of us before the market opens. It has run unattended since I set it up, with alerting if a run fails, so a missed morning email gets caught immediately instead of discovered by its absence.
 
-The scoring tool ranks names against fixed criteria to produce a daily shortlist. It is explicitly not a buy signal — it narrows the field so my own research starts somewhere defensible instead of starting with whatever I saw last night.
+The scoring tool ranks names against fixed criteria to produce a daily shortlist. It is explicitly not a buy signal – it narrows the field so my own research starts somewhere defensible instead of starting with whatever I saw last night.

@@ -212,7 +212,7 @@ input[type='range'] {
 }
 
 /* Octo-ops mockup: a faithful recreation of the real platform's "Crave
-   Select" design system — same tokens, same type stack, same shell — framed
+   Select" design system – same tokens, same type stack, same shell – framed
    like a screenshot since it is meant to read as a different product. */
 
 .co {
@@ -592,7 +592,7 @@ input[type='range'] {
 .sm-tab:hover { background: #eef1f4; }
 .sm-tab.is-active { background: #fff; color: #137333; font-weight: 700; border-color: #e1e3e6; border-bottom-color: #fff; }
 
-/* Meal planner — the personal projects get more colour and direct
+/* Meal planner – the personal projects get more colour and direct
    manipulation than the work demos, per the brief: alive, not decorated. */
 
 .mp-stats { margin: 0 0 1rem; font-size: 0.9rem; color: var(--slate); }

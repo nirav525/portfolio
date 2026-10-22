@@ -4,13 +4,13 @@ const {
   title,
   note,
   synthetic = true,
-  cue = 'Adjust the controls below — the numbers and the explanation update live.',
+  cue = 'Adjust the controls below – the numbers and the explanation update live.',
 } = Astro.props;
 ---
 <section class="demo reveal">
   <div class="head">
     <h2><span class="dot" aria-hidden="true" />{title}</h2>
-    {synthetic && <span class="badge">Interactive — synthetic data</span>}
+    {synthetic && <span class="badge">Interactive – synthetic data</span>}
   </div>
   <p class="cue">{cue}</p>
   <div class="stage"><slot /></div>

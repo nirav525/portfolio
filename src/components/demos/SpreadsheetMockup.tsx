@@ -2,7 +2,7 @@ import { useState } from 'react';
 
 /**
  * A representative screenshot of a Google Sheets + Apps Script planning
- * model — the real substrate these two projects were actually built on.
+ * model – the real substrate these two projects were actually built on.
  * Every SKU, number, and formula shown is synthetic.
  */
 
@@ -18,7 +18,7 @@ const TOTAL_ROWS = 15;
 
 const FORECAST_TABS: Tab[] = [
   {
-    label: 'Forecast — Category A',
+    label: 'Forecast – Category A',
     formula: '=FORECAST.ETS(B2, $C$2:$C$61, $A$2:$A$61)',
     cols: [
       { key: 'sku', label: 'SKU' },
@@ -46,7 +46,7 @@ const FORECAST_TABS: Tab[] = [
     },
   },
   {
-    label: 'Forecast — Category B',
+    label: 'Forecast – Category B',
     formula: '=FORECAST.ETS(B2, $C$2:$C$61, $A$2:$A$61)',
     cols: [
       { key: 'sku', label: 'SKU' },
@@ -182,7 +182,7 @@ function flagClass(v: string | number): string {
   if (/AT RISK/i.test(s)) return 'sm-bad';
   if (/Reconciled|^OK$/i.test(s)) return 'sm-ok';
 
-  // Normalize a leading sign — typographic minus (−) and a bare "+" —
+  // Normalize a leading sign – typographic minus (−) and a bare "+" –
   // before parsing, so "+14.1%" and "−6.4%" resolve like "-6.4" would.
   const normalized = s.replace(/−/, '-').replace(/^\+/, '');
   const m = normalized.match(/-?\d+(\.\d+)?/);
@@ -251,7 +251,7 @@ export default function SpreadsheetMockup({ variant }: { variant: Variant }) {
         </div>
         <div className="sm-sheet">
           <div className="sm-menubar">
-            <span className="sm-doctitle">{variant === 'ibp' ? 'Integrated Business Plan — v14' : 'Demand Forecast Model — v22'}</span>
+            <span className="sm-doctitle">{variant === 'ibp' ? 'Integrated Business Plan – v14' : 'Demand Forecast Model – v22'}</span>
             <span className="sm-menu">File&nbsp;&nbsp;Edit&nbsp;&nbsp;View&nbsp;&nbsp;Insert&nbsp;&nbsp;Format&nbsp;&nbsp;Data&nbsp;&nbsp;Extensions</span>
           </div>
           <div className="sm-toolbar">

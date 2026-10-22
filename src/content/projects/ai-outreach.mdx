@@ -1,6 +1,6 @@
 ---
 title: What 3,000 outbound emails taught me about list quality
-summary: An agentic outbound workflow that researches companies, finds contacts, writes the email, and follows up on its own — and what measuring it honestly showed about list quality.
+summary: An agentic outbound workflow that researches companies, finds contacts, writes the email, and follows up on its own – and what measuring it honestly showed about list quality.
 category: AI / Automation
 org: Crave Robotics
 period: "2026"
@@ -29,12 +29,12 @@ metrics:
 tldr:
   - "An agent researches target companies, identifies contacts, writes the conversation points, and sends and follows up."
   - "3,000+ emails sent, 3.1% reply rate."
-  - "Measuring real conversations, not just replies, showed the bottleneck was list quality — fabricated domains and wrong roles — not the copy."
+  - "Measuring real conversations, not just replies, showed the bottleneck was list quality – fabricated domains and wrong roles – not the copy."
   - "Including the diagnosis because it is the transferable part."
 learned: >-
   Instrumenting for the real success metric mattered more than anything else I built. A reply-rate
   number alone looks healthy; measuring genuine conversations showed how much of it was not. I also learned that AI-generated volume amplifies bad inputs rather than compensating for
-  them — a thousand well-written emails to poorly-qualified contacts is worse than a hundred to good ones,
+  them – a thousand well-written emails to poorly-qualified contacts is worse than a hundred to good ones,
   because it spends domain reputation to do it.
 next: >-
   Domain and deliverability validation as a hard gate before send. A tightly-defined ICP with
@@ -45,7 +45,7 @@ roleFit: { "AI": 3, "GTM / Growth": 3, "BizOps": 2, "Product Ops": 2, "Strategy 
 
 ## The problem
 
-Field sales needed outbound pipeline for new machine placements and had no systematic prospecting motion — manual list-building and one-off emails.
+Field sales needed outbound pipeline for new machine placements and had no systematic prospecting motion – manual list-building and one-off emails.
 
 ## Why it mattered
 
@@ -55,12 +55,12 @@ Machine placement drives revenue directly. A repeatable outbound motion was wort
 
 An agentic outbound workflow. It researches target companies, identifies the relevant contacts through Apollo.io, has an LLM draft personalized conversation points, and then sends and follows up through Resend and the Gmail API, with engagement captured at each step. It runs as a deployed service with scheduled execution.
 
-Then I measured it properly. Across 3,000+ emails the reply rate is 3.1%. But replies are not conversations, and when I classified the first 2,000 sends by whether a real person engaged, the true conversation rate was about 1.5% — and the conversations that did happen mostly stayed in email and died before reaching a meeting.
+Then I measured it properly. Across 3,000+ emails the reply rate is 3.1%. But replies are not conversations, and when I classified the first 2,000 sends by whether a real person engaged, the true conversation rate was about 1.5% – and the conversations that did happen mostly stayed in email and died before reaching a meeting.
 
 ## What actually went wrong
 
 The instrumentation is the reason this page exists. The headline reply rate looked survivable; the conversation rate was half of it, and the gap between them was the finding. Tracing it back, the enriched lists contained fabricated domains and dead DNS records, so a meaningful share of sends were reaching unintended recipients or nobody at all. Others reached real people in the wrong role at the right company.
 
-The constraint was never message generation. LLM personalization worked fine — the copy was good. The failure sat one step upstream, in list quality and ICP definition, and no amount of generation quality compensates for sending to the wrong person.
+The constraint was never message generation. LLM personalization worked fine – the copy was good. The failure sat one step upstream, in list quality and ICP definition, and no amount of generation quality compensates for sending to the wrong person.
 
-I am including this project rather than quietly dropping it because the diagnosis is the transferable part. The demo below lets you add the validation gate that was missing and watch what it catches — and, more usefully, what it does not.
+I am including this project rather than quietly dropping it because the diagnosis is the transferable part. The demo below lets you add the validation gate that was missing and watch what it catches – and, more usefully, what it does not.

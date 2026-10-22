@@ -197,11 +197,11 @@ a {
 [data-cat='GTM / Growth'] { --cat: var(--c-gtm); }
 [data-cat='Side Projects'] { --cat: var(--c-side); }
 
-/* A deepened variant of the category hue — for hover/active states where the
+/* A deepened variant of the category hue – for hover/active states where the
    base --cat needs more contrast against white. */
 [data-cat] { --cat-deep: color-mix(in srgb, var(--cat) 80%, #000 20%); }
 
-/* Reveal-on-scroll. Elements start hidden and rise in once observed —
+/* Reveal-on-scroll. Elements start hidden and rise in once observed –
    see the IntersectionObserver wiring in Base.astro. Falls back to visible
    if JS never runs. */
 .reveal {

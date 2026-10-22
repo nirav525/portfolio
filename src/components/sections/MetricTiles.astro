@@ -29,7 +29,7 @@ function bars(m: Metric) {
     return (
       <li class={`tile reveal${m.emphasis ? ' em' : ''}`} style={`--d:${Math.min(i,7)*60}ms`}>
         <div class="top">
-          <span class="v">{m.after ?? m.value ?? '—'}</span>
+          <span class="v">{m.after ?? m.value ?? '–'}</span>
           {m.delta && m.delta !== 'flat' && <span class="d">{m.delta}</span>}
         </div>
         {m.before && <span class="from">from {m.before}</span>}

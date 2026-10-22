@@ -95,8 +95,8 @@ export default function ShelfLife() {
                 <span className="sl-days"><i style={{ width: `${(r.days / maxDays) * 100}%` }} className={r.days <= trigger ? 'hot' : ''} /></span>
                 {r.days}
               </td>
-              <td>{r.excess ? r.excess.toLocaleString() : '—'}</td>
-              <td>{r.atRisk ? usd(r.atRisk) : '—'}</td>
+              <td>{r.excess ? r.excess.toLocaleString() : '–'}</td>
+              <td>{r.atRisk ? usd(r.atRisk) : '–'}</td>
               <td>{r.flagged ? 'Offload now' : r.excess ? 'Watch' : 'Sells through'}</td>
             </tr>
           ))}

@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 /**
- * Real, well-known tickers so the demo doesn't read as a toy — but every
+ * Real, well-known tickers so the demo doesn't read as a toy – but every
  * share count, price, and P&L figure below is synthetic and illustrative,
  * not a live feed or a real position. Not investment advice.
  */
@@ -158,7 +158,7 @@ export default function MarketScore() {
       {tab === 'brief' && (
         <div className="ms-email">
           <div className="ms-email-head">
-            <div><span className="ms-emsub">Portfolio Brief — Wednesday, September 9</span><span className="ms-emfrom">from: daily-brief@ (automated)</span></div>
+            <div><span className="ms-emsub">Portfolio Brief – Wednesday, September 9</span><span className="ms-emfrom">from: daily-brief@ (automated)</span></div>
           </div>
           <div className="ms-email-body">
             <svg viewBox="0 0 320 90" className="ms-emchart" role="img" aria-label="Synthetic portfolio value chart">

@@ -2,7 +2,7 @@ import { useMemo, useState } from 'react';
 
 /**
  * Synthetic training history. Sessions are generated with a small
- * deterministic PRNG so the demo is identical on every load — none of it is
+ * deterministic PRNG so the demo is identical on every load – none of it is
  * real training data.
  */
 
@@ -65,10 +65,10 @@ const DAYS: { day: string; exercises: Exercise[] }[] = [
 ];
 
 function suggestion(last: Session): { move: string; reason: string } {
-  if (last.difficulty === 1) return { move: 'Add weight', reason: 'Last session was rated "Easy" — there was clearly more in the tank.' };
+  if (last.difficulty === 1) return { move: 'Add weight', reason: 'Last session was rated "Easy" – there was clearly more in the tank.' };
   if (last.difficulty === 2) return { move: 'Add reps', reason: '"Moderate" leaves room to add a rep or two before adding load.' };
-  if (last.difficulty === 3) return { move: 'Hold', reason: 'Rated "Hard" — repeat the same weight and reps and see if difficulty drops.' };
-  return { move: 'Hold, or deload slightly', reason: '"Max effort" is a limit set — consistency matters more than pushing further right now.' };
+  if (last.difficulty === 3) return { move: 'Hold', reason: 'Rated "Hard" – repeat the same weight and reps and see if difficulty drops.' };
+  return { move: 'Hold, or deload slightly', reason: '"Max effort" is a limit set – consistency matters more than pushing further right now.' };
 }
 
 const short = (iso: string) => { const d = new Date(iso); return `${d.getUTCMonth() + 1}/${d.getUTCDate()}`; };
@@ -208,7 +208,7 @@ export default function LiftLog() {
       </div>
 
       <div className="ll-suggest">
-        <span className="ll-suglabel">Planned feature — not shipped yet</span>
+        <span className="ll-suglabel">Planned feature – not shipped yet</span>
         <p><strong>Next session: {sug.move}.</strong> {sug.reason}</p>
       </div>
     </div>

@@ -79,7 +79,7 @@ export default function OutreachPipeline() {
               <td>{r.company}</td>
               <td className="mono">{r.domain}</td>
               <td>{r.contact}</td>
-              <td>{r.blocked ? `Held — ${LABEL[r.status].toLowerCase()}` : LABEL[r.status]}</td>
+              <td>{r.blocked ? `Held – ${LABEL[r.status].toLowerCase()}` : LABEL[r.status]}</td>
             </tr>
           ))}
         </tbody>

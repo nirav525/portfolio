@@ -26,9 +26,9 @@ Copy any file in `src/content/projects/` and edit it. The filename becomes the
 URL: `dispatch-optimization.mdx` → `/projects/dispatch-optimization`.
 
 Frontmatter holds the structured data. The body holds three sections in this
-order: the problem, why it mattered, what I built. Everything after that — the
+order: the problem, why it mattered, what I built. Everything after that – the
 architecture flow, the demo, the metrics table, what I learned, what I would do
-next — is assembled by the page template from frontmatter, so the section order
+next – is assembled by the page template from frontmatter, so the section order
 is identical on every project.
 
 The schema in `src/content.config.ts` is enforced at build time. A missing
@@ -36,9 +36,9 @@ required field fails the build rather than shipping a half-empty page.
 
 Two fields worth knowing:
 
-- `todo: []` — anything unresolved. Renders in `npm run dev` only, never in a
+- `todo: []` – anything unresolved. Renders in `npm run dev` only, never in a
   production build. Use it instead of publishing a placeholder.
-- `draft: true` — keeps a project out of the catalog and off the sitemap while
+- `draft: true` – keeps a project out of the catalog and off the sitemap while
   you work on it.
 
 ## Adding a demo
@@ -62,7 +62,7 @@ view, and pages without a demo ship no JavaScript at all.
 
 ```
 src/
-  content/projects/     one .mdx per project — all the content lives here
+  content/projects/     one .mdx per project – all the content lives here
   content.config.ts     schema, validated at build
   components/
     CatalogIndex.astro  homepage list + category filter

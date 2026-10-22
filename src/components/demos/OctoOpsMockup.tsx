@@ -1,7 +1,7 @@
 import { useMemo, useState } from 'react';
 
 /**
- * A faithful recreation of the real operating platform's UI — same "Crave
+ * A faithful recreation of the real operating platform's UI – same "Crave
  * Select" design tokens, same sidebar structure, same page set. Every value
  * shown (machine IDs, site codes, revenue, names) is synthetic; the visual
  * system (colors, type, layout) is real.
@@ -59,12 +59,12 @@ const STATUS: Record<string, { label: string; dot: string; text: string }> = {
 };
 
 const MACHINES = [
-  { muid: 'CR-041-25-06-00031', site: 'CSULA — Student Union', code: 'LANG-CA-CSLA-0905', region: 'East SG Valley', status: 'ok', fill: 88, rev: 730 },
-  { muid: 'CR-014-25-03-00007', site: 'Carson — Innovation Hub', code: 'CRSN-CA-CSDH-1504', region: 'LA-West', status: 'ok', fill: 74, rev: 612 },
-  { muid: 'CR-021-25-01-00012', site: 'Long Beach — Transit Center', code: 'LNGB-CA-CSLB-0301', region: 'LA-West', status: 'ok', fill: 61, rev: 480 },
-  { muid: 'CR-017-25-02-00025', site: 'Norwalk — Metro Station', code: 'NRWK-CA-CNRK-0410', region: 'LA-East', status: 'plc-alert', fill: 45, rev: 210 },
-  { muid: 'CR-033-25-05-00019', site: 'Santa Ana — County Annex', code: 'SNTA-CA-CSAN-0722', region: 'LA-Central', status: 'temp-alert', fill: 22, rev: 95 },
-  { muid: 'CR-009-24-11-00003', site: 'Huntington Beach — Pier Plaza', code: 'HNGT-CA-CSHB-0219', region: 'LA-West', status: 'offline', fill: 8, rev: 40 },
+  { muid: 'CR-041-25-06-00031', site: 'CSULA – Student Union', code: 'LANG-CA-CSLA-0905', region: 'East SG Valley', status: 'ok', fill: 88, rev: 730 },
+  { muid: 'CR-014-25-03-00007', site: 'Carson – Innovation Hub', code: 'CRSN-CA-CSDH-1504', region: 'LA-West', status: 'ok', fill: 74, rev: 612 },
+  { muid: 'CR-021-25-01-00012', site: 'Long Beach – Transit Center', code: 'LNGB-CA-CSLB-0301', region: 'LA-West', status: 'ok', fill: 61, rev: 480 },
+  { muid: 'CR-017-25-02-00025', site: 'Norwalk – Metro Station', code: 'NRWK-CA-CNRK-0410', region: 'LA-East', status: 'plc-alert', fill: 45, rev: 210 },
+  { muid: 'CR-033-25-05-00019', site: 'Santa Ana – County Annex', code: 'SNTA-CA-CSAN-0722', region: 'LA-Central', status: 'temp-alert', fill: 22, rev: 95 },
+  { muid: 'CR-009-24-11-00003', site: 'Huntington Beach – Pier Plaza', code: 'HNGT-CA-CSHB-0219', region: 'LA-West', status: 'offline', fill: 8, rev: 40 },
 ];
 
 function revClass(rev: number) {
@@ -87,8 +87,8 @@ const RESTOCK_QUEUE = [
 ];
 
 const TRACKING_ROWS = [
-  { tech: 'Technician 1', seen: '2 min ago', loc: 'Carson — Innovation Hub', moving: true },
-  { tech: 'Technician 2', seen: '6 min ago', loc: 'Long Beach — Transit Center', moving: false },
+  { tech: 'Technician 1', seen: '2 min ago', loc: 'Carson – Innovation Hub', moving: true },
+  { tech: 'Technician 2', seen: '6 min ago', loc: 'Long Beach – Transit Center', moving: false },
   { tech: 'Technician 3', seen: '1 min ago', loc: 'En route, I-5 N', moving: true },
 ];
 
@@ -494,7 +494,7 @@ export default function OctoOpsMockup({ initialPage = 'dashboard' }: { initialPa
                       ))}
                     </tbody>
                   </table>
-                  <p className="co-hint">Lots inside the amber window get surfaced here automatically, ahead of the recall-traceability path — a query on this platform, a multi-spreadsheet reconciliation on the old stack.</p>
+                  <p className="co-hint">Lots inside the amber window get surfaced here automatically, ahead of the recall-traceability path – a query on this platform, a multi-spreadsheet reconciliation on the old stack.</p>
                 </div>
               )}
 
