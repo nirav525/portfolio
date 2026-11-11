@@ -8,6 +8,10 @@ interface Props {
 }
 const { title, description, path = '' } = Astro.props;
 const canonical = new URL(path, Astro.site).href;
+// Link-preview card (LinkedIn, iMessage, Slack, X). Must be an absolute URL.
+const shareImage = new URL('/og-image.png', Astro.site).href;
+const shareImageAlt =
+  "Nirav Sampat portfolio: operations systems I've built. Out-of-stock rate 11% to 4.8%, machines served 15 to 35, $3M+ planning savings.";
 const owner = 'Nirav';
 const email = 'niravsampat525@gmail.com';
 const linkedin = 'https://www.linkedin.com/in/nirav-sampat/';
@@ -24,7 +28,18 @@ const linkedin = 'https://www.linkedin.com/in/nirav-sampat/';
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
     <meta property="og:url" content={canonical} />
+    <meta property="og:site_name" content="Nirav Sampat" />
+    <meta property="og:image" content={shareImage} />
+    <meta property="og:image:secure_url" content={shareImage} />
+    <meta property="og:image:type" content="image/png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="627" />
+    <meta property="og:image:alt" content={shareImageAlt} />
     <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={shareImage} />
+    <meta name="twitter:image:alt" content={shareImageAlt} />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
     <link rel="sitemap" href="/sitemap-index.xml" />
   </head>
