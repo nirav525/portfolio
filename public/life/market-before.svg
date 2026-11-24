@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="5" stdDeviation="7" flood-color="#2e1065" flood-opacity="0.18"/></filter>
+    <style>.h{font-family:'Bradley Hand','Segoe Print','Comic Sans MS',cursive}</style>
+  </defs>
+  <rect width="800" height="560" fill="#f1eef6"/>
+
+  <!-- chat with Dad -->
+  <g filter="url(#sh)">
+    <rect x="40" y="34" width="270" height="492" rx="34" fill="#1f2933"/>
+    <rect x="52" y="48" width="246" height="464" rx="24" fill="#fff"/>
+  </g>
+  <rect x="145" y="56" width="60" height="8" rx="4" fill="#1f2933"/>
+  <circle cx="175" cy="96" r="16" fill="#c4b5fd"/><text x="175" y="101" font-size="13" font-weight="700" fill="#4c1d95" text-anchor="middle">D</text>
+  <text x="175" y="130" font-size="13" font-weight="600" fill="#1f2933" text-anchor="middle">Dad</text>
+  <line x1="52" y1="142" x2="298" y2="142" stroke="#eee"/>
+  <g font-size="13.5" fill="#1f2933">
+    <text x="175" y="166" font-size="10.5" fill="#9ca3af" text-anchor="middle">9:42 AM</text>
+    <rect x="66" y="174" width="190" height="34" rx="17" fill="#ececf1"/><text x="80" y="196">How are our stocks today?</text>
+    <text x="175" y="232" font-size="10.5" fill="#9ca3af" text-anchor="middle">11:15 AM</text>
+    <rect x="66" y="240" width="150" height="34" rx="17" fill="#ececf1"/><text x="80" y="262">Did Apple go up?</text>
+    <text x="175" y="298" font-size="10.5" fill="#9ca3af" text-anchor="middle">2:30 PM</text>
+    <rect x="66" y="306" width="196" height="34" rx="17" fill="#ececf1"/><text x="80" y="328">Call me when you're free</text>
+    <text x="175" y="364" font-size="10.5" fill="#9ca3af" text-anchor="middle">6:48 PM</text>
+    <rect x="96" y="372" width="190" height="52" rx="17" fill="#7c3aed"/>
+    <text x="110" y="394" fill="#fff">Sorry, back-to-back</text><text x="110" y="413" fill="#fff">today. Will check tonight</text>
+  </g>
+  <text x="175" y="470" font-size="12" fill="#9ca3af" text-anchor="middle">Read 6:49 PM</text>
+
+  <!-- brokerage login he won't do -->
+  <g filter="url(#sh)">
+    <rect x="352" y="48" width="230" height="230" rx="16" fill="#fff"/>
+  </g>
+  <text x="374" y="84" font-size="15" font-weight="700" fill="#1f2933">Brokerage app</text>
+  <text x="374" y="104" font-size="11.5" fill="#6b7280">Sign in to view your portfolio</text>
+  <rect x="374" y="118" width="186" height="32" rx="8" fill="#f5f5f7" stroke="#e5e7eb"/><text x="386" y="139" font-size="12" fill="#9ca3af">Username</text>
+  <rect x="374" y="158" width="186" height="32" rx="8" fill="#f5f5f7" stroke="#e5e7eb"/><text x="386" y="179" font-size="12" fill="#9ca3af">Password</text>
+  <rect x="374" y="198" width="186" height="32" rx="8" fill="#f5f5f7" stroke="#e5e7eb"/><text x="386" y="219" font-size="12" fill="#9ca3af">6-digit code from SMS</text>
+  <rect x="374" y="238" width="186" height="26" rx="13" fill="#d1d5db"/><text x="467" y="256" font-size="12" font-weight="600" fill="#fff" text-anchor="middle">Sign in</text>
+  <text class="h" x="470" y="318" font-size="22" fill="#b91c1c" text-anchor="middle">Dad: "not doing this"</text>
+
+  <!-- my own picks -->
+  <g transform="rotate(5 680 150)" filter="url(#sh)">
+    <rect x="606" y="66" width="160" height="150" fill="#fde68a"/>
+    <text class="h" x="620" y="102" font-size="19" fill="#3f3a2e">Why did I buy</text>
+    <text class="h" x="620" y="130" font-size="19" fill="#3f3a2e">this one?</text>
+    <text class="h" x="620" y="168" font-size="17" fill="#3f3a2e">a podcast?</text>
+    <text class="h" x="620" y="196" font-size="17" fill="#3f3a2e">a tweet??</text>
+  </g>
+  <!-- tab clutter -->
+  <g filter="url(#sh)">
+    <rect x="352" y="356" width="410" height="120" rx="12" fill="#fff"/>
+  </g>
+  <g font-size="11" fill="#4b5563">
+    <rect x="364" y="368" width="86" height="24" rx="6" fill="#ede9fe"/><text x="374" y="384">Hot stocks to…</text>
+    <rect x="456" y="368" width="86" height="24" rx="6" fill="#f3f4f6"/><text x="466" y="384">Top 10 picks…</text>
+    <rect x="548" y="368" width="86" height="24" rx="6" fill="#f3f4f6"/><text x="558" y="384">Is it too late…</text>
+    <rect x="640" y="368" width="110" height="24" rx="6" fill="#f3f4f6"/><text x="650" y="384">Forum: buy now?</text>
+  </g>
+  <g fill="#e5e7eb"><rect x="368" y="408" width="370" height="10" rx="5"/><rect x="368" y="428" width="300" height="10" rx="5"/><rect x="368" y="448" width="330" height="10" rx="5"/></g>
+
+  <text class="h" x="556" y="506" font-size="20" fill="#6d28d9" text-anchor="middle">Dad waits on my texts.</text>
+  <text class="h" x="556" y="532" font-size="20" fill="#6d28d9" text-anchor="middle">My picks come from last night's reading.</text>
+  <rect x="20" y="16" width="96" height="32" rx="16" fill="#b91c1c"/>
+  <text x="68" y="38" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">BEFORE</text>
+</svg>

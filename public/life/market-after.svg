@@ -1,0 +1,67 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#2e1065" flood-opacity="0.16"/></filter>
+  </defs>
+  <rect width="800" height="560" fill="#f4f1fb"/>
+
+  <!-- the email -->
+  <g filter="url(#sh)"><rect x="40" y="62" width="440" height="470" rx="16" fill="#fff"/></g>
+  <text x="64" y="98" font-size="11" fill="#6b7280">From: Market brief (automated) · To: Dad, me</text>
+  <text x="64" y="124" font-size="19" font-weight="700" fill="#1f2933">Your market brief – Tuesday</text>
+  <line x1="64" y1="138" x2="456" y2="138" stroke="#eee"/>
+
+  <g font-size="12.5" fill="#1f2933">
+    <text x="64" y="160" font-size="10.5" font-weight="700" fill="#7c3aed" letter-spacing="1">HOLDINGS</text>
+    <text x="64" y="184" font-weight="600">AAPL</text><text x="170" y="184" fill="#6b7280">Apple</text><text x="300" y="184" text-anchor="end" fill="#15803d" font-weight="600">+1.2%</text>
+    <text x="64" y="206" font-weight="600">MSFT</text><text x="170" y="206" fill="#6b7280">Microsoft</text><text x="300" y="206" text-anchor="end" fill="#15803d" font-weight="600">+0.6%</text>
+    <text x="64" y="228" font-weight="600">JPM</text><text x="170" y="228" fill="#6b7280">JPMorgan</text><text x="300" y="228" text-anchor="end" fill="#15803d" font-weight="600">+1.8%</text>
+    <text x="64" y="250" font-weight="600">XOM</text><text x="170" y="250" fill="#6b7280">Exxon</text><text x="300" y="250" text-anchor="end" fill="#b91c1c" font-weight="600">−1.1%</text>
+    <text x="64" y="272" font-weight="600">UNH</text><text x="170" y="272" fill="#6b7280">UnitedHealth</text><text x="300" y="272" text-anchor="end" fill="#b91c1c" font-weight="600">−2.4%</text>
+  </g>
+  <!-- chart -->
+  <rect x="320" y="152" width="136" height="128" rx="10" fill="#faf8ff" stroke="#ede9fe"/>
+  <text x="332" y="172" font-size="10.5" fill="#6b7280">Portfolio, 30 days</text>
+  <polyline points="332,252 348,246 362,250 376,238 390,240 404,226 418,230 432,214 446,206" fill="none" stroke="#7c3aed" stroke-width="3" stroke-linejoin="round" stroke-linecap="round"/>
+  <path d="M332,252 348,246 362,250 376,238 390,240 404,226 418,230 432,214 446,206 V268 H332 Z" fill="#7c3aed" fill-opacity="0.1"/>
+
+  <text x="64" y="312" font-size="10.5" font-weight="700" fill="#7c3aed" letter-spacing="1">THE BRIEF</text>
+  <g font-size="13" fill="#374151">
+    <text x="64" y="336">A steady day overall. Banks and tech led, with JPMorgan</text>
+    <text x="64" y="356">up most. Health care was the drag: UnitedHealth fell</text>
+    <text x="64" y="376">after a sector-wide dip. Nothing in the portfolio</text>
+    <text x="64" y="396">reports earnings this week.</text>
+  </g>
+  <g fill="#ede9fe"><rect x="64" y="420" width="392" height="1"/></g>
+  <text x="64" y="446" font-size="11" fill="#9ca3af">Written by an LLM from the day's numbers. Charts attached.</text>
+  <text x="64" y="470" font-size="11" fill="#9ca3af">Positions and prices in this picture are illustrative.</text>
+  <rect x="64" y="488" width="160" height="26" rx="13" fill="#f5f3ff"/><text x="144" y="505" font-size="11.5" fill="#6d28d9" text-anchor="middle">Every weekday, no login</text>
+
+  <!-- run status -->
+  <g filter="url(#sh)"><rect x="520" y="62" width="240" height="140" rx="16" fill="#fff"/></g>
+  <text x="542" y="94" font-size="13" font-weight="700" fill="#1f2933">Runs on a cloud server</text>
+  <g font-size="12" fill="#374151">
+    <circle cx="548" cy="120" r="7" fill="#16a34a"/><path d="M544.5 120 l2.5 2.5 4.5 -4.5" stroke="#fff" stroke-width="1.8" fill="none"/>
+    <text x="562" y="124">Mon  sent</text>
+    <circle cx="548" cy="146" r="7" fill="#16a34a"/><path d="M544.5 146 l2.5 2.5 4.5 -4.5" stroke="#fff" stroke-width="1.8" fill="none"/>
+    <text x="562" y="150">Tue  sent</text>
+    <text x="542" y="182" font-size="11.5" fill="#6b7280">If a run fails, I get an alert.</text>
+  </g>
+
+  <!-- shortlist -->
+  <g filter="url(#sh)"><rect x="520" y="226" width="240" height="210" rx="16" fill="#fff"/></g>
+  <text x="542" y="258" font-size="13" font-weight="700" fill="#1f2933">Today's shortlist</text>
+  <text x="542" y="276" font-size="11" fill="#6b7280">Same fixed criteria, every day</text>
+  <g font-size="12.5" fill="#1f2933">
+    <text x="542" y="308" font-weight="600">KO</text><rect x="600" y="298" width="110" height="12" rx="6" fill="#ede9fe"/><rect x="600" y="298" width="90" height="12" rx="6" fill="#7c3aed"/><text x="740" y="308" text-anchor="end">82</text>
+    <text x="542" y="338" font-weight="600">PG</text><rect x="600" y="328" width="110" height="12" rx="6" fill="#ede9fe"/><rect x="600" y="328" width="82" height="12" rx="6" fill="#7c3aed"/><text x="740" y="338" text-anchor="end">76</text>
+    <text x="542" y="368" font-weight="600">V</text><rect x="600" y="358" width="110" height="12" rx="6" fill="#ede9fe"/><rect x="600" y="358" width="76" height="12" rx="6" fill="#7c3aed"/><text x="740" y="368" text-anchor="end">71</text>
+  </g>
+  <text x="542" y="402" font-size="11" fill="#6b7280">Where my research starts.</text>
+  <text x="542" y="420" font-size="11" fill="#6b7280">Not a buy signal.</text>
+
+  <text x="640" y="478" font-size="17" font-weight="700" fill="#2e1065" text-anchor="middle">In both inboxes every weekday.</text>
+  <text x="640" y="502" font-size="17" font-weight="700" fill="#2e1065" text-anchor="middle">No texts, no waiting.</text>
+
+  <rect x="20" y="16" width="86" height="32" rx="16" fill="#6d28d9"/>
+  <text x="63" y="38" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">AFTER</text>
+</svg>
