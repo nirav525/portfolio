@@ -9,7 +9,7 @@ tier: 1
 order: 1
 disclosure: B
 headline: { value: "11% → 4.8%", label: "fleet-wide out-of-stock rate, while the fleet grew from 15 to 35 machines" }
-stack: [Google OR-Tools, Node.js, PostgreSQL, Google Maps API, GitHub Actions, Slack API]
+stack: [Claude Code, Google OR-Tools VRP, Node.js, PostgreSQL, Google Maps API, GitHub Actions, Slack API]
 architecture:
   - Machine telemetry
   - Sell-through velocity
@@ -40,6 +40,7 @@ tldr:
   - "Out-of-stock rate fell from 11% to 4.8%; revenue lost to stockouts fell 60%."
   - "Hours and mileage per technician fell about 32% and 31%."
   - "Planning went from about two hours a day to ten minutes, and a re-solve takes under 30 seconds."
+  - "An AI dispatch agent with guardrails and human-in-the-loop approval: technicians see the plan the evening before, and a person can change it and re-solve."
 learned: >-
   The solver was the easy part. Most of the work was data hygiene and modelling the constraints
   technicians actually operate under – and the largest cost win came from relaxing a business

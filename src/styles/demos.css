@@ -457,7 +457,7 @@ input[type='range'] {
   display: block; font-style: normal; color: var(--slate-soft);
   line-height: 1.45; margin-top: 0.18rem;
 }
-.op-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; }
+.op-table { width: 100%; border-collapse: collapse; margin-top: 0.5rem; display: block; overflow-x: auto; }
 .op-table th {
   text-align: left; font-weight: 500; color: var(--slate-soft);
   padding: 0 0.8rem 0.55rem 0; border-bottom: 1px solid var(--rule-strong);

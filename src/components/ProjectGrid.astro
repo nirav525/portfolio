@@ -35,6 +35,12 @@ const size = (v: string) => (v.length <= 6 ? 'big' : v.length <= 11 ? 'mid' : 's
                 data-cat={p.data.category}
                 style={p.data.accent ? `--cat:${p.data.accent}` : undefined}
               >
+                {p.data.beforeAfter && (
+                  <span class="thumbs" aria-hidden="true">
+                    <img src={p.data.beforeAfter.before.src} alt="" width="800" height="560" loading="lazy" decoding="async" />
+                    <img src={p.data.beforeAfter.after.src} alt="" width="800" height="560" loading="lazy" decoding="async" />
+                  </span>
+                )}
                 <span class="tag">{p.data.category}</span>
 
                 <span class={`figure ${size(p.data.headline.value)}`} data-count={p.data.headline.value}>
@@ -177,6 +183,9 @@ const size = (v: string) => (v.length <= 6 ? 'big' : v.length <= 11 ? 'mid' : 's
     margin-top: 0.3rem; max-width: 42ch;
   }
 
+  .thumbs { display: grid; grid-template-columns: 1fr 1fr; gap: 0.4rem; margin: -0.4rem -0.25rem 0.9rem; }
+  .thumbs img { display: block; width: 100%; height: auto; border-radius: 8px; border: 1px solid var(--rule); }
+  .card:has(.thumbs) { grid-template-rows: auto auto auto auto 1fr auto; }
   .tag { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.01em; color: var(--cat); margin-bottom: 0.6rem; }
 
   .figure {

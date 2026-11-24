@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#064e3b" flood-opacity="0.18"/></filter>
+  </defs>
+  <rect width="800" height="560" fill="#eef6f1"/>
+
+  <!-- meals picked -->
+  <text x="40" y="92" font-size="13" font-weight="700" fill="#047857" letter-spacing="1.2">THIS WEEK'S MEALS</text>
+  <g font-size="14" fill="#064e3b">
+    <rect x="40" y="108" width="190" height="38" rx="19" fill="#fff" stroke="#a7d7c0"/><text x="58" y="132">Chana masala · ×4</text>
+    <rect x="40" y="156" width="190" height="38" rx="19" fill="#fff" stroke="#a7d7c0"/><text x="58" y="180">Palak paneer · ×2</text>
+    <rect x="40" y="204" width="190" height="38" rx="19" fill="#fff" stroke="#a7d7c0"/><text x="58" y="228">Dal tadka · ×4</text>
+    <rect x="40" y="252" width="190" height="38" rx="19" fill="#fff" stroke="#a7d7c0"/><text x="58" y="276">Pasta arrabbiata · ×2</text>
+    <rect x="40" y="300" width="190" height="38" rx="19" fill="#fff" stroke="#a7d7c0"/><text x="58" y="324">Thai green curry · ×2</text>
+  </g>
+  <path d="M244 224 h46" stroke="#059669" stroke-width="3" fill="none"/>
+  <path d="M286 216 l10 8 -10 8" stroke="#059669" stroke-width="3" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="40" y="378" font-size="14" fill="#3f6b5a">Pick the dishes,</text>
+  <text x="40" y="398" font-size="14" fill="#3f6b5a">set servings.</text>
+
+  <!-- phone with the combined list -->
+  <g filter="url(#sh)">
+    <rect x="310" y="30" width="250" height="500" rx="34" fill="#1f2933"/>
+    <rect x="322" y="44" width="226" height="472" rx="24" fill="#ffffff"/>
+  </g>
+  <rect x="405" y="52" width="60" height="8" rx="4" fill="#1f2933"/>
+  <text x="340" y="96" font-size="20" font-weight="700" fill="#064e3b">Shopping list</text>
+  <text x="340" y="116" font-size="12" fill="#6b7f76">5 meals · shared items combined</text>
+
+  <g font-size="14" fill="#1f2933">
+    <text x="340" y="148" font-size="11" font-weight="700" fill="#059669" letter-spacing="1">PRODUCE</text>
+    <rect x="340" y="158" width="16" height="16" rx="4" fill="#059669"/><path d="M344 166 l3 3 6 -6" stroke="#fff" stroke-width="2" fill="none"/>
+    <text x="364" y="171" fill="#9aa5a0" text-decoration="line-through">Onion</text><text x="530" y="171" text-anchor="end" fill="#9aa5a0">4</text>
+    <text x="364" y="187" font-size="10.5" fill="#6b7f76">in 4 meals</text>
+    <rect x="340" y="198" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="211">Tomato</text><text x="530" y="211" text-anchor="end">6</text>
+    <rect x="340" y="226" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="239">Garlic</text><text x="530" y="239" text-anchor="end">1 head</text>
+    <rect x="340" y="254" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="267">Spinach</text><text x="530" y="267" text-anchor="end">2 bunches</text>
+    <rect x="340" y="282" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="295">Cilantro</text><text x="530" y="295" text-anchor="end">1 bunch</text>
+
+    <text x="340" y="328" font-size="11" font-weight="700" fill="#059669" letter-spacing="1">DAIRY</text>
+    <rect x="340" y="338" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="351">Paneer</text><text x="530" y="351" text-anchor="end">400 g</text>
+    <rect x="340" y="366" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="379">Yogurt</text><text x="530" y="379" text-anchor="end">1 tub</text>
+
+    <text x="340" y="412" font-size="11" font-weight="700" fill="#059669" letter-spacing="1">PANTRY</text>
+    <rect x="340" y="422" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="435">Chickpeas</text><text x="530" y="435" text-anchor="end">2 cans</text>
+    <rect x="340" y="450" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="463">Coconut milk</text><text x="530" y="463" text-anchor="end">1 can</text>
+    <rect x="340" y="478" width="16" height="16" rx="4" fill="none" stroke="#9fb5ab" stroke-width="1.5"/>
+    <text x="364" y="491">Toor dal</text><text x="530" y="491" text-anchor="end">500 g</text>
+  </g>
+
+  <!-- bag -->
+  <g transform="translate(610 150)">
+    <path d="M34 40 q0 -34 46 -34 q46 0 46 34" fill="none" stroke="#047857" stroke-width="6" stroke-linecap="round"/>
+    <path d="M10 40 h140 l-12 170 h-116 z" fill="#d9c3a0"/>
+    <path d="M10 40 h140 l-3 20 h-134 z" fill="#c9ae86"/>
+    <circle cx="80" cy="128" r="30" fill="#059669"/>
+    <path d="M66 128 l10 10 20 -20" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
+  </g>
+  <text x="690" y="400" font-size="18" font-weight="700" fill="#064e3b" text-anchor="middle">One list.</text>
+  <text x="690" y="424" font-size="18" font-weight="700" fill="#064e3b" text-anchor="middle">One Sunday trip.</text>
+  <text x="690" y="452" font-size="13" fill="#3f6b5a" text-anchor="middle">Onions counted once,</text>
+  <text x="690" y="470" font-size="13" fill="#3f6b5a" text-anchor="middle">garlic on the list.</text>
+
+  <rect x="20" y="16" width="86" height="32" rx="16" fill="#047857"/>
+  <text x="63" y="38" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">AFTER</text>
+</svg>

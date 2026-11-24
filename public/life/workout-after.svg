@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#450a0a" flood-opacity="0.16"/></filter>
+  </defs>
+  <rect width="800" height="560" fill="#fbf1f1"/>
+
+  <!-- phone -->
+  <g filter="url(#sh)">
+    <rect x="60" y="30" width="260" height="500" rx="34" fill="#1f2933"/>
+    <rect x="72" y="44" width="236" height="472" rx="24" fill="#fff"/>
+  </g>
+  <rect x="160" y="52" width="60" height="8" rx="4" fill="#1f2933"/>
+  <text x="90" y="94" font-size="12" font-weight="700" fill="#dc2626" letter-spacing="1">PUSH DAY</text>
+  <text x="90" y="118" font-size="21" font-weight="700" fill="#1f2933">Bench press</text>
+
+  <rect x="88" y="134" width="204" height="86" rx="12" fill="#fef2f2"/>
+  <text x="102" y="156" font-size="11" font-weight="700" fill="#991b1b" letter-spacing="1">LAST TIME</text>
+  <text x="102" y="182" font-size="17" font-weight="700" fill="#1f2933">145 lb × 8 · 8 · 7</text>
+  <text x="102" y="206" font-size="13" fill="#6b4a4a">Difficulty 8 / 10 – hard</text>
+
+  <text x="90" y="250" font-size="11" font-weight="700" fill="#6b7280" letter-spacing="1">TODAY</text>
+  <g font-size="14" fill="#1f2933">
+    <text x="90" y="276" fill="#6b7280" font-size="11">SET</text><text x="140" y="276" fill="#6b7280" font-size="11">LB</text><text x="196" y="276" fill="#6b7280" font-size="11">REPS</text><text x="244" y="276" fill="#6b7280" font-size="11">DIFF</text>
+    <line x1="88" y1="284" x2="292" y2="284" stroke="#eee"/>
+    <text x="94" y="308">1</text><text x="140" y="308">145</text><text x="200" y="308">8</text>
+    <g fill="#dc2626"><circle cx="248" cy="303" r="4"/><circle cx="260" cy="303" r="4"/><circle cx="272" cy="303" r="4"/></g><circle cx="284" cy="303" r="4" fill="#f3d0d0"/>
+    <text x="94" y="340">2</text><text x="140" y="340">145</text><text x="200" y="340">8</text>
+    <g fill="#dc2626"><circle cx="248" cy="335" r="4"/><circle cx="260" cy="335" r="4"/><circle cx="272" cy="335" r="4"/></g><circle cx="284" cy="335" r="4" fill="#f3d0d0"/>
+    <text x="94" y="372">3</text><text x="140" y="372">145</text><text x="200" y="372" font-weight="700" fill="#dc2626">8</text>
+    <g fill="#dc2626"><circle cx="248" cy="367" r="4"/><circle cx="260" cy="367" r="4"/><circle cx="272" cy="367" r="4"/><circle cx="284" cy="367" r="4"/></g>
+  </g>
+  <rect x="88" y="400" width="204" height="40" rx="20" fill="#dc2626"/>
+  <text x="190" y="425" font-size="14" font-weight="700" fill="#fff" text-anchor="middle">+ Log set</text>
+  <text x="190" y="476" font-size="12" fill="#6b7280" text-anchor="middle">Set 3: 7 → 8 reps. Beat last time.</text>
+
+  <!-- trend chart -->
+  <g transform="translate(380 110)">
+    <rect width="380" height="270" rx="16" fill="#fff" stroke="#f1d5d5"/>
+    <text x="24" y="36" font-size="15" font-weight="700" fill="#1f2933">Bench press – top set</text>
+    <text x="24" y="56" font-size="12" fill="#6b7280">last 8 sessions, lb</text>
+    <g stroke="#f3e4e4"><line x1="50" y1="90" x2="356" y2="90"/><line x1="50" y1="140" x2="356" y2="140"/><line x1="50" y1="190" x2="356" y2="190"/><line x1="50" y1="240" x2="356" y2="240"/></g>
+    <g font-size="11" fill="#9ca3af" text-anchor="end"><text x="42" y="94">150</text><text x="42" y="144">140</text><text x="42" y="194">130</text><text x="42" y="244">120</text></g>
+    <polyline points="62,215 104,215 146,190 188,190 230,165 272,140 314,115 346,115" fill="none" stroke="#dc2626" stroke-width="3.5" stroke-linejoin="round" stroke-linecap="round"/>
+    <g fill="#fff" stroke="#dc2626" stroke-width="2.5"><circle cx="62" cy="215" r="5"/><circle cx="104" cy="215" r="5"/><circle cx="146" cy="190" r="5"/><circle cx="188" cy="190" r="5"/><circle cx="230" cy="165" r="5"/><circle cx="272" cy="140" r="5"/><circle cx="314" cy="115" r="5"/></g>
+    <circle cx="346" cy="115" r="7" fill="#dc2626"/>
+  </g>
+  <text x="570" y="428" font-size="18" font-weight="700" fill="#450a0a" text-anchor="middle">Last session on screen</text>
+  <text x="570" y="452" font-size="18" font-weight="700" fill="#450a0a" text-anchor="middle">before the first set.</text>
+  <text x="570" y="480" font-size="13" fill="#7f4b4b" text-anchor="middle">Difficulty says add weight or add reps.</text>
+
+  <rect x="380" y="58" width="86" height="32" rx="16" fill="#b91c1c"/>
+  <text x="423" y="80" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">AFTER</text>
+</svg>

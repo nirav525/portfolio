@@ -1,36 +1,44 @@
 ---
-// Straight from the resume's skills section, split across two drifting rows.
-const rowA = ['Agentic AI', 'LLM integration', 'Claude API', 'Workflow automation', 'API integrations', 'ERP architecture', 'Python', 'SQL', 'Google OR-Tools', 'Google Apps Script'];
-const rowB = ['Route optimization', 'Demand forecasting', 'Inventory optimization', 'S&OP / IBP', 'Scenario analysis', 'KPI development', 'Executive reporting', 'Power BI', 'Tableau', 'Advanced Excel'];
+// Grouped the way the resume groups them. Planning stays its own group so the
+// supply chain work is as easy to find as the AI work.
+const groups = [
+  { name: 'AI & engineering', items: ['Claude Code', 'Claude API', 'Cursor', 'MCP', 'LLM integration', 'Agentic workflows', 'Python', 'SQL (PostgreSQL)', 'TypeScript'] },
+  { name: 'Integrations', items: ['REST APIs', 'Gmail API', 'Slack bots', 'Traccar', 'Apollo.io', 'Resend', 'Google Places', 'FDA / USDA feeds', 'Google Apps Script'] },
+  { name: 'Deployment', items: ['Requirements & workflow design', 'Pilots & rollouts', 'User adoption & training', 'Stakeholder management', 'SLA monitoring', 'Root-cause debugging', 'Human-in-the-loop guardrails'] },
+  { name: 'Planning & optimization', items: ['Demand forecasting', 'S&OP / IBP', 'Inventory optimization', 'Google OR-Tools', 'Route optimization (VRP)', 'Scenario modeling'] },
+  { name: 'Data & reporting', items: ['KPI design', 'Executive reporting', 'Tableau', 'Power BI', 'Advanced Excel'] },
+];
 ---
 
 <section class="skills" aria-label="Skills">
-  <div class="shell"><h2>What I work with</h2></div>
-  {[rowA, rowB].map((row, i) => (
-    <div class={`marquee ${i ? 'rev' : ''}`}>
-      <ul class="track">
-        {[...row, ...row].map((s, k) => <li aria-hidden={k >= row.length ? 'true' : undefined}>{s}</li>)}
-      </ul>
+  <div class="shell">
+    <h2>What I work with</h2>
+    <div class="groups">
+      {groups.map((g) => (
+        <div class="group">
+          <h3>{g.name}</h3>
+          <ul>{g.items.map((s) => <li>{s}</li>)}</ul>
+        </div>
+      ))}
     </div>
-  ))}
+  </div>
 </section>
 
 <style>
-  .skills { margin-top: 6rem; overflow: hidden; }
+  .skills { margin-top: 6rem; }
   h2 { font-size: var(--step-2); letter-spacing: -0.03em; margin-bottom: 1.5rem; }
-  .marquee { overflow: hidden; padding-block: 0.4rem; mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 8%, #000 92%, transparent); }
-  .track { display: flex; gap: 0.75rem; width: max-content; margin: 0; padding: 0; list-style: none; animation: drift 38s linear infinite; }
-  .rev .track { animation-direction: reverse; animation-duration: 44s; }
-  .marquee:hover .track { animation-play-state: paused; }
+  .groups {
+    display: grid; gap: 1.75rem 2rem;
+    grid-template-columns: repeat(auto-fill, minmax(min(17rem, 100%), 1fr));
+  }
+  h3 {
+    margin: 0 0 0.7rem; font-size: 0.78rem; font-weight: 600; letter-spacing: 0.06em;
+    text-transform: uppercase; color: var(--slate);
+  }
+  ul { display: flex; flex-wrap: wrap; gap: 0.5rem; margin: 0; padding: 0; list-style: none; }
   li {
-    white-space: nowrap; padding: 0.55rem 1.1rem; border-radius: 999px; font-size: 0.92rem; font-weight: 500;
+    padding: 0.42rem 0.9rem; border-radius: 999px; font-size: 0.88rem; font-weight: 500;
     background: #fff; border: 1px solid var(--rule); color: var(--ink);
     box-shadow: 0 6px 14px -10px rgba(20, 32, 42, 0.35);
-  }
-  @keyframes drift { to { transform: translateX(-50%); } }
-  @media (prefers-reduced-motion: reduce) {
-    .track { animation: none; flex-wrap: wrap; width: auto; padding-inline: var(--gutter); }
-    .track li[aria-hidden='true'] { display: none; }
-    .marquee { mask-image: none; -webkit-mask-image: none; }
   }
 </style>

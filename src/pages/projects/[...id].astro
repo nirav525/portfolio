@@ -66,6 +66,21 @@ const disclosureCopy: Record<string, string> = {
     </header>
 
     <div class="shell">
+      {d.beforeAfter && (
+        <section class="block reveal">
+          <h2>Before and after</h2>
+          <div class="ba">
+            {[d.beforeAfter.before, d.beforeAfter.after].map((f) => (
+              <figure>
+                <img src={f.src} alt={f.alt} width="800" height="560" loading="lazy" decoding="async" />
+                <figcaption>{f.caption}</figcaption>
+              </figure>
+            ))}
+          </div>
+          <p class="ba-note">Illustrations, drawn for this page.</p>
+        </section>
+      )}
+
       {d.metrics.length > 0 && (
         <section class="block reveal">
           <h2>The numbers</h2>
@@ -239,6 +254,14 @@ const disclosureCopy: Record<string, string> = {
   }
 
   .block { margin-top: 3rem; }
+  .ba { display: grid; gap: 1.25rem; grid-template-columns: repeat(auto-fit, minmax(min(20rem, 100%), 1fr)); }
+  .ba figure { margin: 0; }
+  .ba img {
+    display: block; width: 100%; height: auto; border-radius: 14px;
+    border: 1px solid var(--rule); box-shadow: 0 14px 30px -22px rgba(20, 32, 42, 0.45);
+  }
+  .ba figcaption { margin-top: 0.6rem; font-size: var(--step--1); color: var(--slate); line-height: 1.45; }
+  .ba-note { margin-top: 0.75rem; font-size: 0.78rem; color: var(--slate-soft); }
   .block > h2 {
     font-size: var(--step-1); padding-bottom: 0.75rem;
     border-bottom: 2px solid color-mix(in srgb, var(--cat) 30%, var(--rule));

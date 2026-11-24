@@ -76,6 +76,14 @@ const projects = defineCollection({
     // Architecture flow, rendered as a stepped diagram
     architecture: z.array(z.string()).default([]),
 
+    // Before/after illustrations: life before the tool, then with it.
+    beforeAfter: z
+      .object({
+        before: z.object({ src: z.string(), alt: z.string(), caption: z.string() }),
+        after: z.object({ src: z.string(), alt: z.string(), caption: z.string() }),
+      })
+      .optional(),
+
     // Interactive demo. Must match a key in src/components/demos/registry.ts
     demo: z.string().optional(),
     demoNote: z.string().optional(),

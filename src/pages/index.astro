@@ -16,8 +16,8 @@ const projects = (await getCollection('projects', ({ data }) => !data.draft)).so
 const RESULTS = [
   { value: '11% → 4.8%', label: 'Fleet-wide out-of-stock rate', href: '/projects/dispatch-optimization', cat: 'Optimization' },
   { value: '15 → 35', label: 'Machines served by the same technician team', href: '/projects/dispatch-optimization', cat: 'Optimization' },
-  { value: '−33%', label: 'Fleet OpEx per unit', href: '/projects/fleet-opex-per-unit', cat: 'Strategy & Operations' },
-  { value: '$100K+', label: 'Annual SaaS spend consolidated into one platform', href: '/projects/operating-platform', cat: 'Internal Tools' },
+  { value: '2 hrs → 10 min', label: 'Daily route planning, with a human approving the plan', href: '/projects/dispatch-optimization', cat: 'Optimization' },
+  { value: '$310K', label: 'A year in costs cut: $100K+ of SaaS replaced, $210K of fleet OpEx', href: '/projects/operating-platform', cat: 'Internal Tools' },
   { value: '+33%', label: 'Sales from reworking the product mix', href: '/projects/assortment-optimization', cat: 'Optimization' },
   { value: '$3M+', label: 'Procurement and planning savings from forecasting', href: '/projects/demand-forecasting-scale', cat: 'Data / Analytics' },
 ];
@@ -25,7 +25,7 @@ const RESULTS = [
 
 <Base
   title="Nirav Sampat – Strategy & Operations"
-  description={`Strategy and operations work I built hands-on with AI: dispatch, planning, inventory, and reporting systems. ${projects.length} projects with interactive demos on synthetic data.`}
+  description={`I build and deploy AI systems into live operations – dispatch, planning, inventory, and reporting – with Claude Code, and run them in production. ${projects.length} projects with interactive demos on synthetic data.`}
   path="/"
 >
   <section class="hero" data-hero>
@@ -35,8 +35,10 @@ const RESULTS = [
         <p class="eyebrow rise" style="--d:40ms">Strategy &amp; Operations &middot; Crave Robotics</p>
         <h1 class="rise" style="--d:100ms">Nirav <span class="grad">Sampat</span></h1>
         <p class="sub rise" style="--d:170ms">
-          I built my company's operating platform, dispatch system, and planning models myself,
-          with AI, and ran them in production. Before that, demand planning at Botrista.
+          I build and deploy AI systems into live operations. At Crave Robotics I built the
+          operations platform, an AI dispatch agent, and outreach agents with Claude Code, and run
+          them in production. Before that, supply chain planning at Botrista: forecasting for 600+
+          SKUs that enabled $3M+ in savings.
         </p>
         <p class="links rise" style="--d:230ms">
           <a class="primary" href="#work">See the work</a>
