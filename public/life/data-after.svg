@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs><filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1a2e05" flood-opacity="0.15"/></filter></defs>
+  <rect width="800" height="560" fill="#f2f6ec"/>
+  <g filter="url(#sh)"><rect x="36" y="40" width="728" height="480" rx="16" fill="#fff"/></g>
+  <text x="60" y="76" font-size="15" font-weight="700" fill="#1f2933"># data-questions</text>
+  <text x="60" y="96" font-size="11.5" fill="#9ca3af">ask in plain English, anyone can</text>
+  <g font-size="12.5">
+    <circle cx="74" cy="134" r="14" fill="#fde2c8"/><text x="68" y="139" font-weight="700" fill="#9a3412">S</text>
+    <text x="98" y="130" font-weight="700" fill="#1f2933">Sam</text>
+    <text x="98" y="148" fill="#374151">Maple Court weekly sales, Nov this year vs last year?</text>
+    <rect x="60" y="170" width="28" height="28" rx="7" fill="#3f6212"/><text x="67" y="189" font-size="12" font-weight="700" fill="#fff">D</text>
+    <text x="98" y="182" font-weight="700" fill="#1f2933">Data Analytics</text><text x="206" y="182" font-size="10.5" fill="#6b7280">bot</text>
+  </g>
+  <g font-size="12" fill="#1f2933">
+    <text x="98" y="206" font-weight="600" fill="#6b7280">Week (Mon–Sun)</text><text x="300" y="206" font-weight="600" fill="#6b7280">This year</text><text x="400" y="206" font-weight="600" fill="#6b7280">Last year</text>
+    <text x="98" y="228">Nov 2–8</text><text x="300" y="228">14 · $121</text><text x="400" y="228">9 · $84</text>
+    <text x="98" y="248">Nov 9–15</text><text x="300" y="248">17 · $150</text><text x="400" y="248">11 · $97</text>
+    <text x="98" y="268">Nov 16–22</text><text x="300" y="268">16 · $139</text><text x="400" y="268">12 · $103</text>
+  </g>
+  <rect x="98" y="284" width="420" height="44" rx="8" fill="#f7f9f4" stroke="#e7efdb"/>
+  <text x="110" y="302" font-size="11.5" fill="#3f6212" font-weight="700">Definitions used</text>
+  <text x="110" y="319" font-size="11.5" fill="#4b5563">Sale = paid orders, refunds and internal discounts left out · LA time</text>
+  <rect x="98" y="338" width="420" height="80" rx="8" fill="#1f2933"/>
+  <g font-family="Menlo, monospace" font-size="10.5" fill="#d1d5db"><text x="110" y="358">▾ SQL used</text>
+  <text x="110" y="376" fill="#a7f3d0">SELECT week, COUNT(*), SUM(total_amount)</text>
+  <text x="110" y="392" fill="#9ca3af">FROM orders WHERE location IN (old, new code)</text>
+  <text x="110" y="408" fill="#9ca3af">  AND paid AND NOT refunded GROUP BY week</text></g>
+  <g font-size="12.5">
+    <circle cx="74" cy="452" r="14" fill="#dcfce7"/><text x="68" y="457" font-weight="700" fill="#166534">L</text>
+    <text x="98" y="448" font-weight="700" fill="#1f2933">Leo</text>
+    <text x="98" y="466" fill="#374151">checked the SQL, matches the dashboard. Sending to the site manager.</text>
+  </g>
+  <g font-size="11.5" fill="#4b5563"><rect x="560" y="120" width="180" height="150" rx="10" fill="#f7f9f4"/>
+  <text x="574" y="146" font-weight="700" fill="#1f2933">Glossary</text>
+  <text x="574" y="170">sale</text><text x="574" y="192">in-stock %</text><text x="574" y="214">active machine</text><text x="574" y="236">order time (LA)</text>
+  <text x="574" y="258" fill="#9ca3af">one meaning each</text></g>
+</svg>

@@ -1,0 +1,73 @@
+---
+title: A Slack AI analyst the whole company asks
+summary: A Slack agent that answers ops data questions in plain English, built on written definitions of our business terms, and shows the source and SQL behind every number.
+category: Data / Analytics
+org: Crave Robotics
+period: "2026"
+role: Sole designer and builder
+tier: 1
+order: 2.5
+disclosure: B
+headline: { value: "200+", label: "questions answered in 2 months, in minutes instead of hours" }
+stack: [LLM text-to-SQL, PostgreSQL data warehouse, Uptime API, Slack API]
+architecture: 
+  - Question in Slack
+  - Match words to defined terms
+  - Write SQL on a warehouse copy
+  - Add uptime and Slack context
+  - Answer with sources + SQL
+  - A person checks and shares
+beforeAfter:
+  before:
+    src: /life/data-before.svg
+    alt: "Illustration: a list of direct messages from five people asking for sales and order numbers, a sticky note asking whether sales include refunds and which time zone to use, and a saved SQL file noting a different number than last week."
+    caption: "Before: every data question was a message to one person, and the same word could mean two numbers."
+  after:
+    src: /life/data-after.svg
+    alt: "Illustration: a Slack channel where Sam asks for weekly sales this year versus last year, the Data Analytics bot replies with a small table, the definitions it used and the SQL, and Leo confirms the SQL matches the dashboard before sharing it."
+    caption: "After: the answer, the definitions and the SQL arrive together. A person still decides what to share."
+tldr: 
+  - "The CEO and 4 teams (hardware, marketing, partnerships, field technicians) asked ops data questions every day, and each one waited on me: 15–20 minutes of work, but hours of waiting when I was busy."
+  - "Now they ask a Slack agent: 200+ questions in 2 months, answered in minutes, 50+ hours of analyst time back."
+  - "It works from written definitions (what counts as a sale, in-stock %, an active machine) and tags every number with its source and SQL, so anyone can check it."
+  - "Its top-seller answers shaped our campus menus, and the products it surfaced are now top-3 sellers at 6 locations."
+learned: >-
+  Writing SQL was never the hard part. Agreeing on what a word means was. Once "sale" and "in-stock %"
+  had one written definition each, answers stopped disagreeing with each other, and showing the source
+  and SQL turned "is this number right?" into something anyone could check in a minute.
+next: >-
+  Fold the corrections people make in Slack back into the glossary, so the shared definitions get
+  better with every question instead of living in one person's head.
+metrics:
+  - { label: "Time to an answer", before: "Hours", after: "Minutes", emphasis: true }
+  - { label: "Questions answered", value: "200+ in 2 months" }
+  - { label: "Analyst time saved", value: "50+ hours" }
+  - { label: "Campus-menu picks it surfaced", value: "Top-3 sellers at 6 locations" }
+roleFit: { "BizOps": 3, "AI": 3, "Strategy & Ops": 2, "Product Ops": 2, "Supply Chain / Ops": 1, "GTM / Growth": 0 }
+---
+
+## The problem
+
+Once the company had one operating platform, people started asking questions it had no page for: sales at one site this year versus last, the best sellers on a campus, why a machine went quiet. Those questions came to me from the CEO, hardware, marketing, partnerships and the field technicians. Each took 15–20 minutes to answer, but when I was busy, people waited hours.
+
+Each answer was a fresh SQL query, and the same word could quietly mean two numbers. Does "sales" include refunds? Is a day in LA time or UTC? Two honest queries could disagree.
+
+## What I built
+
+A Slack agent anyone can ask in plain English. Before it writes any SQL, it looks up the business terms in the question in a written glossary: what a sale is (paid orders only, refunds and internal discounts left out), what in-stock % means, what counts as an active machine, and which time zone a date is in. It writes the query from those definitions and runs it on a separate copy of the data in a warehouse, never on the live system.
+
+The first version answered from order data alone. The current one also reads machine uptime, a searchable archive of Slack messages and a log of site events, so it can explain a number, not just report it. Every figure is tagged with where it came from, guesses are labelled as guesses, and when the data cannot answer a question, it says so instead of approximating.
+
+This is the same idea as an ontology or semantic layer: a shared map from the words people use to the data and formulas behind them, so every answer computes a metric the same way.
+
+## Answers that changed decisions
+
+When we rebuilt the menus for our university campuses, the top-seller answers came from the agent, with duplicate product names merged so the ranking was right. Those products are now top-3 sellers at 6 locations.
+
+## An answer that changed the question
+
+A hospital site showed eleven straight days of zero sales, which looked like demand falling off. The agent pulled uptime and order history and showed something else: the machine had been locked, then swapped for a new one, and weekly sales had been climbing right up to the day it stopped. It also caught that the new machine sells under a new location ID, so every later query for that site has to include both.
+
+## Why the source is in every answer
+
+People trust a number they can check. With the source and SQL attached, whoever asked, or anyone else in the thread, can see exactly what was counted before the number goes to a site partner or into a deck.
