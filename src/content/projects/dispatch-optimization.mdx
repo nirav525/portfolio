@@ -19,6 +19,15 @@ architecture:
   - VRP solve
   - Routes to Slack
   - Human re-optimization
+beforeAfter:
+  before:
+    src: /life/dispatch-before.svg
+    alt: "Illustration: a restock spreadsheet with question marks, a printed map with one route crossing back over itself, and chat messages re-routing a technician mid-day and putting off tomorrow's route until morning."
+    caption: "Before: about two hours of planning a day, plans that changed by noon, and technicians who learned their route that morning."
+  after:
+    src: /life/dispatch-after.svg
+    alt: "Illustration: the evening post in the dispatch channel with each technician's stops, a note on why a 51% machine was added to a nearby route, Approve and Change buttons, and a map of three tidy loops from HQ."
+    caption: "After: routes go out the evening before, a person approves or changes them, and planning takes about ten minutes."
 demo: dispatch
 demoNote: >-
   Production runs Google OR-Tools with live traffic travel times, time-window, and fairness

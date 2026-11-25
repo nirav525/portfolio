@@ -1,0 +1,73 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#134e4a" flood-opacity="0.15"/></filter>
+  </defs>
+  <rect width="800" height="560" fill="#eef6f4"/>
+
+  <!-- the evening post in the team channel -->
+  <g filter="url(#sh)"><rect x="36" y="58" width="440" height="440" rx="16" fill="#fff"/></g>
+  <text x="58" y="88" font-size="13" font-weight="700" fill="#1f2933"># dispatch</text>
+  <line x1="36" y1="102" x2="476" y2="102" stroke="#eef0f2"/>
+  <rect x="58" y="116" width="30" height="30" rx="7" fill="#0f766e"/>
+  <path d="M66 136 l6 -10 l6 6 l6 -9" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="98" y="128" font-size="13" font-weight="700" fill="#1f2933">Tomorrow's routes</text>
+  <text x="98" y="145" font-size="11" fill="#6b7280">posted the evening before</text>
+
+  <g font-size="12.5" fill="#1f2933">
+    <rect x="58" y="162" width="396" height="50" rx="10" fill="#f8fafc"/>
+    <circle cx="76" cy="187" r="7" fill="#0f766e"/>
+    <text x="92" y="182" font-weight="700">Sam · 4 stops</text>
+    <text x="92" y="200" font-size="11.5" fill="#6b7280">Library 2F → Dorm hall → Student union → Gym</text>
+
+    <rect x="58" y="220" width="396" height="50" rx="10" fill="#f8fafc"/>
+    <circle cx="76" cy="245" r="7" fill="#ea580c"/>
+    <text x="92" y="240" font-weight="700">Ana · 3 stops</text>
+    <text x="92" y="258" font-size="11.5" fill="#6b7280">Hospital lobby → Office tower → Med center</text>
+
+    <rect x="58" y="278" width="396" height="50" rx="10" fill="#f8fafc"/>
+    <circle cx="76" cy="303" r="7" fill="#7c3aed"/>
+    <text x="92" y="298" font-weight="700">Leo · 4 stops</text>
+    <text x="92" y="316" font-size="11.5" fill="#6b7280">Clinic → Rec center → Bookstore → Café</text>
+  </g>
+
+  <text x="58" y="356" font-size="10.5" font-weight="700" fill="#0f766e" letter-spacing="1">WHY THE TOWER IS ON ANA'S LIST</text>
+  <g font-size="12.5" fill="#374151">
+    <text x="58" y="378">It's at 51%, just above the restock line. But Ana is</text>
+    <text x="58" y="397">already next door, so topping it up now beats a</text>
+    <text x="58" y="416">separate trip later this week.</text>
+  </g>
+
+  <rect x="58" y="440" width="96" height="34" rx="9" fill="#0f766e"/>
+  <text x="106" y="462" font-size="13" font-weight="700" fill="#fff" text-anchor="middle">Approve</text>
+  <rect x="164" y="440" width="150" height="34" rx="9" fill="#fff" stroke="#0f766e" stroke-width="1.5"/>
+  <text x="239" y="462" font-size="13" font-weight="600" fill="#0f766e" text-anchor="middle">Change + re-solve</text>
+  <text x="326" y="461" font-size="11.5" fill="#6b7280">under 30 seconds</text>
+
+  <!-- map with three tidy loops -->
+  <g filter="url(#sh)"><rect x="500" y="58" width="264" height="270" rx="16" fill="#fff"/></g>
+  <g stroke="#f1f5f4" stroke-width="7" fill="none">
+    <path d="M500 140 h264"/><path d="M500 250 h264"/><path d="M580 58 v270"/><path d="M690 58 v270"/>
+  </g>
+  <g fill="none" stroke-width="3" stroke-linejoin="round" stroke-linecap="round">
+    <path d="M626 196 L560 150 L548 96 L606 86 L640 120 Z" stroke="#0f766e"/>
+    <path d="M626 196 L712 112 L744 156 L726 214 Z" stroke="#ea580c"/>
+    <path d="M626 196 L560 254 L590 304 L664 300 L690 252 Z" stroke="#7c3aed"/>
+  </g>
+  <g fill="#0f766e"><circle cx="560" cy="150" r="5"/><circle cx="548" cy="96" r="5"/><circle cx="606" cy="86" r="5"/><circle cx="640" cy="120" r="5"/></g>
+  <g fill="#ea580c"><circle cx="712" cy="112" r="5"/><circle cx="744" cy="156" r="5"/><circle cx="726" cy="214" r="5"/></g>
+  <g fill="#7c3aed"><circle cx="560" cy="254" r="5"/><circle cx="590" cy="304" r="5"/><circle cx="664" cy="300" r="5"/><circle cx="690" cy="252" r="5"/></g>
+  <rect x="613" y="185" width="26" height="22" rx="3" fill="#1f2933"/><text x="626" y="200" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">HQ</text>
+
+  <!-- planning time -->
+  <g filter="url(#sh)"><rect x="500" y="348" width="264" height="150" rx="16" fill="#fff"/></g>
+  <text x="522" y="378" font-size="12" fill="#6b7280">My planning time, per day</text>
+  <text x="522" y="420" font-size="26" font-weight="700" fill="#9ca3af">2 hrs</text>
+  <text x="606" y="419" font-size="22" fill="#9ca3af">→</text>
+  <text x="640" y="420" font-size="26" font-weight="700" fill="#0f766e">10 min</text>
+  <text x="522" y="452" font-size="12" fill="#374151">Mostly checking the plan</text>
+  <text x="522" y="470" font-size="12" fill="#374151">and approving it.</text>
+
+  <text x="400" y="534" font-size="17" font-weight="700" fill="#134e4a" text-anchor="middle">Everyone knows tomorrow tonight. A person still signs off.</text>
+  <rect x="20" y="10" width="86" height="32" rx="16" fill="#0f766e"/>
+  <text x="63" y="32" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">AFTER</text>
+</svg>

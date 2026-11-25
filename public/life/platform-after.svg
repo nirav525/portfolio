@@ -1,0 +1,56 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="6" stdDeviation="8" flood-color="#1a2e05" flood-opacity="0.15"/></filter>
+  </defs>
+  <rect width="800" height="560" fill="#f2f6ec"/>
+
+  <!-- one app -->
+  <g filter="url(#sh)"><rect x="36" y="58" width="728" height="420" rx="16" fill="#fff"/></g>
+  <path d="M36 74 a16 16 0 0 1 16 -16 h150 v420 h-150 a16 16 0 0 1 -16 -16 z" fill="#f7f9f4"/>
+  <text x="56" y="92" font-size="14" font-weight="700" fill="#1f2933">Ops</text>
+  <g font-size="13" fill="#4b5563">
+    <text x="56" y="132">Machines</text>
+    <text x="56" y="162">Dispatch</text>
+    <text x="56" y="192">Restocking</text>
+    <rect x="46" y="204" width="146" height="30" rx="8" fill="#e7efdb"/>
+    <text x="56" y="224" font-weight="700" fill="#3f6212">Inventory</text>
+    <text x="56" y="254">Menus</text>
+    <text x="56" y="284">Demand</text>
+    <text x="56" y="314">Products</text>
+    <text x="56" y="344">Reports</text>
+  </g>
+  <text x="56" y="452" font-size="11" fill="#9ca3af">12 people use it weekly</text>
+
+  <text x="226" y="96" font-size="18" font-weight="700" fill="#1f2933">Inventory · HQ freezer</text>
+  <text x="226" y="116" font-size="11.5" fill="#6b7280">Updated from every transfer and restock</text>
+
+  <g font-size="11" fill="#6b7280" font-weight="600">
+    <text x="226" y="148">Item</text><text x="420" y="148">Lot</text><text x="500" y="148" text-anchor="end">Qty</text><text x="530" y="148">Expires</text>
+  </g>
+  <line x1="226" y1="156" x2="740" y2="156" stroke="#eef0f2"/>
+  <g font-size="12.5" fill="#1f2933">
+    <text x="226" y="180">Chicken Tikka Bowl</text><text x="420" y="180" fill="#6b7280">L-2291</text><text x="500" y="180" text-anchor="end" font-weight="700">37</text><text x="530" y="180">Dec 12</text>
+    <text x="226" y="208">Mac &amp; Cheese</text><text x="420" y="208" fill="#6b7280">L-2304</text><text x="500" y="208" text-anchor="end" font-weight="700">18</text><text x="530" y="208">Jan 3</text>
+    <text x="226" y="236">Teriyaki Bowl</text><text x="420" y="236" fill="#6b7280">L-2310</text><text x="500" y="236" text-anchor="end" font-weight="700">11</text><text x="530" y="236">Jan 9</text>
+    <text x="226" y="264">Butter Chicken</text><text x="420" y="264" fill="#6b7280">L-2288</text><text x="500" y="264" text-anchor="end" font-weight="700">24</text><text x="530" y="264">Dec 20</text>
+  </g>
+  <rect x="600" y="166" width="132" height="22" rx="11" fill="#fef3c7"/>
+  <text x="666" y="181" font-size="11" fill="#92400e" text-anchor="middle">use first: expires soon</text>
+
+  <!-- audit trail -->
+  <rect x="226" y="292" width="514" height="96" rx="12" fill="#f8faf6"/>
+  <text x="244" y="316" font-size="10.5" font-weight="700" fill="#4d7c0f" letter-spacing="1">LAST MOVES</text>
+  <g font-size="12" fill="#374151">
+    <text x="244" y="340">−6 Chicken Tikka Bowl → Library 2F</text><text x="722" y="340" text-anchor="end" fill="#6b7280">Sam · today</text>
+    <text x="244" y="364">+48 Chicken Tikka Bowl received from vendor</text><text x="722" y="364" text-anchor="end" fill="#6b7280">HQ · Mon</text>
+  </g>
+
+  <!-- the board-deck question, answered -->
+  <rect x="226" y="404" width="514" height="52" rx="12" fill="#fff" stroke="#e5e7eb"/>
+  <text x="244" y="426" font-size="12.5" font-weight="700" fill="#1f2933">Reports</text>
+  <text x="244" y="444" font-size="12" fill="#6b7280">Leadership opens this page for the board numbers. No more asking me.</text>
+
+  <text x="400" y="516" font-size="17" font-weight="700" fill="#1a2e05" text-anchor="middle">One app. One number per freezer. Nobody has to ask which sheet.</text>
+  <rect x="20" y="10" width="86" height="32" rx="16" fill="#4d7c0f"/>
+  <text x="63" y="32" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">AFTER</text>
+</svg>

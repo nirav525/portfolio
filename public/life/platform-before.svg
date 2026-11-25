@@ -1,0 +1,79 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#3b2f1e" flood-opacity="0.18"/></filter>
+    <style>.h{font-family:'Bradley Hand','Segoe Print','Comic Sans MS',cursive}</style>
+  </defs>
+  <rect width="800" height="560" fill="#f5efe4"/>
+
+  <!-- browser drowning in tabs -->
+  <g filter="url(#sh)"><rect x="30" y="56" width="470" height="290" rx="10" fill="#fff"/></g>
+  <rect x="30" y="56" width="470" height="34" rx="10" fill="#e5e7eb"/>
+  <rect x="30" y="76" width="470" height="14" fill="#e5e7eb"/>
+  <g font-size="10.5" fill="#374151">
+    <rect x="38" y="64" width="112" height="26" rx="6" fill="#fff"/><text x="46" y="81">Inventory_FINAL_v7</text>
+    <rect x="154" y="64" width="62" height="26" rx="6" fill="#d1d5db"/><text x="162" y="81">Machines</text>
+    <rect x="220" y="64" width="72" height="26" rx="6" fill="#d1d5db"/><text x="228" y="81">Restock log</text>
+    <rect x="296" y="64" width="76" height="26" rx="6" fill="#d1d5db"/><text x="304" y="81">Expiry dates</text>
+    <rect x="376" y="64" width="68" height="26" rx="6" fill="#d1d5db"/><text x="384" y="81">Tool login</text>
+    <rect x="448" y="64" width="44" height="26" rx="6" fill="#d1d5db"/><text x="458" y="81">+5</text>
+  </g>
+  <g font-size="11" fill="#6b7280" font-weight="600">
+    <text x="46" y="114">Item</text><text x="210" y="114">Where</text><text x="330" y="114">Qty</text><text x="390" y="114">Expires</text>
+  </g>
+  <line x1="30" y1="122" x2="500" y2="122" stroke="#d1d5db"/>
+  <g font-size="12" fill="#1f2933">
+    <text x="46" y="146">Chicken Tikka Bowl</text><text x="210" y="146">HQ freezer</text><text x="330" y="146" font-weight="700">42</text><text x="390" y="146">Dec ?</text>
+    <text x="46" y="174">Mac &amp; Cheese</text><text x="210" y="174">HQ freezer</text><text x="330" y="174">18</text><text x="390" y="174">Jan 3</text>
+    <text x="46" y="202">Teriyaki Bowl</text><text x="210" y="202">Van</text><text x="330" y="202" fill="#dc2626">#REF!</text><text x="390" y="202">–</text>
+    <text x="46" y="230">Butter Chicken</text><text x="210" y="230">Library 2F</text><text x="330" y="230">6</text><text x="390" y="230">see other tab</text>
+    <text x="46" y="258" fill="#9ca3af">Pasta (old SKU?)</text><text x="210" y="258" fill="#9ca3af">??</text><text x="330" y="258" fill="#9ca3af">3</text>
+  </g>
+  <g stroke="#dc2626" stroke-width="2.5" fill="none">
+    <ellipse cx="335" cy="141" rx="20" ry="13"/><ellipse cx="350" cy="197" rx="30" ry="13"/>
+  </g>
+
+  <!-- second sheet that disagrees -->
+  <g filter="url(#sh)" transform="rotate(4 600 230)">
+    <rect x="470" y="150" width="290" height="160" fill="#fff"/>
+    <rect x="470" y="150" width="290" height="26" fill="#e8f0e8"/>
+    <text x="480" y="168" font-size="11" font-weight="600" fill="#1f2933">Restock log (Copy of)</text>
+    <g font-size="12" fill="#1f2933">
+      <text x="480" y="206">Chicken Tikka Bowl</text><text x="640" y="206">HQ</text><text x="700" y="206" font-weight="700">37</text>
+      <text x="480" y="234">Mac &amp; Cheese</text><text x="640" y="234">HQ</text><text x="700" y="234">18</text>
+      <text x="480" y="262">Teriyaki Bowl</text><text x="640" y="262">Van</text><text x="700" y="262">11</text>
+    </g>
+    <ellipse cx="705" cy="201" rx="20" ry="13" fill="none" stroke="#dc2626" stroke-width="2.5"/>
+  </g>
+  <text class="h" x="560" y="126" font-size="22" fill="#b91c1c">42 or 37??</text>
+
+  <!-- the monthly bills -->
+  <g filter="url(#sh)">
+    <g transform="rotate(-6 120 430)"><rect x="44" y="372" width="160" height="110" fill="#fff"/>
+      <text x="56" y="396" font-size="11.5" font-weight="700" fill="#1f2933">Subscription</text>
+      <text x="56" y="416" font-size="11" fill="#6b7280" font-family="Menlo, monospace">monthly</text>
+      <text x="56" y="458" font-size="16" font-weight="700" fill="#1f2933" font-family="Menlo, monospace">$ ···</text></g>
+    <g transform="rotate(3 200 440)"><rect x="126" y="384" width="160" height="110" fill="#fff"/>
+      <text x="138" y="408" font-size="11.5" font-weight="700" fill="#1f2933">Another one</text>
+      <text x="138" y="428" font-size="11" fill="#6b7280" font-family="Menlo, monospace">per seat</text>
+      <text x="138" y="470" font-size="16" font-weight="700" fill="#1f2933" font-family="Menlo, monospace">$ ···</text></g>
+    <g transform="rotate(-2 290 430)"><rect x="210" y="368" width="160" height="110" fill="#fff"/>
+      <text x="222" y="392" font-size="11.5" font-weight="700" fill="#1f2933">And another</text>
+      <text x="222" y="412" font-size="11" fill="#6b7280" font-family="Menlo, monospace">annual, renews</text>
+      <text x="222" y="454" font-size="16" font-weight="700" fill="#1f2933" font-family="Menlo, monospace">$ ···</text></g>
+  </g>
+  <text class="h" x="392" y="420" font-size="18" fill="#b91c1c">$100K+ a year</text>
+  <text class="h" x="392" y="446" font-size="18" fill="#b91c1c">on tools</text>
+
+  <!-- the ask -->
+  <g filter="url(#sh)"><rect x="530" y="356" width="232" height="120" rx="14" fill="#fff"/></g>
+  <text x="546" y="378" font-size="10.5" fill="#9ca3af">Leadership · Thursday</text>
+  <rect x="546" y="384" width="200" height="40" rx="12" fill="#f1f5f9"/>
+  <text x="558" y="401" font-size="12" fill="#1f2933">can you send me inventory</text>
+  <text x="558" y="416" font-size="12" fill="#1f2933">numbers for the board deck?</text>
+  <rect x="618" y="432" width="128" height="26" rx="13" fill="#dbeafe"/>
+  <text x="630" y="449" font-size="12" fill="#1e3a8a">which sheet is right…</text>
+
+  <text class="h" x="400" y="528" font-size="21" fill="#b91c1c" text-anchor="middle">10 tabs · 2 answers for the same freezer · a bill for every tool</text>
+  <rect x="20" y="10" width="96" height="32" rx="16" fill="#b91c1c"/>
+  <text x="68" y="32" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">BEFORE</text>
+</svg>

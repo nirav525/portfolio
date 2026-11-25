@@ -17,6 +17,15 @@ architecture:
   - Score against threshold
   - Slack alert
   - Lot-level traceability
+beforeAfter:
+  before:
+    src: /life/recall-before.svg
+    alt: "Illustration: a free-text recall notice for 'chkn tikka masala w/ basmati rice', a printed product list with 'Chicken Tikka Bowl' circled and 'same thing??' written beside it, a sticky note to check the USDA site, and a chat asking whether anyone checked recalls this week."
+    caption: "Before: two agencies, notices in free text, and product names that never quite match ours."
+  after:
+    src: /life/recall-after.svg
+    alt: "Illustration: a Slack alert showing the agency, reason, their product name and ours, and a name-match score above the alert line, next to a card listing where the matching lot sits and a check that both feeds were read."
+    caption: "After: a likely match shows up in Slack with where the product is. A person decides what to pull."
 demo: recall
 demoNote: >-
   Production reads the live FDA and USDA feeds. This demo uses synthetic notices and a synthetic

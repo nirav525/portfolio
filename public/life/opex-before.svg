@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#3b2f1e" flood-opacity="0.18"/></filter>
+    <style>.h{font-family:'Bradley Hand','Segoe Print','Comic Sans MS',cursive}</style>
+  </defs>
+  <rect width="800" height="560" fill="#f5efe4"/>
+
+  <!-- printed chart of total cost -->
+  <g filter="url(#sh)" transform="rotate(-2 250 210)">
+    <rect x="36" y="62" width="430" height="300" fill="#fff"/>
+    <text x="58" y="94" font-size="14" font-weight="700" fill="#1f2933">Total operating cost, by month</text>
+    <g stroke="#eef0f2"><path d="M70 140 h370"/><path d="M70 190 h370"/><path d="M70 240 h370"/><path d="M70 290 h370"/></g>
+    <line x1="70" y1="320" x2="440" y2="320" stroke="#9ca3af"/>
+    <polyline points="80,296 126,290 172,280 218,262 264,250 310,226 356,206 402,172 432,150" fill="none" stroke="#1f2933" stroke-width="3" stroke-linejoin="round"/>
+    <g font-size="10.5" fill="#9ca3af"><text x="74" y="340">month 1</text><text x="400" y="340">now</text></g>
+  </g>
+  <text class="h" x="300" y="120" font-size="24" fill="#b91c1c">up again!</text>
+  <path d="M352 126 q20 14 28 34" fill="none" stroke="#b91c1c" stroke-width="2.2"/>
+  <text class="h" x="96" y="180" font-size="18" fill="#b91c1c">but we have way</text>
+  <text class="h" x="96" y="204" font-size="18" fill="#b91c1c">more machines now…</text>
+
+  <!-- the cost pile -->
+  <g filter="url(#sh)">
+    <g transform="rotate(6 610 120)"><rect x="530" y="60" width="170" height="96" fill="#fff"/>
+      <text x="544" y="86" font-size="12" font-weight="700" fill="#1f2933">Technician hours</text>
+      <g font-size="11" fill="#6b7280" font-family="Menlo, monospace"><text x="544" y="108">timesheets, wk 1-4</text><text x="544" y="128">overtime?</text></g></g>
+    <g transform="rotate(-5 640 220)"><rect x="560" y="170" width="170" height="90" fill="#fff"/>
+      <text x="574" y="196" font-size="12" font-weight="700" fill="#1f2933">Fuel + mileage</text>
+      <g font-size="11" fill="#6b7280" font-family="Menlo, monospace"><text x="574" y="218">receipts (most)</text><text x="574" y="238">van 2 missing</text></g></g>
+    <g transform="rotate(3 610 320)"><rect x="520" y="276" width="170" height="90" fill="#fff"/>
+      <text x="534" y="302" font-size="12" font-weight="700" fill="#1f2933">Parts + repairs</text>
+      <g font-size="11" fill="#6b7280" font-family="Menlo, monospace"><text x="534" y="324">3 invoices</text><text x="534" y="344">1 still pending</text></g></g>
+  </g>
+
+  <!-- the question nobody could answer -->
+  <g filter="url(#sh)"><rect x="200" y="394" width="400" height="98" rx="14" fill="#fff"/></g>
+  <text x="216" y="416" font-size="10.5" fill="#9ca3af">Leadership · Monday</text>
+  <rect x="216" y="422" width="368" height="26" rx="13" fill="#f1f5f9"/>
+  <text x="228" y="439" font-size="12" fill="#1f2933">is each new machine getting cheaper or pricier to run?</text>
+  <rect x="434" y="456" width="150" height="26" rx="13" fill="#dbeafe"/>
+  <text x="446" y="473" font-size="12" fill="#1e3a8a">let me get back to you</text>
+
+  <text class="h" x="400" y="530" font-size="21" fill="#b91c1c" text-anchor="middle">cost goes up with every machine · good news or bad? no way to tell</text>
+  <rect x="20" y="10" width="96" height="32" rx="16" fill="#b91c1c"/>
+  <text x="68" y="32" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">BEFORE</text>
+</svg>

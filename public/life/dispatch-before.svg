@@ -1,0 +1,80 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 560" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <filter id="sh" x="-10%" y="-10%" width="130%" height="130%"><feDropShadow dx="0" dy="4" stdDeviation="5" flood-color="#3b2f1e" flood-opacity="0.18"/></filter>
+    <style>.h{font-family:'Bradley Hand','Segoe Print','Comic Sans MS',cursive}</style>
+  </defs>
+  <rect width="800" height="560" fill="#f5efe4"/>
+
+  <!-- laptop with the restock spreadsheet -->
+  <g filter="url(#sh)">
+    <rect x="36" y="58" width="372" height="252" rx="12" fill="#1f2933"/>
+    <path d="M20 310 h404 l-14 16 h-376 z" fill="#c3ccd2"/>
+  </g>
+  <rect x="48" y="70" width="348" height="228" rx="4" fill="#fff"/>
+  <rect x="48" y="70" width="348" height="24" fill="#e8f0e8"/>
+  <text x="58" y="87" font-size="11.5" fill="#1f2933" font-weight="600">machines_restock_v4 (2).xlsx</text>
+  <g font-size="11" fill="#6b7280" font-weight="600">
+    <text x="58" y="112">Machine</text><text x="182" y="112">Fill</text><text x="234" y="112">Last visit</text><text x="316" y="112">Who</text>
+  </g>
+  <line x1="48" y1="118" x2="396" y2="118" stroke="#d1d5db"/>
+  <!-- highlighted rows -->
+  <rect x="48" y="122" width="348" height="22" fill="#fde68a"/>
+  <rect x="48" y="146" width="348" height="22" fill="#fecaca"/>
+  <rect x="48" y="218" width="348" height="22" fill="#fde68a"/>
+  <rect x="48" y="242" width="348" height="22" fill="#e5e7eb"/>
+  <rect x="48" y="266" width="348" height="22" fill="#fecaca"/>
+  <g font-size="12" fill="#1f2933">
+    <text x="58" y="138">Library 2F</text><text x="182" y="138">38%</text><text x="234" y="138">Mon</text><text x="316" y="138">Sam</text>
+    <text x="58" y="162">Hospital lobby</text><text x="182" y="162">12%</text><text x="234" y="162">Thu?</text><text x="316" y="162">?</text>
+    <text x="58" y="186">Office tower</text><text x="182" y="186">51%</text><text x="234" y="186">Tue</text><text x="316" y="186">Ana</text>
+    <text x="58" y="210">Gym</text><text x="182" y="210">67%</text><text x="234" y="210">Wed</text><text x="316" y="210">Leo</text>
+    <text x="58" y="234">Dorm hall</text><text x="182" y="234">44%</text><text x="234" y="234">??</text><text x="316" y="234">Sam</text>
+    <text x="58" y="258" fill="#6b7280">Med center</text><text x="182" y="258" fill="#6b7280">–</text><text x="234" y="258" fill="#6b7280">moved?</text><text x="316" y="258" fill="#6b7280">–</text>
+    <text x="58" y="282">Student union</text><text x="182" y="282">29%</text><text x="234" y="282">Mon</text><text x="316" y="282">Ana</text>
+  </g>
+  <g stroke="#dc2626" stroke-width="2.5" fill="none">
+    <ellipse cx="256" cy="253" rx="34" ry="13"/>
+    <ellipse cx="320" cy="157" rx="16" ry="13"/>
+  </g>
+
+  <!-- sticky note -->
+  <g filter="url(#sh)" transform="rotate(-5 140 420)">
+    <rect x="44" y="356" width="196" height="128" fill="#fde68a"/>
+    <circle cx="142" cy="361" r="7" fill="#ef4444"/>
+    <text class="h" x="60" y="398" font-size="21" fill="#3f3a2e">plan routes</text>
+    <text class="h" x="60" y="432" font-size="24" fill="#b91c1c">≈ 2 hrs</text>
+    <text class="h" x="60" y="464" font-size="18" fill="#3f3a2e">every. single. day</text>
+  </g>
+
+  <!-- printed map with a messy route -->
+  <g filter="url(#sh)" transform="rotate(2 600 175)">
+    <rect x="436" y="40" width="326" height="270" fill="#fbf8f1"/>
+    <g stroke="#e3dccd" stroke-width="7" fill="none">
+      <path d="M436 120 h326"/><path d="M436 230 h326"/><path d="M520 40 v270"/><path d="M660 40 v270"/><path d="M436 300 L762 60"/>
+    </g>
+    <rect x="462" y="262" width="26" height="22" fill="#1f2933"/><text x="475" y="278" font-size="10" fill="#fff" text-anchor="middle" font-weight="700">HQ</text>
+    <path d="M476 262 L712 82 L506 116 L724 258 L566 182 L664 96 L596 270" fill="none" stroke="#2563eb" stroke-width="3" stroke-linejoin="round" stroke-dasharray="1 0"/>
+    <g fill="#dc2626">
+      <circle cx="712" cy="82" r="7"/><circle cx="506" cy="116" r="7"/><circle cx="724" cy="258" r="7"/>
+      <circle cx="566" cy="182" r="7"/><circle cx="664" cy="96" r="7"/><circle cx="596" cy="270" r="7"/>
+    </g>
+    <text class="h" x="600" y="148" font-size="17" fill="#b91c1c">back here again?</text>
+    <path d="M640 154 q-20 16 -50 22" fill="none" stroke="#b91c1c" stroke-width="2"/>
+  </g>
+
+  <!-- chat with the technicians -->
+  <g filter="url(#sh)"><rect x="436" y="330" width="326" height="150" rx="14" fill="#fff"/></g>
+  <g font-size="10.5" fill="#9ca3af"><text x="452" y="352">Sam · 11:40 am</text><text x="452" y="424">Ana · evening</text></g>
+  <rect x="452" y="358" width="214" height="26" rx="13" fill="#f1f5f9"/>
+  <text x="464" y="375" font-size="12.5" fill="#1f2933">hospital one's empty, library was fine</text>
+  <rect x="566" y="390" width="182" height="26" rx="13" fill="#dbeafe"/>
+  <text x="578" y="407" font-size="12.5" fill="#1e3a8a">ok skip the tower, go there next</text>
+  <rect x="452" y="430" width="176" height="26" rx="13" fill="#f1f5f9"/>
+  <text x="464" y="447" font-size="12.5" fill="#1f2933">what's my route tomorrow?</text>
+  <rect x="634" y="446" width="114" height="26" rx="13" fill="#dbeafe"/>
+  <text x="646" y="463" font-size="12.5" fill="#1e3a8a">will send in the AM</text>
+
+  <text class="h" x="400" y="530" font-size="21" fill="#b91c1c" text-anchor="middle">2 hours of planning · re-routed by noon · tomorrow's plan, tomorrow</text>
+  <rect x="20" y="10" width="96" height="32" rx="16" fill="#b91c1c"/>
+  <text x="68" y="32" font-size="14" font-weight="700" fill="#fff" text-anchor="middle" letter-spacing="1.5">BEFORE</text>
+</svg>
